@@ -1,5 +1,5 @@
 import * as fight from '../../code/fight.js';
-import { addLine } from '../../../App.svelte';
+import { addLine } from '../../../components/Fight.svelte';
 
 export let humans = {
     verso: {

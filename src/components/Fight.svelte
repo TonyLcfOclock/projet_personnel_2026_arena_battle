@@ -1,0 +1,266 @@
+<script module>
+    import { humans } from '../assets/data/characters/humans.js';
+    import { monsters } from '../assets/data/characters/monsters.js';
+    import * as fight from '../assets/code/fight.js';
+    import * as utilities from '../assets/code/utilities.js';
+
+    let logs = $state([]); 
+    let action = $state(null);
+
+    let character = $state(humans);
+    let monster = $state(monsters);
+
+    export function addLine(obj) {
+        logs.push(obj);
+    }
+
+    function determineAction(act, player) {
+        for (let key in player.spells) {
+            if (player.spells[key].currentCooldown > 0) {
+                continue;
+            }
+
+            if (player.spells[key].name === act) {
+                action = act
+                return;
+            } 
+        }
+    }
+
+    async function fighting() {
+        while (playerIsDead === false && enemyIsDead === false) {
+            turn ++;
+            
+            let playerHitChance = fight.calculateChance(player.statistics.speed);
+            let enemyHitChance = fight.calculateChance(enemy.statistics.speed);
+
+            let toPlay = fight.calculateHitChance(playerHitChance, enemyHitChance);
+
+            fight.reduceCooldown(player.spells);
+            fight.reduceCooldown(enemy.spells);
+
+            addLine({
+                text: `Début du tour ${turn} !`,
+                styles: 
+                    [   
+                    { word: `tour`, color: 'grey'},
+                    { word: `${turn}`, color: 'grey'},
+                ]
+            });
+
+            await utilities.sleep(1500);
+
+            if (toPlay) {
+                // tour du joueur
+                let check = fight.checkStates(player);
+
+                if (check) {
+                    fight.refreshBuff(enemy, player);
+                    player.passives.perTurn(enemy, player);
+
+                    // attente de choix d'une action
+                    while (action === null) {
+                        await utilities.sleep(50);
+                    }
+
+                    fight.actionToDo(action, player, enemy);
+                    enemy.passives.onHit(player, enemy);
+                }
+
+            } else {
+                let check = fight.checkStates(enemy);
+
+                if (check) {
+                    fight.refreshBuff(player, enemy);
+                    enemy.passives.perTurn(player, enemy);
+
+                    let act = fight.randomAction(enemy, player);
+                    // let act = "Sanguine Bite"
+                    fight.actionToDo(act, enemy, player);
+                    player.passives.onHit(enemy, player);
+                }
+            }
+
+            action = null;
+
+            if (player.statistics.HP <= 0) {
+                playerIsDead = true;
+                return;
+            } else if (enemy.statistics.HP <= 0) {
+                enemyIsDead = true;
+                return;
+            }
+        }
+    }
+
+    function initiatePlayerSpells(player) {
+        for (let key in player.spells) {
+            let spellObject = {name: player.spells[key].name, image: player.spells[key].image, description: player.spells[key].description};
+            playerSpellsList.push(spellObject)
+        }
+    }
+
+    function initiateCharacterImage(char) {
+        return char.image
+    }
+
+    // affectation des personnages
+    let player = $state(character.verso);
+    let enemy = $state(monster.shadowbeak);
+
+    // état des personnages
+    let playerIsDead = false;
+    let enemyIsDead = false;
+
+    let turn = $state(0);
+    let playerSpellsList = $state([]);
+
+    addLine({
+        text: `Un combat est engagé entre ${player.name} et ${enemy.name} !`,
+        styles: []
+    });
+
+    initiatePlayerSpells(player);
+    fighting();
+</script>
+
+<section id="left-container">
+    <div class="playerHealthbarArea">
+        <p id="playerName">{player.name}</p>
+        <div class="healthbar">
+            <div
+                style={`width: ${player.statistics.HP <= 0 ? 0 : (player.statistics.HP * 100) / player.statistics.maxHP}%`}
+                class="playerFill"
+            ></div>
+            <div class="health-frame"></div>
+        </div>
+        <p id="playerHP">
+            {`${player.statistics.HP <= 0 ? 0 : player.statistics.HP} / ${player.statistics.maxHP}`}
+        </p>
+    </div>
+
+    <div class="statisticsArea">
+        <p>Statistics</p>
+        <div class="playerStats">
+            {#each Object.keys(player.statistics) as key}
+                <p>{`${key}: ${player.statistics[key].toFixed(1)}`}</p>
+            {/each}
+        </div>
+    </div>
+
+    <div class="buffsArea">
+        <p>Buffs</p>
+        <div class="buffs"></div>
+    </div>
+
+    <div class="nEffectsArea">
+        <p>Negative Effects</p>
+        <div class="nEffets">
+            {#if player.negativeEffects.stun.duration != 0}
+                <p>Stuned: {player.negativeEffects.stun.duration}</p>
+            {/if}
+        </div>
+    </div>
+
+    <div class="playerSpellsArea">
+        {#each Object.keys(player.spells) as key}
+            <p>{`${player.spells[key].name}:`}</p>
+            <span>{`Cooldown: ${player.spells[key].currentCooldown}`}</span>
+        {/each}
+    </div>
+</section>
+<section id="main-container">
+    <div class="char_zone">
+        <img class="player" src={initiateCharacterImage(player)} alt="" />
+        <img class="enemy" src={initiateCharacterImage(enemy)} alt="" />
+    </div>
+    <div class="fight-info">
+        <p>A VOUS DE JOUER</p>
+    </div>
+    <div class="action_element">
+        <div class="fight-zone">
+            <div class="fight-frame">
+                <div class="fight-text">
+                    {#each logs as line}
+                        <p>
+                            {#each utilities.buildText(line) as word}
+                                {#if word.style}
+                                    <span style={word.style}>{word.text}</span>
+                                {:else}
+                                    {word.text}
+                                {/if}
+                            {/each}
+                        </p>
+                    {/each}
+                </div>
+            </div>
+        </div>
+        <div class="spellZone">
+            {#each playerSpellsList as spell}
+                <div
+                    class="spell"
+                    onclick={() => {
+                        determineAction(spell.name, player);
+                    }}
+                >
+                    <img
+                        class="spell-icon"
+                        src={spell.image}
+                        alt={spell.name}
+                    />
+                    <div class="spell-info">
+                        <img
+                            class="icon-info"
+                            src="./src/assets/art/ui/icons/information.png"
+                            alt=""
+                        />
+                        <div class="text-info">
+                            {spell.description}
+                        </div>
+                    </div>
+                </div>
+            {/each}
+        </div>
+    </div>
+</section>
+<section id="right-container">
+    <div class="enemyHealthbarArea">
+        <p id="enemyName">{`${enemy.name}`}</p>
+        <div class="healthbar">
+            <div
+                style={`width: ${enemy.statistics.HP <= 0 ? 0 : (enemy.statistics.HP * 100) / enemy.statistics.maxHP}%`}
+                class="enemyFill"
+            ></div>
+            <div class="health-frame"></div>
+        </div>
+        <p id="enemyHP">
+            {`${enemy.statistics.HP <= 0 ? 0 : enemy.statistics.HP} / ${enemy.statistics.maxHP}`}
+        </p>
+    </div>
+
+    <div class="statisticsArea">
+        <p>Statistics</p>
+        <div class="enemyStats">
+            {#each Object.keys(enemy.statistics) as key}
+                <p>{`${key}: ${enemy.statistics[key]}`}</p>
+            {/each}
+        </div>
+    </div>
+
+    <div class="buffsArea">
+        <p>Buffs</p>
+        <div class="buffs"></div>
+    </div>
+
+    <div class="nEffectsArea">
+        <p>Negative Effects</p>
+        <div class="nEffets"></div>
+    </div>
+
+    <div class="enemySpellsArea">
+        {#each Object.keys(enemy.spells) as key}
+            <p>{`${enemy.spells[key].name}:`}</p>
+            <span>{`Cooldown: ${enemy.spells[key].currentCooldown}`}</span>
+        {/each}
+    </div>
+</section>
