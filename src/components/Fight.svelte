@@ -94,10 +94,11 @@
     }
 
     function initiatePlayerSpells(player) {
-        for (let key in player.spells) {
-            let spellObject = {name: player.spells[key].name, image: player.spells[key].image, description: player.spells[key].description};
-            playerSpellsList.push(spellObject)
-        }
+        const playerSpells = Object.entries(player.spells);
+
+        playerSpellsList = playerSpells.map((element) => {
+            return { name: element[1].name, image: element[1].image, description: element[1].description }
+        });
     }
 
     function initiateCharacterImage(char) {
@@ -124,7 +125,7 @@
     fighting();
 </script>
 
-<section id="left-container">
+<section id="left-container"> 
     <div class="playerHealthbarArea">
         <p id="playerName">{player.name}</p>
         <div class="healthbar">

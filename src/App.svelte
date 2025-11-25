@@ -2,7 +2,7 @@
     import Fight from './components/Fight.svelte';
     import OpenWorld from './components/OpenWorld.svelte';
 
-    let gameState = $state("open-world");
+    let gameState = $state("fight");
 </script>
 
 <header>

@@ -134,8 +134,8 @@
             {/if}
 
             {#each world as asset}
-                <button onclick={() => { changeGameState(asset.id) }} class='asset' style={ `background: center / cover no-repeat url("${asset.image}"); left:${asset.x}px; top:${asset.y}px; width:${asset.w}px; height: ${asset.h}px` }>
-                    <p style={ `position: absolute; top:${asset.p_top}px; right: ${asset.p_right}px; color: #8F242B; font-size: 1.2rem; font-weight: bold; -webkit-text-stroke: 0.3px white;` }>{ asset.name }</p>
+                <button onclick={() => { changeGameState(asset.id) }} class='asset' style={ `background: center / cover no-repeat url("${asset.image}"); left: ${asset.x}px; top: ${asset.y}px; width: ${asset.w}px; height: ${asset.h}px` }>
+                    <p style={ `position: absolute; top: ${asset.p_top}px; right: ${asset.p_right}px; color: #8F242B; font-size: 1.2rem; font-weight: bold; -webkit-text-stroke: 0.3px white;` }>{ asset.name }</p>
                 </button>
             {/each}
         </div>
