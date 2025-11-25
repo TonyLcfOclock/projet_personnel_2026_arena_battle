@@ -96,5 +96,4 @@ export function randomAction(user, target) {
     const randomIndex = getRandomInt(availableSpells.length);
 
     return availableSpells[randomIndex].name;
-
 }
