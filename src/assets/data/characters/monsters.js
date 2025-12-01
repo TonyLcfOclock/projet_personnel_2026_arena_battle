@@ -1,6 +1,315 @@
 import * as fight from '../../code/fight.js';
 import { addLine } from '../../../components/Fight.svelte';
 
+class Enemy {
+    constructor(data) {
+        this.name = data.name;
+        this.image = data.image;
+        this.statistics = data.statistics;
+        this.selfAttributes = data.selfAttributes;
+        this.passives = data.passives;
+        this.buffs = data.buffs;
+        this.negativeEffects = data.negativeEffects;
+        this.spells = data.spells;
+    }
+}
+
+export let test = new Enemy({
+    name: "Baron",
+    image: "./src/assets/art/characters/monsters/boss/baron.png",
+    statistics: {
+            HP: 4500,
+            maxHP: 4500,
+            STR: 240,
+            ARM: 50,
+            speed: 30,
+            CritChance: 0.2,
+            CritDamage: 1.5
+        },
+    selfAttributes: {
+            Souls: 0
+        },
+    passives: {
+            perTurn(target, self) { // fonction exécutée au début du tour du personnage, gère les passifs du personnage
+            },
+            onHit(target, self) { // fonction exécutée dès que le personnage prends un coups, gère les réactions à ce dernier
+            }
+        },
+    buffs: {
+            1: {
+                name: "Sanguine Offering",
+                isActive: false,
+                isPermanent: true,
+                duration: 0,
+                applyBuff() {
+                    if (this.isPermanent) {
+                        return;
+                    }
+
+                    this.isActive = true;
+
+                    if (this.isActive) {
+                        
+                    }
+                },
+                checkBuff() {
+                    if (this.duration > 0) {
+                        this.duration --;
+                    }
+
+                    if (this.duration === 0) {
+                        this.isActive = false;
+                        return
+                    }
+                }
+            }
+        },
+    negativeEffects: {
+            bleed: {
+                state: false,
+                stacks: 0,
+                duration: 0,
+                damage: 0,
+                log(self) {
+                    addLine({
+                        text: `${self.name} saigne et subit ${this.damage} points de dégats de saignement!`,
+                        styles: 
+                            [
+                                { word: `${this.damage}`, color: 'red'},
+                                { word: `saignement`, color: 'red'}
+                        ]
+                    });
+                },
+                apply(self) {
+                    self.statistics.HP -= this.damage;
+                    this.log(self)
+                }
+            },
+            poison: {
+                state: false,
+                stacks: 0,
+                duration: 0,
+                damage: 0,
+                log(self) {
+                    addLine({
+                        text: `${self.name} est empoisonné et subit ${this.damage} points de dégats d' empoisonnement!`,
+                        styles: 
+                            [
+                                { word: `${this.damage}`, color: 'purple'},
+                                { word: `empoisonnement`, color: 'purple'}
+                        ]
+                    });
+                },
+                apply(self) {
+                    self.statistics.HP -= this.damage;
+                    this.log(self)
+                }
+            },
+            burn: {
+                state: false,
+                stacks: 0,
+                duration: 0,
+                damage: 0,
+                log(self) {
+                    addLine({
+                        text: `${self.name} brûle et subit ${this.damage} points de dégats de brûlure!`,
+                        styles: 
+                            [
+                                { word: `${this.damage}`, color: 'orange'},
+                                { word: `brûlure`, color: 'orange'}
+                        ]
+                    });
+                },
+                apply(self) {
+                    self.statistics.HP -= this.damage;
+                    this.log(self)
+                }
+            },
+            freeze: {
+                state: false,
+                stacks: 0,
+                duration: 0,
+                damage: 0,
+                log(self) {
+                    addLine({
+                        text: `${self.name} est gelé et subit ${this.damage} points de dégats de gel!`,
+                        styles: 
+                            [
+                                { word: `${this.damage}`, color: 'lightblue'},
+                                { word: `gel`, color: 'lightblue'}
+                        ]
+                    });
+                },
+                apply(self) {
+                    self.statistics.HP -= this.damage;
+                    this.log(self)
+                }
+            },
+            slow: {
+                state: false,
+                stacks: 0,
+                duration: 0,
+                damage: 0,
+            },
+            stun: {
+                state: false,
+                stacks: 0,
+                duration: 0,
+                damage: 0,
+            },
+        },
+    spells: {
+            0: {
+                name: "Profane Rake",
+                description: "Perform a huge claw attack on the target, dealing damage, apply bleeding, 2 per turn, stackable, 3 turn duration.",
+                castChance: 0.3,
+                cooldown: 2,
+                currentCooldown: 0,
+                damageType: 'physical',
+                type: 'enemy',
+                log(target, self, damage) {
+                    addLine({
+                        text: `${self.name} utilise Profane Rake et griffe ${target.name}, inflige ${damage} et applique un saignement! `,
+                        styles: 
+                            [   
+                                { word: `Profane`, color: 'red'},
+                                { word: `Rake`, color: 'red'},
+                                { word: `${damage}`, color: 'red'},
+                                { word: `saignement`, color: 'red'}
+                        ]
+                    });
+                },
+                canUse(caster, target) {
+                    return this.currentCooldown === 0;
+                },
+                use(target, self) {
+                    let damage = Math.round(fight.calculateDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
+
+                    target.negativeEffects.bleed.state = true;
+                    target.negativeEffects.bleed.duration = 3;
+                    target.negativeEffects.bleed.damage += 2;
+
+                    target.statistics.HP -= damage;
+
+                    this.currentCooldown = this.cooldown;
+
+                    this.log(target, self, damage);
+                }
+            },
+            1: {
+                name: "Sanguine Bite",
+                description: "Bite the target, 10 dmg, apply bleeding, 5 dmg per turn, stackable. 3 turn duration",
+                castChance: 0.3,
+                cooldown: 2,
+                currentCooldown: 0,
+                damageType: 'physical',
+                type: 'enemy',
+                log(target, self, damage) {
+                    addLine({
+                        text: `${self.name} utilise Sanguine Bite et mord ${target.name}, inflige ${damage} et applique un saignement!`,
+                        styles: 
+                            [   
+                                { word: `Sanguine`, color: 'red'},
+                                { word: `Bite`, color: 'red'},
+                                { word: `${damage}`, color: 'red'},
+                                { word: `saignement`, color: 'red'}
+                        ]
+                    });
+                },
+                canUse(caster, target) {
+                    return this.currentCooldown === 0;
+                },
+                use(target, self) {
+                    let damage = Math.round(fight.calculateDamage(self.statistics.STR, target.statistics.ARM) / 4);
+
+                    target.negativeEffects.bleed.state = true;
+                    target.negativeEffects.bleed.duration = 3;
+                    target.negativeEffects.bleed.damage += 3;
+
+                    target.statistics.HP -= damage;
+
+                    this.currentCooldown = this.cooldown;
+
+                    this.log(target, self, damage);
+                }
+            },
+            2: {
+                name: "Sanguine Offering",
+                description: "Sacrifice 5% max health for 25% bonus attack damage",
+                castChance: 0.3,
+                cooldown: 4,
+                currentCooldown: 0,
+                damageType: 'physical',
+                type: 'self',
+                log(target, self, damage) {
+                    addLine({
+                        text: `${self.name} utilise Sanguine Offering et sacrifie ${damage} points de vie, augmentant ses dégats de 25%`,
+                        styles: 
+                            [   
+                                { word: `Sanguine`, color: 'red'},
+                                { word: `Offering`, color: 'red'},
+                                { word: `${damage}`, color: 'red'},
+                                { word: `25%`, color: 'green'}
+                        ]
+                    });
+                },
+                canUse(caster, target) {
+                    const cost = Math.round(caster.statistics.maxHP * 0.05);
+
+                    return (
+                        this.currentCooldown === 0 && caster.statistics.HP > cost + 1
+                    );
+                },
+                use(target, self) {
+                    let damage = Math.round(self.statistics.maxHP * 0.05);
+
+                    self.statistics.STR += Math.round(self.statistics.STR * 0.25);
+
+                    self.statistics.HP -= damage;
+
+                    this.currentCooldown = this.cooldown;
+
+                    this.log(target, self, damage);
+                }
+            },
+            3: {
+                name: "Exsanguinate",
+                description: "10% missing health healing, apply 10 dmg per turn bleeding on the caster, stackable. 10 turn duration",
+                castChance: 0.3,
+                cooldown: 6,
+                currentCooldown: 0,
+                damageType: 'physical',
+                type: 'self',
+                log(target, self, healing) {
+                    addLine({
+                        text: `${self.name} utilise Exsanguinate et se soigne de ${healing} points de vie!, ${self.name} saigne!`,
+                        styles: 
+                            [   
+                                { word: `Exsanguinate`, color: 'red'},
+                                { word: `soigne`, color: 'red'},
+                                { word: `${healing}`, color: 'green'},
+                                { word: `saigne!`, color: 'red'}
+                        ]
+                    });
+                },
+                canUse(caster, target) {
+                    return (
+                        this.currentCooldown === 0 && caster.statistics.hp >= caster.statistics.maxHP
+                    );
+                },
+                use(target, self) {
+                    let healing = Math.round((self.statistics.maxHP - self.statistics.HP) * 0.1);
+
+                    self.statistics.HP += healing;
+
+                    this.currentCooldown = this.cooldown;
+                    
+                    this.log(target, self, healing);
+                }
+            }
+    },
+})
+
 export let monsters = {
     /*blugam: {
         name: "Blugam",
