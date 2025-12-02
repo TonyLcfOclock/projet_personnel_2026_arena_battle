@@ -1,14 +1,12 @@
 <script module>
-    import { humans } from '../assets/data/characters/humans.js';
-    import { test } from '../assets/data/characters/monsters.js';
+    import humans from '../assets/data/characters/humans.js';
+    import monsters from '../assets/data/characters/monsters.js';
     import * as fight from '../assets/code/fight.js';
     import * as utilities from '../assets/code/utilities.js';
+    import Characters from '../assets/data/characters/Character.js';
 
     let logs = $state([]); 
     let action = $state(null);
-
-    let character = $state(humans);
-    let monster = $state(test);
 
     export function addLine(obj) {
         logs.push(obj);
@@ -66,7 +64,6 @@
                     fight.actionToDo(action, player, enemy);
                     enemy.passives.onHit(player, enemy);
                 }
-
             } else {
                 let check = fight.checkStates(enemy);
 
@@ -106,8 +103,9 @@
     }
 
     // affectation des personnages
-    let player = $state(character);
-    let enemy = $state(monster);
+
+    let player = $state(new Characters(humans.verso));
+    let enemy = $state(new Characters(monsters.baron));
 
     // état des personnages
     let playerIsDead = false;
