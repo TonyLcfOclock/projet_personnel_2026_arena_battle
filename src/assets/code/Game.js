@@ -1,6 +1,4 @@
 class Game {
-    logs = [];
-    
     constructor(state) {
         this.state = state;
     }

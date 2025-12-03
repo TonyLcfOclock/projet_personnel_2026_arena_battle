@@ -4,9 +4,8 @@
     import * as fight from '../assets/code/fight.js';
     import * as utilities from '../assets/code/utilities.js';
     import Characters from '../assets/data/characters/Character.js';
-    import Game from '../assets/code/Game.js';
 
-    let logs = $state(Game.logs);
+    let logs = $state([]); 
     let action = $state(null);
 
     export function addLine(obj) {
@@ -104,7 +103,6 @@
     }
 
     // affectation des personnages
-
     let player = $state(new Characters(humans.verso));
     let enemy = $state(new Characters(monsters.baron));
 
