@@ -107,9 +107,11 @@
     let e = new Characters(monsters.baron);
 
     let player = $state({ ...p });
-    console.log(player)
     let enemy = $state({ ...e });
 
+    player.statistics.HP = 500;
+    console.log('Player: ', player.statistics.HP);
+    console.log('p: ', p.statistics.HP);
     // état des personnages
     let playerIsDead = false;
     let enemyIsDead = false;
