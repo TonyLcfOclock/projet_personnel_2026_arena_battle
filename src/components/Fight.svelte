@@ -7,6 +7,7 @@
     import Souls from '../assets/scripts/characters/passives/Souls.svelte.js';
     import Utilities from '../assets/utils/Utilities.svelte.js';
     import SpectralStrike from '../assets/scripts/characters/spells/SpectralStrike.svelte.js';
+    import PiercingStrike from '../assets/scripts/characters/spells/PiercingStrile.svelte.js';
 
 
     const fight = new Fight('Testing Fight');
@@ -115,7 +116,7 @@
         passives: [new Souls()],
         buffs: humans.verso.buffs,
         negativeEffects: humans.verso.negativeEffects,
-        spells: [new SpectralStrike(humans.verso.spells[0])]
+        spells: [new PiercingStrike(humans.verso.spells[0]), new SpectralStrike(humans.verso.spells[1])]
     });
 
     let enemy = new Characters({
@@ -126,7 +127,7 @@
         passives: [new Souls()],
         buffs: humans.verso.buffs,
         negativeEffects: humans.verso.negativeEffects,
-        spells: [new SpectralStrike(humans.verso.spells[0])]
+        spells: [new PiercingStrike(humans.verso.spells[0]), new SpectralStrike(humans.verso.spells[1])]
     });
 
 

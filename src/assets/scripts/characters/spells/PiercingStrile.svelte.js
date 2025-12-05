@@ -1,6 +1,6 @@
 import Spell from "../Spell.svelte.js";
 
-class SpectralStrike extends Spell {
+class PiercingStrike extends Spell {
     constructor(spellData) {
         super(spellData);
     }
@@ -10,9 +10,9 @@ class SpectralStrike extends Spell {
             text: `${self.name} utilise ${this.name} et inflige ${damage} points de dégats à ${target.name}`,
             styles:
                 [
-                    { word: `Spectral`, color: 'grey' },
+                    { word: `Piercing`, color: 'grey' },
                     { word: `Strike`, color: 'grey' },
-                    { word: `${damage}`, color: 'grey' }
+                    { word: `${damage}`, color: 'yellow' }
                 ]
         });
     }
@@ -22,10 +22,8 @@ class SpectralStrike extends Spell {
     }
 
     useSpell(target, self, fightInstance) {
-        let targetHP = target.statistics.maxHP - target.statistics.HP;
-        let percentMissingHealthDamage = Math.round(targetHP * 0.25);
-
-        let damage = Math.round(fightInstance.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM) / 2 + percentMissingHealthDamage);
+        self.selfAttributes.Souls++;
+        let damage = Math.round(fightInstance.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
         target.statistics.HP -= damage;
 
         this.currentCooldown = this.cooldown;
@@ -34,4 +32,4 @@ class SpectralStrike extends Spell {
     }
 }
 
-export default SpectralStrike;
+export default PiercingStrike;

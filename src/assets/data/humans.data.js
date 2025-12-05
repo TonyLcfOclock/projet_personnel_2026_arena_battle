@@ -14,7 +14,7 @@ const characters = {
         selfAttributes: {
             Souls: 0,
         },
-        passives: {
+        /*passives: {
             perTurn(target, self) { // fonction exécutée au début du tour du personnage, gère les passifs du personnage
                 self.statistics.STR = Math.floor(self.statistics.STR + (0.5 * self.selfAttributes.Souls));
                 self.statistics.ARM = Math.floor(self.statistics.ARM + (0.5 * self.selfAttributes.Souls));
@@ -39,7 +39,7 @@ const characters = {
                     });
                 }
             }
-        },
+        },*/
         buffs: {
             0: {
                 name: "Overpower",
@@ -238,7 +238,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'enemy',
             },
-            /*1: {
+            {
                 name: "Spectral Strike",
                 image: "./src/assets/art/characters/humans/classes/death_knight/spells_icons/spectral_strike.png",
                 description: "Dealing some DMG + 25% missing health of the target",
@@ -247,32 +247,8 @@ const characters = {
                 currentCooldown: 0,
                 damageType: 'physical',
                 type: 'enemy',
-                log(target, self, damage) {
-                    fight.addLine({
-                        text: `${self.name} utilise ${this.name} et inflige ${damage} points de dégats à ${target.name}`,
-                        styles: 
-                            [   
-                                { word: `Spectral`, color: 'grey'},
-                                { word: `Strike`, color: 'grey'},
-                                { word: `${damage}`, color: 'grey'}
-                        ]
-                    });
-                },
-                canUse(caster, target) {
-                    return this.currentCooldown === 0;
-                },
-                use(target, self) {
-                    let targetHP = target.statistics.maxHP - target.statistics.HP;
-                    let percentMissingHealthDamage = Math.round(targetHP * 0.25);
-
-                    let damage = Math.round(fights.calculateDamage(self.statistics.STR, target.statistics.ARM) / 2 + percentMissingHealthDamage);
-                    target.statistics.HP -= damage;
-
-                    this.currentCooldown = this.cooldown;
-
-                    this.log(target, self, damage);
-                }
             },
+            /*
             2: {
                 name: "Overpower",
                 image: "./src/assets/art/characters/humans/classes/death_knight/spells_icons/overpower.png",
