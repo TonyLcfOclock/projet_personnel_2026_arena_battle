@@ -27,17 +27,3 @@ export function choseRandomHero(object) {
 
     return randomHero;
 }
-
-export function buildText(line) {
-    const parts = line.text.split(/(\s+)/);
-
-    return parts.map((part) => {
-        const clean = part.replace(/[.,!?;:()"']/g, '');
-
-        const style = line.styles.find(v => v.word === clean);
-        return {
-            text: part,
-            style: style ? `color: ${style.color}; font-weight: bold` : ''
-        }
-    })
-}

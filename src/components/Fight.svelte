@@ -1,12 +1,15 @@
 <script module>
     import humans from '../assets/data/characters/humans.js';
     import monsters from '../assets/data/characters/monsters.js';
-    import * as fight from '../assets/code/fight.js';
+    import * as fights from '../assets/code/fight.js';
     import * as utilities from '../assets/code/utilities.js';
     import Characters from '../assets/data/characters/Character.svelte.js';
     import Game from '../assets/code/Game.svelte.js';
+    import Fight from '../assets/code/Fight.svelte.js';
 
-    let logs = Game.logs;
+
+    const fight = new Fight('Testing Fight');
+    const logs = fight.fightingLogs;
 
     let action = $state(null);
 
@@ -27,15 +30,15 @@
         while (playerIsDead === false && enemyIsDead === false) {
             turn ++;
             
-            let playerHitChance = fight.calculateChance(player.statistics.speed);
-            let enemyHitChance = fight.calculateChance(enemy.statistics.speed);
+            let playerHitChance = fights.calculateChance(player.statistics.speed);
+            let enemyHitChance = fights.calculateChance(enemy.statistics.speed);
 
-            let toPlay = fight.calculateHitChance(playerHitChance, enemyHitChance);
+            let toPlay = fights.calculateHitChance(playerHitChance, enemyHitChance);
 
-            fight.reduceCooldown(player.spells);
-            fight.reduceCooldown(enemy.spells);
+            fights.reduceCooldown(player.spells);
+            fights.reduceCooldown(enemy.spells);
 
-            Game.addLine({
+            fight.addLogsLine({
                 text: `Début du tour ${turn} !`,
                 styles: 
                     [   
@@ -48,10 +51,10 @@
 
             if (toPlay) {
                 // tour du joueur
-                let check = fight.checkStates(player);
+                let check = fights.checkStates(player);
 
                 if (check) {
-                    fight.refreshBuff(enemy, player);
+                    fights.refreshBuff(enemy, player);
                     player.passives.perTurn(enemy, player);
 
                     // attente de choix d'une action
@@ -59,19 +62,19 @@
                         await utilities.sleep(50);
                     }
 
-                    fight.actionToDo(action, player, enemy);
+                    fights.actionToDo(action, player, enemy);
                     enemy.passives.onHit(player, enemy);
                 }
             } else {
-                let check = fight.checkStates(enemy);
+                let check = fights.checkStates(enemy);
 
                 if (check) {
-                    fight.refreshBuff(player, enemy);
+                    fights.refreshBuff(player, enemy);
                     enemy.passives.perTurn(player, enemy);
 
-                    let act = fight.randomAction(enemy, player);
+                    let act = fights.randomAction(enemy, player);
                     // let act = "Sanguine Bite"
-                    fight.actionToDo(act, enemy, player);
+                    fights.actionToDo(act, enemy, player);
                     player.passives.onHit(enemy, player);
                 }
             }
@@ -112,7 +115,7 @@
     let turn = $state(0);
     let playerSpellsList = $state([]);
 
-    Game.addLine({
+    fight.addLogsLine({
         text: `Un combat est engagé entre ${player.name} et ${enemy.name} !`,
         styles: []
     });
@@ -180,7 +183,7 @@
                 <div class="fight-text">
                     {#each logs as line}
                         <p>
-                            {#each utilities.buildText(line) as word}
+                            {#each fight.buildLogsText(line) as word}
                                 {#if word.style}
                                     <span style={word.style}>{word.text}</span>
                                 {:else}
