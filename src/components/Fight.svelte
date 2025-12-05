@@ -4,7 +4,6 @@
     import * as fights from '../assets/code/fight.js';
     import * as utilities from '../assets/code/utilities.js';
     import Characters from '../assets/data/characters/Character.svelte.js';
-    import Game from '../assets/code/Game.svelte.js';
     import Fight from '../assets/code/Fight.svelte.js';
 
 

@@ -1,5 +1,4 @@
-import * as fight from '../../code/fight.js';
-import Game from '../../code/Game.svelte.js';
+import * as fights from '../../code/fight.js';
 
 const characters = {
     verso: {
@@ -28,10 +27,10 @@ const characters = {
             onHit(target, self) { // fonction exécutée dès que le personnage prends un coups, gère les réactions à ce dernier
                 if (self.buffs[1].isActive && !self.negativeEffects.stun.state) {
 
-                    let damage = Math.round(fight.calculateDamage(self.statistics.STR, target.statistics.ARM)/2);
+                    let damage = Math.round(fights.calculateDamage(self.statistics.STR, target.statistics.ARM)/2);
                     target.statistics.HP -= damage;
 
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} contre attaque et inflige ${damage} points de dégâts`,
                         styles: 
                             [   
@@ -121,7 +120,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} saigne et subit ${this.damage} points de dégats de saignement!`,
                         styles: 
                             [
@@ -141,7 +140,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est empoisonné et subit ${this.damage} points de dégats d' empoisonnement!`,
                         styles: 
                             [
@@ -161,7 +160,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} brûle et subit ${this.damage} points de dégats de brûlure!`,
                         styles: 
                             [
@@ -181,7 +180,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est gelé et subit ${this.damage} points de dégats de gel!`,
                         styles: 
                             [
@@ -201,7 +200,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est ralentit et a du mal à avancer`,
                         styles: 
                             []
@@ -217,7 +216,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est paralysé et ne peut pas attaquer`,
                         styles: 
                             [
@@ -241,7 +240,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'enemy',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise ${this.name} et inflige ${damage} points de dégats à ${target.name}`,
                         styles: 
                             [   
@@ -256,7 +255,7 @@ const characters = {
                 },
                 use(target, self) {
                     self.selfAttributes.Souls++;
-                    let damage = Math.round(fight.calculateDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
+                    let damage = Math.round(fights.calculateDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
                     target.statistics.HP -= damage;
 
                     this.currentCooldown = this.cooldown;
@@ -274,7 +273,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'enemy',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise ${this.name} et inflige ${damage} points de dégats à ${target.name}`,
                         styles: 
                             [   
@@ -291,7 +290,7 @@ const characters = {
                     let targetHP = target.statistics.maxHP - target.statistics.HP;
                     let percentMissingHealthDamage = Math.round(targetHP * 0.25);
 
-                    let damage = Math.round(fight.calculateDamage(self.statistics.STR, target.statistics.ARM) / 2 + percentMissingHealthDamage);
+                    let damage = Math.round(fights.calculateDamage(self.statistics.STR, target.statistics.ARM) / 2 + percentMissingHealthDamage);
                     target.statistics.HP -= damage;
 
                     this.currentCooldown = this.cooldown;
@@ -309,7 +308,7 @@ const characters = {
                 damageType: 'none',
                 type: 'self',
                 log(target, self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Overpower et s'octroie un bonus de vitesse et de dégats supplémentaire de 30%`,
                         styles: 
                             [   
@@ -341,7 +340,7 @@ const characters = {
                 damageType: 'magical',
                 type: 'enemy',
                 log(target, self, damage, healing) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Soul Harvest, inflige ${damage} points de dégats et se soigne de ${healing} points de vie`,
                         styles: 
                             [   
@@ -356,7 +355,7 @@ const characters = {
                     return this.currentCooldown === 0;
                 },
                 use(target, self) {
-                    let damage = fight.calculateDamage(self.statistics.STR, target.statistics.ARM);
+                    let damage = fights.calculateDamage(self.statistics.STR, target.statistics.ARM);
                     let healing = Math.floor(damage * 0.10);
                     if (self.statistics.HP >= self.statistics.maxHP) {
                         healing = 0;
@@ -382,7 +381,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'self',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Phantom Backlash et se prépare à riposter pendant 2 tours`,
                         styles: 
                             [   
@@ -428,7 +427,7 @@ const characters = {
                 bleedingDuration: 0,
                 bleedingDamage: 0,
                 log() {
-                    Game.addLine({
+                    fight.addLine({
                                     text: `${player.name} saigne et subit ${this.bleedingDamage} points de dégats de saignement!`,
                                     styles: 
                                         [
@@ -444,7 +443,7 @@ const characters = {
                 poisoningDuration: 0,
                 poisoningDamage: 0,
                 log() {
-                    Game.addLine({
+                    fight.addLine({
                                     text: `${player.name} est empoisonné et subit ${this.poisoningDamage} points de dégats d'empoisonnement!`,
                                     styles: 
                                         [
@@ -460,7 +459,7 @@ const characters = {
                 burningDuration: 0,
                 burningDamage: 0,
                 log () {
-                    Game.addLine({
+                    fight.addLine({
                                     text: `${player.name} brûle et subit ${this.burningDamage} points de dégats de brûlure!`,
                                     styles: 
                                         [
@@ -476,7 +475,7 @@ const characters = {
                 freezingDuration: 0,
                 freezingDamage: 0,
                 log () {
-                    Game.addLine({
+                    fight.addLine({
                                     text: `${player.name} est gelé et subit ${this.freezingDamage} points de dégats de gel!`,
                                     styles: 
                                         [
@@ -588,7 +587,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} saigne et subit ${this.damage} points de dégats de saignement!`,
                         styles: 
                             [
@@ -608,7 +607,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est empoisonné et subit ${this.damage} points de dégats d' empoisonnement!`,
                         styles: 
                             [
@@ -628,7 +627,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} brûle et subit ${this.damage} points de dégats de brûlure!`,
                         styles: 
                             [
@@ -648,7 +647,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est gelé et subit ${this.damage} points de dégats de gel!`,
                         styles: 
                             [
@@ -686,7 +685,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'enemy',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise ${this.name} et inflige ${damage} points de dégats à ${target.name}`,
                         styles: 
                             [   
@@ -701,7 +700,7 @@ const characters = {
                 },
                 use(target, self) {
                     self.selfAttributes.Souls++;
-                    let damage = Math.round(fight.calculateDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
+                    let damage = Math.round(fights.calculateDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
                     target.statistics.HP -= damage;
 
                     this.currentCooldown = this.cooldown;
@@ -719,7 +718,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'enemy',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise ${this.name} et inflige ${damage} points de dégats à ${target.name}`,
                         styles: 
                             [   
@@ -736,7 +735,7 @@ const characters = {
                     let targetHP = target.statistics.maxHP - target.statistics.HP;
                     let percentMissingHealthDamage = Math.round(targetHP * 0.25);
 
-                    let damage = Math.round(fight.calculateDamage(self.statistics.STR, target.statistics.ARM) / 2 + percentMissingHealthDamage);
+                    let damage = Math.round(fights.calculateDamage(self.statistics.STR, target.statistics.ARM) / 2 + percentMissingHealthDamage);
                     target.statistics.HP -= damage;
 
                     this.currentCooldown = this.cooldown;
@@ -754,7 +753,7 @@ const characters = {
                 damageType: 'none',
                 type: 'self',
                 log(target, self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Overpower et s'octroie un bonus de vitesse et de dégats supplémentaire de 30%`,
                         styles: 
                             [   
@@ -785,7 +784,7 @@ const characters = {
                 damageType: 'magical',
                 type: 'enemy',
                 log(target, self, damage, healing) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Soul Harvest, inflige ${damage} points de dégats et se soigne de ${healing} points de vie`,
                         styles: 
                             [   
@@ -800,7 +799,7 @@ const characters = {
                     return this.currentCooldown === 0;
                 },
                 use(target, self) {
-                    let damage = fight.calculateDamage(self.statistics.STR, target.statistics.ARM);
+                    let damage = fights.calculateDamage(self.statistics.STR, target.statistics.ARM);
                     let healing = Math.floor(damage * 0.10);
                     if (self.statistics.HP >= self.statistics.maxHP) {
                         healing = 0;
@@ -826,7 +825,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'self',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Phantom Backlash et se prépare à riposter pendant 2 tours`,
                         styles: 
                             [   

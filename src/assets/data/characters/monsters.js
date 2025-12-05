@@ -1,5 +1,4 @@
-import * as fight from '../../code/fight.js';
-import Game from '../../code/Game.svelte.js';
+import * as fights from '../../code/fight.js';
 
 const characters = {
     /*blugam: {
@@ -59,7 +58,7 @@ const characters = {
                     let damage = Math.round((target.statistics.maxHP - target.statistics.HP) * 0.05);
                     target.statistics.HP -= damage;
 
-                    Game.addLine({
+                    fight.addLine({
                         text: `Static explose et libère un arc électrique qui paralyse ${target.name} et lui inflige ${damage} de dégâts`,
                         styles: 
                             [   
@@ -109,7 +108,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} saigne et subit ${this.damage} points de dégats de saignement!`,
                         styles: 
                             [
@@ -129,7 +128,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est empoisonné et subit ${this.damage} points de dégats d' empoisonnement!`,
                         styles: 
                             [
@@ -149,7 +148,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} brûle et subit ${this.damage} points de dégats de brûlure!`,
                         styles: 
                             [
@@ -169,7 +168,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est gelé et subit ${this.damage} points de dégats de gel!`,
                         styles: 
                             [
@@ -189,7 +188,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est ralentit et a du mal à avancer`,
                         styles: 
                             []
@@ -205,7 +204,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est paralysé et ne peut pas attaquer`,
                         styles: 
                             [
@@ -228,7 +227,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'enemy',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Thunder Strike, brûle et paralyse ${target.name} !`,
                         styles: 
                             [   
@@ -265,7 +264,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'enemy',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Ionic Deflagration et déchaîne une puissance dévastatrice sur ${target.name}, inflige ${damage} et applique une brulûre !`,
                         styles: 
                             [   
@@ -302,7 +301,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'self',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Hyper Voltage et augmente sa vitesse totale de 2%`,
                         styles: 
                             [   
@@ -334,7 +333,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'self',
                 log(target, self, healing) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Exsanguinate et se soigne de ${healing} points de vie!, ${self.name} saigne!`,
                         styles: 
                             [   
@@ -456,7 +455,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} saigne et subit ${this.damage} points de dégats de saignement!`,
                         styles: 
                             [
@@ -476,7 +475,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est empoisonné et subit ${this.damage} points de dégats d' empoisonnement!`,
                         styles: 
                             [
@@ -496,7 +495,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} brûle et subit ${this.damage} points de dégats de brûlure!`,
                         styles: 
                             [
@@ -516,7 +515,7 @@ const characters = {
                 duration: 0,
                 damage: 0,
                 log(self) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} est gelé et subit ${this.damage} points de dégats de gel!`,
                         styles: 
                             [
@@ -553,7 +552,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'enemy',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Profane Rake et griffe ${target.name}, inflige ${damage} et applique un saignement! `,
                         styles: 
                             [   
@@ -568,7 +567,7 @@ const characters = {
                     return this.currentCooldown === 0;
                 },
                 use(target, self) {
-                    let damage = Math.round(fight.calculateDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
+                    let damage = Math.round(fights.calculateDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
 
                     target.negativeEffects.bleed.state = true;
                     target.negativeEffects.bleed.duration = 3;
@@ -590,7 +589,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'enemy',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Sanguine Bite et mord ${target.name}, inflige ${damage} et applique un saignement!`,
                         styles: 
                             [   
@@ -605,7 +604,7 @@ const characters = {
                     return this.currentCooldown === 0;
                 },
                 use(target, self) {
-                    let damage = Math.round(fight.calculateDamage(self.statistics.STR, target.statistics.ARM) / 4);
+                    let damage = Math.round(fights.calculateDamage(self.statistics.STR, target.statistics.ARM) / 4);
 
                     target.negativeEffects.bleed.state = true;
                     target.negativeEffects.bleed.duration = 3;
@@ -627,7 +626,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'self',
                 log(target, self, damage) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Sanguine Offering et sacrifie ${damage} points de vie, augmentant ses dégats de 25%`,
                         styles: 
                             [   
@@ -666,7 +665,7 @@ const characters = {
                 damageType: 'physical',
                 type: 'self',
                 log(target, self, healing) {
-                    Game.addLine({
+                    fight.addLine({
                         text: `${self.name} utilise Exsanguinate et se soigne de ${healing} points de vie!, ${self.name} saigne!`,
                         styles: 
                             [   

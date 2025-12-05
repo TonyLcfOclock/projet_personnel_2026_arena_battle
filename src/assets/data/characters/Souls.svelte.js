@@ -1,0 +1,35 @@
+import Passive from "./Passive.svelte.js";
+
+class Souls extends Passive {
+    constructor(name) {
+        super(name);
+    }
+
+    onTurn(target, self) { // méthode appelée au début du tour du personnage, gère les passifs du personnage
+        self.statistics.STR = Math.floor(self.statistics.STR + (0.5 * self.selfAttributes.Souls));
+        self.statistics.ARM = Math.floor(self.statistics.ARM + (0.5 * self.selfAttributes.Souls));
+        self.statistics.speed = Math.floor(self.statistics.speed + (0.1 * self.selfAttributes.Souls));
+        self.statistics.CritChance = self.statistics.CritChance + (0.01 * self.selfAttributes.Souls);
+        self.statistics.CritDamage = self.statistics.CritDamage + (0.01 * self.selfAttributes.Souls);
+    }
+
+    onHit(target, self, fights, fight) { // méthode appelée dès que le personnage prends un coups, gère les réactions à ce dernier
+        if (self.buffs[1].isActive && !self.negativeEffects.stun.state) {
+
+            let damage = Math.round(fights.calculateDamage(self.statistics.STR, target.statistics.ARM) / 2);
+            target.statistics.HP -= damage;
+
+            fight.addLine({
+                text: `${self.name} contre attaque et inflige ${damage} points de dégâts`,
+                styles:
+                    [
+                        { word: `contre`, color: 'grey' },
+                        { word: `attaque`, color: 'grey' },
+                        { word: `${damage}`, color: 'yellow' },
+                    ]
+            });
+        }
+    }
+}
+
+export default Souls
