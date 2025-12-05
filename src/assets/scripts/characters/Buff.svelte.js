@@ -1,4 +1,4 @@
-class Buffs {
+class Buff {
     constructor(buffData) {
         this.name = buffData.name;
         this.state = buffData.state;
@@ -8,4 +8,4 @@ class Buffs {
     }
 }
 
-export default Buffs;
+export default Buff;
