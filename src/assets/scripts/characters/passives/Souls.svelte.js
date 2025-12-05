@@ -13,23 +13,7 @@ class Souls extends Passive {
         self.statistics.CritDamage = self.statistics.CritDamage + (0.01 * self.selfAttributes.Souls);
     }
 
-    onHit(target, self, fights, fight) { // méthode appelée dès que le personnage prends un coups, gère les réactions à ce dernier
-        if (self.buffs[1].isActive && !self.negativeEffects.stun.state) {
-
-            let damage = Math.round(fights.calculateDamage(self.statistics.STR, target.statistics.ARM) / 2);
-            target.statistics.HP -= damage;
-
-            fight.addLine({
-                text: `${self.name} contre attaque et inflige ${damage} points de dégâts`,
-                styles:
-                    [
-                        { word: `contre`, color: 'grey' },
-                        { word: `attaque`, color: 'grey' },
-                        { word: `${damage}`, color: 'yellow' },
-                    ]
-            });
-        }
-    }
+    onHit(target, self, fights, fight) {} // méthode appelée dès que le personnage prends un coups, gère les réactions à ce dernier
 }
 
-export default Souls
+export default Souls;
