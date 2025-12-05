@@ -66,7 +66,7 @@
                     console.log(action);
                     console.log(player.spells);
                     fight.actionToDo(action, player, enemy, fight);
-                    enemy.passives.onHit(player, enemy);
+                    //enemy.passives.onHit(player, enemy);
                 }
             } else {
                 let check = fight.checkCharacterNegativeEffectStates(enemy);
@@ -77,8 +77,8 @@
 
                     let act = fight.randomAction(enemy, player);
                     // let act = "Sanguine Bite"
-                    fight.actionToDo(act, enemy, player);
-                    player.passives.onHit(enemy, player);
+                    fight.actionToDo(act, enemy, player, fight);
+                    //player.passives.onHit(enemy, player);
                 }
             }
 
