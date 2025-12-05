@@ -30,13 +30,13 @@
         while (playerIsDead === false && enemyIsDead === false) {
             turn ++;
             
-            let playerHitChance = fights.calculateChance(player.statistics.speed);
-            let enemyHitChance = fights.calculateChance(enemy.statistics.speed);
+            let playerHitChance = fight.calculateCharacterHitChance(player.statistics.speed);
+            let enemyHitChance = fight.calculateCharacterHitChance(enemy.statistics.speed);
 
-            let toPlay = fights.calculateHitChance(playerHitChance, enemyHitChance);
+            let toPlay = fight.chooseCharacterHitTurn(playerHitChance, enemyHitChance);
 
-            fights.reduceCooldown(player.spells);
-            fights.reduceCooldown(enemy.spells);
+            fight.reduceCharacterSpellsCooldown(player.spells);
+            fight.reduceCharacterSpellsCooldown(enemy.spells);
 
             fight.addLogsLine({
                 text: `Début du tour ${turn} !`,
@@ -51,10 +51,10 @@
 
             if (toPlay) {
                 // tour du joueur
-                let check = fights.checkStates(player);
+                let check = fight.checkCharacterNegativeEffectStates(player);
 
                 if (check) {
-                    fights.refreshBuff(enemy, player);
+                    fight.refreshCharacterBuff(enemy, player);
                     player.perTurn(enemy, player);
 
                     // attente de choix d'une action
@@ -62,19 +62,19 @@
                         await utilities.sleep(50);
                     }
 
-                    fights.actionToDo(action, player, enemy);
+                    fight.actionToDo(action, player, enemy);
                     enemy.passives.onHit(player, enemy);
                 }
             } else {
-                let check = fights.checkStates(enemy);
+                let check = fight.checkCharacterNegativeEffectStates(enemy);
 
                 if (check) {
-                    fights.refreshBuff(player, enemy);
+                    fight.refreshCharacterBuff(player, enemy);
                     enemy.perTurn(player, enemy);
 
-                    let act = fights.randomAction(enemy, player);
+                    let act = fight.randomAction(enemy, player);
                     // let act = "Sanguine Bite"
-                    fights.actionToDo(act, enemy, player);
+                    fight.actionToDo(act, enemy, player);
                     player.passives.onHit(enemy, player);
                 }
             }
