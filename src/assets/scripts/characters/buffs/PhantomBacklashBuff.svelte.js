@@ -9,26 +9,22 @@ class PhantomBacklashBuff extends Buff {
         if (this.isPermanent) {
             return;
         }
-
-        if (this.state) {
-            this.duration = 2;
-        }
+        
+        this.state = true;
+        this.duration = 2;
     }
     
     checkBuff(target, self) {
-        if (this.state && !this.isActive) {
-            this.isActive = true;
-            this.applyBuff(target, self);
-            return
+        if (!this.state) {
+            return;
         }
 
         if (this.duration > 0) {
             this.duration--;
         }
 
-        if (this.duration === 0 && this.isActive) {
+        if (this.duration === 0) {
             this.state = false;
-            this.isActive = false;
             return
         }
     }

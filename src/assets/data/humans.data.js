@@ -40,8 +40,8 @@ const characters = {
                 }
             }
         },*/
-        buffs: {
-            0: {
+        buffs: [
+            /*{
                 name: "Overpower",
                 state: false,
                 isActive: false,
@@ -76,41 +76,15 @@ const characters = {
                         return
                     }
                 }
-            },
-            1: {
+            },*/
+            {
                 name: "Phantom Backlash",
                 state: false,
                 isActive: false,
                 isPermanent: false,
                 duration: 0,
-                applyBuff(target, self) {
-                    if (this.isPermanent) {
-                        return;
-                    }
-
-                    if (this.state) {
-                        this.duration = 2;
-                    }
-                },
-                checkBuff(target, self) {
-                    if (this.state && !this.isActive) {
-                        this.isActive = true;
-                        this.applyBuff(target, self);
-                        return
-                    }
-
-                    if (this.duration > 0) {
-                        this.duration --;
-                    }
-
-                    if (this.duration === 0 && this.isActive) {
-                        this.state = false;
-                        this.isActive = false;
-                        return
-                    }
-                }
             }
-        },
+        ],
         negativeEffects: {
             bleed: {
                 state: false,
@@ -321,8 +295,8 @@ const characters = {
 
                     this.log(target, self, damage, healing);
                 }
-            },
-            4: {
+            },*/
+            {
                 name: "Phantom Backlash",
                 image: "./src/assets/art/characters/humans/classes/death_knight/spells_icons/phantom_backlash.png",
                 description: "Activate counterattack for 2 turns. Counterattack dealing -50% attack damage. Can't fail.",
@@ -331,29 +305,7 @@ const characters = {
                 currentCooldown: 0,
                 damageType: 'physical',
                 type: 'self',
-                log(target, self, damage) {
-                    fight.addLine({
-                        text: `${self.name} utilise Phantom Backlash et se prépare à riposter pendant 2 tours`,
-                        styles: 
-                            [   
-                                { word: `Phantom`, color: 'grey'},
-                                { word: `Backlash`, color: 'grey'},
-                                { word: `riposter`, color: 'orange'},
-                                { word: `2`, color: 'green'}
-                        ]
-                    });
-                },
-                canUse(caster, target) {
-                    return this.currentCooldown === 0 && caster.buffs[1].isActive === false;
-                },
-                use(target, self) {
-                    let damage = 0;
-                    this.currentCooldown = this.cooldown;
-                    self.buffs[1].state = true;
-
-                    this.log(target, self);
-                }
-            }*/
+            }
         ],
     },
     /*{

@@ -4,7 +4,7 @@ class Buff {
         this.state = buffData.state;
         this.isActive = $state(buffData.isActive);
         this.isPermanent = buffData.isPermanent;
-        this.duration = buffData.duration;
+        this.duration = $state(buffData.duration);
     }
 }
 

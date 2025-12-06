@@ -8,6 +8,9 @@
     import Utilities from '../assets/utils/Utilities.svelte.js';
     import SpectralStrike from '../assets/scripts/characters/spells/SpectralStrike.svelte.js';
     import PiercingStrike from '../assets/scripts/characters/spells/PiercingStrike.svelte.js';
+    import PhantomBacklash from '../assets/scripts/characters/spells/PhantomBacklash.svelte.js';
+    import PhantomBacklashBuff from '../assets/scripts/characters/buffs/PhantomBacklashBuff.svelte.js';
+    import CounterStrike from '../assets/scripts/characters/passives/CounterStrike.svelte.js';
 
 
     const fight = new Fight('Testing Fight');
@@ -54,7 +57,7 @@
             if (toPlay) {
                 // tour du joueur
                 let check = fight.checkCharacterNegativeEffectStates(player);
-
+                console.log(player.buffs)
                 if (check) {
                     fight.refreshCharacterBuff(enemy, player);
                     player.perTurn(enemy, player);
@@ -64,8 +67,6 @@
                         await Utilities.sleep(50);
                     }
 
-                    console.log(action);
-                    console.log(player.spells);
                     fight.actionToDo(action, player, enemy, fight);
                     //enemy.passives.onHit(player, enemy);
                 }
@@ -79,7 +80,7 @@
                     let act = fight.randomAction(enemy, player);
                     // let act = "Sanguine Bite"
                     fight.actionToDo(act, enemy, player, fight);
-                    //player.passives.onHit(enemy, player);
+                    player.perHit(enemy, player, fight);
                 }
             }
 
@@ -113,10 +114,14 @@
         image: humans.verso.image,
         statistics: humans.verso.statistics,
         selfAttributes: humans.verso.selfAttributes,
-        passives: [new Souls()],
-        buffs: humans.verso.buffs,
+        passives: [new Souls(), new CounterStrike()],
+        buffs: [new PhantomBacklashBuff(humans.verso.buffs[0])],
         negativeEffects: humans.verso.negativeEffects,
-        spells: [new PiercingStrike(humans.verso.spells[0]), new SpectralStrike(humans.verso.spells[1])]
+        spells: [
+            new PiercingStrike(humans.verso.spells[0]),
+            new SpectralStrike(humans.verso.spells[1]),
+            new PhantomBacklash(humans.verso.spells[2])
+        ]
     });
 
     let enemy = new Characters({
@@ -125,7 +130,7 @@
         statistics: humans.verso.statistics,
         selfAttributes: humans.verso.selfAttributes,
         passives: [new Souls()],
-        buffs: humans.verso.buffs,
+        buffs: [new PhantomBacklashBuff(humans.verso.buffs[0])],
         negativeEffects: humans.verso.negativeEffects,
         spells: [new PiercingStrike(humans.verso.spells[0]), new SpectralStrike(humans.verso.spells[1])]
     });

@@ -8,7 +8,7 @@ class CounterStrike extends Passive {
     onTurn(target, self) {} // méthode appelée au début du tour du personnage, gère les passifs du personnage
 
     onHit(target, self, fightInstance) { // méthode appelée dès que le personnage prends un coups, gère les réactions à ce dernier
-        if (self.buffs[1].isActive && !self.negativeEffects.stun.state) {
+        if (self.buffs[0].state /*!self.negativeEffects.stun.state*/) {
 
             let damage = Math.round(fightInstance.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM) / 2);
             target.statistics.HP -= damage;
