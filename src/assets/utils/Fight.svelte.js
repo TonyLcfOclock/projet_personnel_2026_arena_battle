@@ -42,13 +42,11 @@ class Fight {
     }
 
     reduceCharacterSpellsCooldown(spells) {
-        for (let key in spells) {
-            let spell = spells[key];
-
+        spells.forEach(spell => {
             if (spell.currentCooldown > 0) {
                 spell.currentCooldown--;
             }
-        }
+        })
     }
 
     reduceCharacterNegativeEffectDuration(negate) { 
@@ -86,9 +84,9 @@ class Fight {
     }
 
     refreshCharacterBuff(target, self) {
-        for (let key in self.buffs) {
-            self.buffs[key].checkBuff(target, self);
-        }
+        self.buffs.forEach(buff => {
+            buff.checkBuff(target, self);
+        })
     }
 
     actionToDo(actionName, selfTarget, target, fightInstance) {

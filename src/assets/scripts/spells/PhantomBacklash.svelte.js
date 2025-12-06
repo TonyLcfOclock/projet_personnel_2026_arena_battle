@@ -30,13 +30,22 @@ class PhantomBacklash extends Spell {
     }
 
     canUseSpell(caster, target) {
-        return this.currentCooldown === 0 && caster.buffs[0].isActive === false;
+        const counterStrike = caster.buffs.find(element => {
+            return element.name === "Counter Strike";
+        });
+
+        return this.currentCooldown === 0 && counterStrike;
     }
 
     useSpell(target, self, fightInstance) {
         let damage = 0;
         this.currentCooldown = this.cooldown;
-        self.buffs[0].applyBuff();
+        
+        const counterStrike = self.buffs.find(element => {
+            return element.name === "Counter Strike";
+        });
+
+        counterStrike.applyBuff();
 
         this.logSpellAction(target, self, damage, fightInstance);
     }

@@ -1,16 +1,6 @@
 <script>
-    import humans from '../assets/data/humans.data.js';
-    import monsters from '../assets/data/humans.data.js'
-    
-    import Characters from '../assets/scripts/Character.svelte.js';
     import Fight from '../assets/utils/Fight.svelte.js';
-    import SoulsScalingPassive from '../assets/scripts/passives/SoulsScalingPassive.svelte.js';
     import Utilities from '../assets/utils/Utilities.svelte.js';
-    import SpectralStrike from '../assets/scripts/spells/SpectralStrike.svelte.js';
-    import PiercingStrike from '../assets/scripts/spells/PiercingStrike.svelte.js';
-    import PhantomBacklash from '../assets/scripts/spells/PhantomBacklash.svelte.js';
-    import CounterStrike from '../assets/scripts/buffs/CounterStrike.js';
-    import CounterStrikePassive from '../assets/scripts/passives/CounterStrikePassive.svelte.js';
     import DeathKnight from '../assets/scripts/classes/DeathKnight.svelte.js';
 
 

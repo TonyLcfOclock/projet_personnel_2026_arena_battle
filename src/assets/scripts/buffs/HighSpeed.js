@@ -1,15 +1,15 @@
 import Buff from "../Buff.svelte.js";
 
-class CounterStrike extends Buff {
+class HighSpeed extends Buff {
     constructor() {
         const buffData = {
-            name: "Counter Strike",
+            name: "High Speed",
             state: false,
             isActive: false,
             isPermanent: false,
             duration: 0,
         }
-        
+
         super(buffData);
     }
 
@@ -19,7 +19,8 @@ class CounterStrike extends Buff {
         }
 
         this.state = true;
-        this.duration = 2;
+        this.duration = 5;
+        self.statistics.speed += Math.round(self.statistics.speed * 0.3);
     }
 
     checkBuff(target, self) {
@@ -33,9 +34,11 @@ class CounterStrike extends Buff {
 
         if (this.duration === 0) {
             this.state = false;
+
+            self.statistics.speed = Math.round(self.statistics.speed / 1.3);
             return
         }
     }
 }
 
-export default CounterStrike;
+export default HighSpeed;
