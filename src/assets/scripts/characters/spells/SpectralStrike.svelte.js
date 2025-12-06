@@ -1,7 +1,18 @@
 import Spell from "../Spell.svelte.js";
 
 class SpectralStrike extends Spell {
-    constructor(spellData) {
+    constructor() {
+        const spellData = {
+            name: "Spectral Strike",
+            image: "./src/assets/art/characters/humans/classes/death_knight/spells_icons/spectral_strike.png",
+            description: "Dealing some DMG + 25% missing health of the target",
+            castChance: 0.15,
+            cooldown: 5,
+            currentCooldown: 0,
+            damageType: 'physical',
+            type: 'enemy',
+        };
+
         super(spellData);
     }
 

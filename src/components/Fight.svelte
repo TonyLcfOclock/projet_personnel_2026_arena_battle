@@ -118,9 +118,9 @@
         buffs: [new PhantomBacklashBuff(humans.verso.buffs[0])],
         negativeEffects: humans.verso.negativeEffects,
         spells: [
-            new PiercingStrike(humans.verso.spells[0]),
-            new SpectralStrike(humans.verso.spells[1]),
-            new PhantomBacklash(humans.verso.spells[2])
+            new PiercingStrike(),
+            new SpectralStrike(),
+            new PhantomBacklash()
         ]
     });
 
@@ -132,7 +132,7 @@
         passives: [new Souls()],
         buffs: [new PhantomBacklashBuff(humans.verso.buffs[0])],
         negativeEffects: humans.verso.negativeEffects,
-        spells: [new PiercingStrike(humans.verso.spells[0]), new SpectralStrike(humans.verso.spells[1])]
+        spells: [new PiercingStrike(), new SpectralStrike()]
     });
 
     console.log("Player === Enemy: ", player === enemy);

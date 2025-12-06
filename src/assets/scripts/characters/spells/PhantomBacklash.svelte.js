@@ -1,7 +1,18 @@
 import Spell from "../Spell.svelte.js";
 
 class PhantomBacklash extends Spell {
-    constructor(spellData) {
+    constructor() {
+        const spellData = {
+            name: "Phatom Backlash",
+            image: "./src/assets/art/characters/humans/classes/death_knight/spells_icons/phantom_backlash.png",
+            description: "Activate counterattack for 2 turns. Counterattack dealing -50% attack damage. Can't fail.",
+            castChance: 0.3,
+            cooldown: 4,
+            currentCooldown: 0,
+            damageType: 'physical',
+            type: 'self'
+        };
+
         super(spellData);
     }
 
