@@ -67,9 +67,9 @@ class Fight {
     checkCharacterNegativeEffectStates(self) {
         let canPlay = true;
 
-        if (self.negativeEffects.stun.state) {
-            canPlay = false;
-        }
+        // if (self.negativeEffects.stun.state) {
+        //     canPlay = false;
+        // }
 
         for (let key in self.negativeEffects) {
             if (self.negativeEffects[key].state && self.negativeEffects[key].duration >= 0) {

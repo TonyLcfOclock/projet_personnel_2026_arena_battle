@@ -1,16 +1,17 @@
-<script module>
+<script>
     import humans from '../assets/data/humans.data.js';
     import monsters from '../assets/data/humans.data.js'
     
-    import Characters from '../assets/scripts/characters/Character.svelte.js';
+    import Characters from '../assets/scripts/Character.svelte.js';
     import Fight from '../assets/utils/Fight.svelte.js';
-    import SoulsScalingPassive from '../assets/scripts/characters/passives/SoulsScalingPassive.svelte.js';
+    import SoulsScalingPassive from '../assets/scripts/passives/SoulsScalingPassive.svelte.js';
     import Utilities from '../assets/utils/Utilities.svelte.js';
-    import SpectralStrike from '../assets/scripts/characters/spells/SpectralStrike.svelte.js';
-    import PiercingStrike from '../assets/scripts/characters/spells/PiercingStrike.svelte.js';
-    import PhantomBacklash from '../assets/scripts/characters/spells/PhantomBacklash.svelte.js';
-    import CounterStrike from '../assets/scripts/characters/buffs/CounterStrike.js';
-    import CounterStrikePassive from '../assets/scripts/characters/passives/CounterStrikePassive.svelte.js';
+    import SpectralStrike from '../assets/scripts/spells/SpectralStrike.svelte.js';
+    import PiercingStrike from '../assets/scripts/spells/PiercingStrike.svelte.js';
+    import PhantomBacklash from '../assets/scripts/spells/PhantomBacklash.svelte.js';
+    import CounterStrike from '../assets/scripts/buffs/CounterStrike.js';
+    import CounterStrikePassive from '../assets/scripts/passives/CounterStrikePassive.svelte.js';
+    import DeathKnight from '../assets/scripts/classes/DeathKnight.svelte.js';
 
 
     const fight = new Fight('Testing Fight');
@@ -108,51 +109,9 @@
     }
 
     // affectation des personnages
-    let player = new Characters({
-        name: "Verso",
-        image: "./src/assets/art/characters/humans/classes/death_knight/death_knight1.png",
-        statistics: {
-            HP: 800,
-            maxHP: 800,
-            STR: 150,
-            ARM: 60,
-            speed: 50,
-            CritChance: 0.2,
-            CritDamage: 1.5
-        },
-        selfAttributes: {
-            Souls: 0,
-        },
-        passives: [new SoulsScalingPassive(), new CounterStrikePassive()],
-        buffs: [new CounterStrike()],
-        negativeEffects: humans.verso.negativeEffects,
-        spells: [
-            new PiercingStrike(),
-            new SpectralStrike(),
-            new PhantomBacklash()
-        ]
-    });
+    let player = new DeathKnight("Verso");
 
-    let enemy = new Characters({
-        name: "Versa",
-        image: "./src/assets/art/characters/humans/classes/death_knight/death_knight1.png",
-        statistics: {
-            HP: 1500,
-            maxHP: 1500,
-            STR: 100,
-            ARM: 55,
-            speed: 50,
-            CritChance: 0.2,
-            CritDamage: 1.5
-        },
-        selfAttributes: {
-            Souls: 0,
-        },
-        passives: [new SoulsScalingPassive()],
-        buffs: [new CounterStrike()],
-        negativeEffects: humans.verso.negativeEffects,
-        spells: [new PiercingStrike(), new SpectralStrike()]
-    });
+    let enemy = new DeathKnight("Versa");
 
     console.log("Player === Enemy: ", player === enemy);
     console.log("Player stats === Enemy stats: ", player.statistics === enemy.statistics);
@@ -207,9 +166,9 @@
     <div class="nEffectsArea">
         <p>Negative Effects</p>
         <div class="nEffets">
-            {#if player.negativeEffects.stun.duration != 0}
+            <!-- {#if player.negativeEffects.stun.duration != 0}
                 <p>Stuned: {player.negativeEffects.stun.duration}</p>
-            {/if}
+            {/if} -->
         </div>
     </div>
 
