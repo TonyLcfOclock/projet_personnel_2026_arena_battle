@@ -64,19 +64,23 @@ class Fight {
         }
     }
 
-    checkCharacterNegativeEffectStates(self) {
+    checkCharacterNegativeEffectStates(self, fightInstance) {
         let canPlay = true;
 
-        // if (self.negativeEffects.stun.state) {
-        //     canPlay = false;
-        // }
+        const stunNegate = self.negativeEffects.find(element => {
+            return element.name === 'Stun';
+        })
 
-        for (let key in self.negativeEffects) {
-            if (self.negativeEffects[key].state && self.negativeEffects[key].duration >= 0) {
-                self.negativeEffects[key].apply(self);
-                this.reduceCharacterNegativeEffectDuration(self.negativeEffects[key])
-            } 
+        if (stunNegate.state) {
+            canPlay = false;
         }
+
+        self.negativeEffects.forEach(negate => {
+            if (negate.state && negate.duration >= 0) {
+                negate.applyNegativeEffect(self, fightInstance);
+                this.reduceCharacterNegativeEffectDuration(negate);
+            }
+        })
 
         return canPlay;
     }

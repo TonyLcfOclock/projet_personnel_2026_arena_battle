@@ -57,8 +57,8 @@
 
             if (toPlay) {
                 // tour du joueur
-                let check = fight.checkCharacterNegativeEffectStates(player);
-                console.log("Stack Player: ", player.selfAttributes.Souls)
+                let check = fight.checkCharacterNegativeEffectStates(player, fight);
+
                 if (check) {
                     fight.refreshCharacterBuff(enemy, player);
                     player.perTurn(enemy, player);
@@ -72,8 +72,8 @@
                     //enemy.passives.onHit(player, enemy);
                 }
             } else {
-                let check = fight.checkCharacterNegativeEffectStates(enemy);
-                console.log("Stack enemy: ", enemy.selfAttributes.Souls)
+                let check = fight.checkCharacterNegativeEffectStates(enemy, fight);
+
                 if (check) {
                     fight.refreshCharacterBuff(player, enemy);
                     enemy.perTurn(player, enemy);

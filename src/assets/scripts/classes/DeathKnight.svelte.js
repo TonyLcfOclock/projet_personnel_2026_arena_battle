@@ -1,6 +1,12 @@
 import CounterStrike from "../buffs/CounterStrike";
 import Characters from "../Character.svelte.js";
-import CounterStrikePassive from "../passives/CounterStrikePassive.svelte";
+import Bleed from "../negativesEffects/Bleed.svelte.js";
+import Burn from "../negativesEffects/Burn.svelte.js";
+import Freeze from "../negativesEffects/Freeze.svelte.js";
+import Poison from "../negativesEffects/Poison.svelte.js";
+import Slow from "../negativesEffects/Slow.svelte.js";
+import Stun from "../negativesEffects/Stun.svelte.js";
+import CounterStrikePassive from "../passives/CounterStrikePassive.svelte.js";
 import SoulsScalingPassive from "../passives/SoulsScalingPassive.svelte.js";
 import PhantomBacklash from "../spells/PhantomBacklash.svelte";
 import PiercingStrike from "../spells/PiercingStrike.svelte.js";
@@ -25,7 +31,7 @@ class DeathKnight extends Characters {
             },
             passives: [new SoulsScalingPassive(), new CounterStrikePassive()],
             buffs: [new CounterStrike()],
-            negativeEffects: [],
+            negativeEffects: [new Bleed(), new Burn(), new Freeze(), new Poison(), new Slow(), new Stun()],
             spells: [
                 new PiercingStrike(),
                 new SpectralStrike(),
