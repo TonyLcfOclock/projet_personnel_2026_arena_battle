@@ -1,9 +1,9 @@
 import NegativeEffects from "../NegativeEffects.svelte.js";
 
-class Bleed extends NegativeEffects {
+class Poison extends NegativeEffects {
     constructor() {
         const effectsData = {
-            name: "Bleed",
+            name: "Poison",
             state: false,
             stacks: 0,
             duration: 0,
@@ -30,4 +30,4 @@ class Bleed extends NegativeEffects {
     }
 }
 
-export default Bleed
+export default Poison;

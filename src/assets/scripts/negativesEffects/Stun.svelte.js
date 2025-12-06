@@ -1,9 +1,9 @@
 import NegativeEffects from "../NegativeEffects.svelte.js";
 
-class Bleed extends NegativeEffects {
+class Stun extends NegativeEffects {
     constructor() {
         const effectsData = {
-            name: "Bleed",
+            name: "Stun",
             state: false,
             stacks: 0,
             duration: 0,
@@ -15,11 +15,10 @@ class Bleed extends NegativeEffects {
 
     logNegativeEffect(self, fightInstance) {
         fightInstance.addLogsLine({
-            text: `${self.name} est empoisonné et subit ${this.damage} points de dégats d' empoisonnement!`,
+            text: `${self.name} est paralysé et ne peut pas attaquer`,
             styles:
                 [
-                    { word: `${this.damage}`, color: 'purple' },
-                    { word: `empoisonnement`, color: 'purple' }
+                    { word: `paralysé`, color: 'yellow' }
                 ]
         })
     }
@@ -30,4 +29,4 @@ class Bleed extends NegativeEffects {
     }
 }
 
-export default Bleed
+export default Stun;
