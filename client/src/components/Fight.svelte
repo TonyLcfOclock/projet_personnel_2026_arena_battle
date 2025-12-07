@@ -106,14 +106,28 @@
         return player;
     }
 
+    async function lowerHP(player) {
+        const res = await fetch('/api/characters/hp', {
+            method: "POST",
+            headers: { "Content-Type": "application/json"},
+            body: JSON.stringify(player)
+        });
+
+        const char = await res.json();
+
+        return char
+    }
+
     onMount(async () => {
         let test = await getCharacter();
-        console.log(test)
+        console.log(test);
+
+        let playerChar = await lowerHP(test);
+        console.log(playerChar);
     });
 
     // affectation des personnages
     let player = new DeathKnight("Verso");
-    console.log(player)
 
     let enemy = new Baron("Baron");
 

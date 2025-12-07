@@ -18,6 +18,14 @@ app.get('/api/characters', (req, res) => {
     res.status(200).json(test);
 })
 
+app.post('/api/characters/hp', (req, res) => {
+    const player = req.body;
+
+    player.statistics.HP -= 20;
+    
+    res.status(200).json(player)
+})
+
 app.listen(port, () => {
     console.log('Serveur démarré.');
 });
