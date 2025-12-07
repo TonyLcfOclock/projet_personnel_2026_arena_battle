@@ -34,7 +34,9 @@ class PhantomBacklash extends Spell {
             return element.name === "Counter Strike";
         });
 
-        return this.currentCooldown === 0 && counterStrike;
+        return (
+            this.currentCooldown === 0 && counterStrike
+        );
     }
 
     useSpell(target, self, fightInstance) {
