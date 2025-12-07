@@ -1,7 +1,8 @@
 <script>
     import Fight from '../assets/utils/Fight.svelte.js';
     import Utilities from '../assets/utils/Utilities.svelte.js';
-    import DeathKnight from '../assets/scripts/classes/DeathKnight.svelte.js';
+    import DeathKnight from '../assets/scripts/characters/DeathKnight.svelte.js';
+    import Baron from '../assets/scripts/characters/Baron.svelte.js';
 
 
     const fight = new Fight('Testing Fight');
@@ -59,7 +60,7 @@
                     }
 
                     fight.actionToDo(action, player, enemy, fight);
-                    //enemy.passives.onHit(player, enemy);
+                    enemy.perHit(player, enemy, fight);
                 }
             } else {
                 let check = fight.checkCharacterNegativeEffectStates(enemy, fight);
@@ -101,12 +102,7 @@
     // affectation des personnages
     let player = new DeathKnight("Verso");
 
-    let enemy = new DeathKnight("Versa");
-
-    console.log("Player === Enemy: ", player === enemy);
-    console.log("Player stats === Enemy stats: ", player.statistics === enemy.statistics);
-    console.log("Player selfAttr === Enemy selfAttr: ", player.selfAttributes === enemy.selfAttributes)
-
+    let enemy = new Baron("Baron");
 
     // état des personnages
     let playerIsDead = false;

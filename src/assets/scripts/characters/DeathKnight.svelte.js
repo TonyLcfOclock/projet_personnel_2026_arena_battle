@@ -12,6 +12,7 @@ import SoulsScalingPassive from "../passives/SoulsScalingPassive.svelte.js";
 import Overpower from "../spells/Overpower.svelte.js";
 import PhantomBacklash from "../spells/PhantomBacklash.svelte.js";
 import PiercingStrike from "../spells/PiercingStrike.svelte.js";
+import SoulHarvest from "../spells/SoulHarvest.svelte.js";
 import SpectralStrike from "../spells/SpectralStrike.svelte.js";
 
 class DeathKnight extends Characters {
@@ -38,7 +39,8 @@ class DeathKnight extends Characters {
                 new PiercingStrike(),
                 new SpectralStrike(),
                 new PhantomBacklash(),
-                new Overpower()
+                new Overpower(),
+                new SoulHarvest(),
             ],
         };
 
