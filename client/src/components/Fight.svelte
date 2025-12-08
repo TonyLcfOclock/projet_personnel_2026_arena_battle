@@ -1,12 +1,11 @@
 <script>
-    import Fight from '../assets/utils/Fight.svelte.js';
-    import Utilities from '../assets/utils/Utilities.svelte.js';
-    import DeathKnight from '../assets/scripts/characters/DeathKnight.svelte.js';
-    import Baron from '../assets/scripts/characters/Baron.svelte.js';
-    import { onMount } from 'svelte';
+    import Fight from "../assets/utils/Fight.svelte.js";
+    import Utilities from "../assets/utils/Utilities.svelte.js";
+    import DeathKnight from "../assets/scripts/characters/DeathKnight.svelte.js";
+    import Baron from "../assets/scripts/characters/Baron.svelte.js";
+    import { onMount } from "svelte";
 
-
-    const fight = new Fight('Testing Fight');
+    const fight = new Fight("Testing Fight");
     const logs = fight.fightingLogs;
 
     let action = $state(null);
@@ -18,38 +17,62 @@
             }
 
             if (player.spells[key].name === act) {
-                action = act
+                action = act;
                 return;
-            } 
+            }
         }
+    }
+
+    async function getCharacterHitTurn(playerHitChance, enemyHitChance) {
+        const array = [playerHitChance, enemyHitChance];
+
+        const res = await fetch("/api/toPlay/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(array),
+        });
+
+        const toPlay = await res.json();
+        return toPlay;
     }
 
     async function fighting() {
         while (playerIsDead === false && enemyIsDead === false) {
-            turn ++;
-            
-            let playerHitChance = fight.calculateCharacterHitChance(player.statistics.speed);
-            let enemyHitChance = fight.calculateCharacterHitChance(enemy.statistics.speed);
+            turn++;
 
-            let toPlay = fight.chooseCharacterHitTurn(playerHitChance, enemyHitChance);
+            let playerHitChance = fight.calculateCharacterHitChance(
+                player.statistics.speed,
+            );
+            let enemyHitChance = fight.calculateCharacterHitChance(
+                enemy.statistics.speed,
+            );
+
+            // let toPlay = fight.chooseCharacterHitTurn(
+            //     playerHitChance,
+            //     enemyHitChance,
+            // );
+
+            let toPlay = await getCharacterHitTurn(playerHitChance, enemyHitChance);
 
             fight.reduceCharacterSpellsCooldown(player.spells);
             fight.reduceCharacterSpellsCooldown(enemy.spells);
 
             fight.addLogsLine({
                 text: `Début du tour ${turn} !`,
-                styles: 
-                    [   
-                    { word: `tour`, color: 'grey'},
-                    { word: `${turn}`, color: 'grey'},
-                ]
+                styles: [
+                    { word: `tour`, color: "grey" },
+                    { word: `${turn}`, color: "grey" },
+                ],
             });
 
             await Utilities.sleep(1500);
 
             if (toPlay) {
                 // tour du joueur
-                let check = fight.checkCharacterNegativeEffectStates(player, fight);
+                let check = fight.checkCharacterNegativeEffectStates(
+                    player,
+                    fight,
+                );
 
                 if (check) {
                     fight.refreshCharacterBuff(enemy, player);
@@ -64,7 +87,10 @@
                     enemy.perHit(player, enemy, fight);
                 }
             } else {
-                let check = fight.checkCharacterNegativeEffectStates(enemy, fight);
+                let check = fight.checkCharacterNegativeEffectStates(
+                    enemy,
+                    fight,
+                );
 
                 if (check) {
                     fight.refreshCharacterBuff(player, enemy);
@@ -88,18 +114,22 @@
         }
     }
 
-    function initiatePlayerSpells(player) {        
+    function initiatePlayerSpells(player) {
         playerSpellsList = player.spells.map((element) => {
-            return { name: element.name, image: element.image, description: element.description }
+            return {
+                name: element.name,
+                image: element.image,
+                description: element.description,
+            };
         });
     }
 
     function initiateCharacterImage(char) {
-        return char.image
+        return char.image;
     }
 
     async function getCharacter() {
-        const res = await fetch('/api/characters');
+        const res = await fetch("/api/characters");
 
         let player = await res.json();
 
@@ -107,23 +137,21 @@
     }
 
     async function lowerHP(player) {
-        const res = await fetch('/api/characters/hp', {
+        const res = await fetch("/api/characters/hp", {
             method: "POST",
-            headers: { "Content-Type": "application/json"},
-            body: JSON.stringify(player)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(player),
         });
 
         const char = await res.json();
 
-        return char
+        return char;
     }
 
     onMount(async () => {
         let test = await getCharacter();
-        console.log(test);
 
         let playerChar = await lowerHP(test);
-        console.log(playerChar);
     });
 
     // affectation des personnages
@@ -140,14 +168,14 @@
 
     fight.addLogsLine({
         text: `Un combat est engagé entre ${player.name} et ${enemy.name} !`,
-        styles: []
+        styles: [],
     });
 
     initiatePlayerSpells(player);
     fighting();
 </script>
 
-<section id="left-container"> 
+<section id="left-container">
     <div class="playerHealthbarArea">
         <p id="playerName">{player.name}</p>
         <div class="healthbar">

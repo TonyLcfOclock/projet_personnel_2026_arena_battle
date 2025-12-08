@@ -25,7 +25,7 @@ class Baron extends Characters {
                 maxHP: 4500,
                 STR: 240,
                 ARM: 50,
-                speed: 90,
+                speed: 30,
                 CritChance: 0.2,
                 CritDamage: 1.5
             },
