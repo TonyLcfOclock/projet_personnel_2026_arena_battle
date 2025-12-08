@@ -1,18 +1,18 @@
-import Characters from "../Character.svelte.js";
+import Characters from "../Character.js";
 
 //import des sorts du personnage
-import ProfaneRake from "../spells/ProfaneRake.svelte.js";
-import SanguineBite from "../spells/SanguineBite.svelte.js";
-import sanguineOffering from "../spells/SanguineOffering.svelte.js";
-import Exsanguinate from "../spells/Exsanguinate.svelte.js";
+import ProfaneRake from "../spells/ProfaneRake.js";
+import SanguineBite from "../spells/SanguineBite.js";
+import sanguineOffering from "../spells/SanguineOffering.js";
+import Exsanguinate from "../spells/Exsanguinate.js";
 
 //import des états négatifs du personnage
-import Bleed from "../negativesEffects/Bleed.svelte.js";
-import Burn from "../negativesEffects/Burn.svelte.js";
-import Freeze from "../negativesEffects/Freeze.svelte.js";
-import Poison from "../negativesEffects/Poison.svelte.js";
-import Slow from "../negativesEffects/Slow.svelte.js";
-import Stun from "../negativesEffects/Stun.svelte.js";
+import Bleed from "../negativesEffects/Bleed.js";
+import Burn from "../negativesEffects/Burn.js";
+import Freeze from "../negativesEffects/Freeze.js";
+import Poison from "../negativesEffects/Poison.js";
+import Slow from "../negativesEffects/Slow.js";
+import Stun from "../negativesEffects/Stun.js";
 
 
 class Baron extends Characters {

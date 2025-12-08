@@ -1,4 +1,4 @@
-import Buff from "../Buff.svelte.js";
+import Buff from "../Buff.js";
 
 class HighSpeed extends Buff {
     constructor() {

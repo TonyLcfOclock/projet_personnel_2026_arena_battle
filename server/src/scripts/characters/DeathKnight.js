@@ -1,6 +1,6 @@
 import CounterStrike from "../buffs/CounterStrike.js";
 import HighSpeed from "../buffs/HighSpeed.js";
-import Characters from "../Character.svelte.js";
+import Characters from "../Character.js";
 import Bleed from "../negativesEffects/Bleed.js";
 import Burn from "../negativesEffects/Burn.js";
 import Freeze from "../negativesEffects/Freeze.js";

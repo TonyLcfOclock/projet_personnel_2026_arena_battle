@@ -1,4 +1,4 @@
-import NegativeEffects from "../NegativeEffects.svelte.js";
+import NegativeEffects from "../NegativeEffects.js";
 
 class Bleed extends NegativeEffects {
     constructor() {

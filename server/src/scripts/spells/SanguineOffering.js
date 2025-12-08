@@ -1,4 +1,4 @@
-import Spell from "../Spell.svelte.js";
+import Spell from "../Spell.js";
 
 class sanguineOffering extends Spell {
     constructor() {

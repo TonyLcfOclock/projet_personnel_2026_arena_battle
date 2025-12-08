@@ -5,10 +5,36 @@
     import Baron from "../assets/scripts/characters/Baron.svelte.js";
     import { onMount } from "svelte";
 
+    let player = $state(undefined);
+    let enemy = $state(undefined);
+
+    onMount( async () => {
+         // affectation des personnages
+        const characters = await initiateBattle();
+        
+        player = characters[0];
+        console.log(player);
+
+        enemy = characters[1];
+        console.log(enemy);
+
+        initiatePlayerSpells(player);
+
+        fighting();
+    });
+
     const fight = new Fight("Testing Fight");
     const logs = fight.fightingLogs;
 
     let action = $state(null);
+
+    async function initiateBattle() {
+        const res = await fetch('/api/battle/');
+
+        const characters = await res.json();
+
+        return characters;
+    };
 
     function determineAction(act, player) {
         for (let key in player.spells) {
@@ -37,12 +63,18 @@
     }
 
     async function fighting() {
+        fight.addLogsLine({
+            text: `Un combat est engagé entre ${player.name} et ${enemy.name} !`,
+            styles: [],
+        });
+
         while (playerIsDead === false && enemyIsDead === false) {
             turn++;
 
             let playerHitChance = fight.calculateCharacterHitChance(
                 player.statistics.speed,
             );
+            
             let enemyHitChance = fight.calculateCharacterHitChance(
                 enemy.statistics.speed,
             );
@@ -128,26 +160,16 @@
         return char.image;
     }
 
-    // affectation des personnages
-    let player = new DeathKnight("Verso");
-
-    let enemy = new Baron("Baron");
-
     // état des personnages
     let playerIsDead = false;
     let enemyIsDead = false;
 
     let turn = $state(0);
     let playerSpellsList = $state([]);
-
-    fight.addLogsLine({
-        text: `Un combat est engagé entre ${player.name} et ${enemy.name} !`,
-        styles: [],
-    });
-
-    initiatePlayerSpells(player);
-    fighting();
 </script>
+
+{#if player}
+    
 
 <section id="left-container">
     <div class="playerHealthbarArea">
@@ -289,3 +311,5 @@
         {/each}
     </div>
 </section>
+
+{/if}
