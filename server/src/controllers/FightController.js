@@ -1,6 +1,6 @@
-class Fight {
+class FightController {
 
-    initiateCharacters(req, res) {
+    static initiateBattle(req, res) {
 
     }
     
@@ -8,11 +8,11 @@ class Fight {
         return Math.floor(Math.random() * speed);
     }
 
-    chooseCharacterHitTurn(req, res) {
+    static chooseCharacterHitTurn(req, res) {
         let objs = req.body;
         console.log(objs)
         res.status(200).json();
     }
 }
 
-export default Fight;
+export default FightController;
