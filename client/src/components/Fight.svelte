@@ -23,10 +23,10 @@
         }
     }
 
-    async function getCharacterHitTurn(playerHitChance, enemyHitChance) {
-        const array = [playerHitChance, enemyHitChance];
+    async function getCharacterHitTurn(player, enemy) {
+        const array = [player, enemy];
 
-        const res = await fetch("/api/toPlay/", {
+        const res = await fetch("/api/battle/turn/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(array),
@@ -52,7 +52,7 @@
             //     enemyHitChance,
             // );
 
-            let toPlay = await getCharacterHitTurn(playerHitChance, enemyHitChance);
+            let toPlay = await getCharacterHitTurn(player, enemy);
 
             fight.reduceCharacterSpellsCooldown(player.spells);
             fight.reduceCharacterSpellsCooldown(enemy.spells);
@@ -127,32 +127,6 @@
     function initiateCharacterImage(char) {
         return char.image;
     }
-
-    async function getCharacter() {
-        const res = await fetch("/api/characters");
-
-        let player = await res.json();
-
-        return player;
-    }
-
-    async function lowerHP(player) {
-        const res = await fetch("/api/characters/hp", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(player),
-        });
-
-        const char = await res.json();
-
-        return char;
-    }
-
-    onMount(async () => {
-        let test = await getCharacter();
-
-        let playerChar = await lowerHP(test);
-    });
 
     // affectation des personnages
     let player = new DeathKnight("Verso");
