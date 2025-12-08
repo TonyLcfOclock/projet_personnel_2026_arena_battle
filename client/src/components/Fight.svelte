@@ -5,36 +5,50 @@
     import Baron from "../assets/scripts/characters/Baron.svelte.js";
     import { onMount } from "svelte";
 
+    // initialisation du combat et des logs du combat en undefined avant récupération des informations
+    let fight = $state(undefined);
+    let logs = $state(undefined);
+
+    // initialisation des personnages en undefined avant récupération des informations
     let player = $state(undefined);
     let enemy = $state(undefined);
+    
+    // initialisation de l'action du joueur en undefined
+    let action = $state(undefined);
 
     onMount( async () => {
-         // affectation des personnages
-        const characters = await initiateBattle();
-        
-        player = characters[0];
-        console.log(player);
+        // le serveur envoit les informations nécessaire au début du combat
+        const battle = await initialiseBattle();
 
-        enemy = characters[1];
-        console.log(enemy);
+        // affectation des personnages
+        player = battle[0];
+        enemy = battle[1];
 
+        // attribution des logs
+        fight = new Fight(battle[2]);
+        logs = fight.fightingLogs;
+
+        // initialisation des sorts du joueur 
         initiatePlayerSpells(player);
 
+        // log de démarrage du combat
+        fight.addLogsLine(battle[3]);
+
+        // démarrage du combat
         fighting();
     });
 
-    const fight = new Fight("Testing Fight");
-    const logs = fight.fightingLogs;
-
-    let action = $state(null);
-
-    async function initiateBattle() {
+    async function initialiseBattle() {
         const res = await fetch('/api/battle/');
 
-        const characters = await res.json();
+        const battle = await res.json();
 
-        return characters;
+        return battle;
     };
+
+    async function initialiseFight() {
+
+    }
 
     function determineAction(act, player) {
         for (let key in player.spells) {
@@ -63,10 +77,6 @@
     }
 
     async function fighting() {
-        fight.addLogsLine({
-            text: `Un combat est engagé entre ${player.name} et ${enemy.name} !`,
-            styles: [],
-        });
 
         while (playerIsDead === false && enemyIsDead === false) {
             turn++;
