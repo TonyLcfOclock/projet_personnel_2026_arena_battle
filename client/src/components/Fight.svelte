@@ -48,26 +48,23 @@
         return battle;
     };
 
-    function determineAction(act, player) {
-        for (let key in player.spells) {
-            if (player.spells[key].currentCooldown > 0) {
-                continue;
-            }
+    async function determineAction(battleId, act, name) {
+        const res = await fetch("/api/battle/determine-player-action", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: battleId, act, name }),
+        });
 
-            if (player.spells[key].name === act) {
-                action = act;
-                return;
-            }
-        }
+        const spell = await res.json();
+
+        action = spell.action;
     }
 
     async function getCharacterHitTurn(battleId) {
-        const id = { id: battleId };
-
         const res = await fetch("/api/battle/turn/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(id),
+            body: JSON.stringify({ id: battleId }),
         });
 
         const toPlay = await res.json();
@@ -113,15 +110,17 @@
                 if (canPlayTurn(player)) {
                     player = await fight.refreshCharacterBuff(battleId, player.name);
 
-                    ({ char: player } = await fight.passivePerTurn(battleId, enemy.name, player.name));
+                    player = await fight.passivePerTurn(battleId, enemy.name, player.name);
 
                     // attente de choix d'une action
-                    while (action === null) {
+                    while (!action) {
                         await Utilities.sleep(50);
                     }
 
                     fight.actionToDo(action, player, enemy, fight);
-                    enemy.perHit(player, enemy, fight);
+
+
+                    // enemy.perHit(player, enemy, fight);
                 }
             } else {
                 let log = [];
@@ -135,16 +134,16 @@
                 if (canPlayTurn(enemy)) {
                     enemy = await fight.refreshCharacterBuff(battleId, enemy.name);
 
-                    ({ char: enemy } = await fight.passivePerTurn(battleId, player.name, enemy.name));
+                    enemy = await fight.passivePerTurn(battleId, player.name, enemy.name);
 
                     let act = fight.randomAction(enemy, player);
-                    
+
                     fight.actionToDo(act, enemy, player, fight);
-                    player.perHit(enemy, player, fight);
+                    // player.perHit(enemy, player, fight);
                 }
             }
 
-            action = null;
+            action = undefined;
 
             if (player.statistics.HP <= 0) {
                 playerIsDead = true;
@@ -257,7 +256,7 @@
                 <div
                     class="spell"
                     onclick={() => {
-                        determineAction(spell.name, player);
+                        determineAction(battleId, spell.name, player.name);
                     }}
                 >
                     <img

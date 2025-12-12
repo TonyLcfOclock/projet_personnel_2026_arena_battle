@@ -90,7 +90,6 @@ class Fight {
         });
 
         const char = await res.json();
-
         return char;
     }
 

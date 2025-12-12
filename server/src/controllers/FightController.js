@@ -99,6 +99,20 @@ class FightController {
 
         res.status(200).json(self);
     }
+
+    determinePlayerAction(req, res) {
+        const { id: battleId, act: spellName, name: playerName} = req.body;
+        let action = undefined;
+
+        const battle = BattleStore.getBattle(battleId);
+
+        const player = Object.values(battle).find(element => element.name === playerName);
+        const spell = player.spells.find(spell => spell.name === spellName);
+
+        action = spell.currentCooldown > 0 ? undefined : spell.name;
+
+        res.status(200).json({action});
+    }
 }
 
 export default new FightController();
