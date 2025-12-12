@@ -1,6 +1,6 @@
 <script>
-    import Fight from "../assets/utils/Fight.svelte.js";
-    import Utilities from "../assets/utils/Utilities.svelte.js";
+    import Fight from "../assets/scripts/utils/Fight.svelte.js";
+    import Utilities from "../assets/scripts/utils/Utilities.svelte.js";
     import { onMount } from "svelte";
 
     // initialisation du combat et des logs du combat en undefined avant récupération des informations
@@ -12,8 +12,18 @@
     let player = $state(undefined);
     let enemy = $state(undefined);
     
+    // état des personnages
+    let playerIsDead = false;
+    let enemyIsDead = false;
+
     // initialisation de l'action du joueur en undefined
     let action = $state(undefined);
+
+    // initialisation des tours du combat
+    let turn = $state(0);
+
+    // initialisation de la liste des sorts du personnage à afficher dans la vue
+    let playerSpellsList = $state([]);
 
     // exécuté au montage du component
     onMount( async () => {
@@ -29,8 +39,8 @@
         battleId = battle.battleId
         logs = fight.fightingLogs;
 
-        // initialisation des sorts du joueur 
-        initiatePlayerSpells(player);
+        // affichage des sorts du joueur dans la vue
+        playerSpellsList = Utilities.initiatePlayerSpells(player);
 
         // log de démarrage du combat
         fight.addLogsLine(battle.log);
@@ -60,29 +70,12 @@
         action = spell.action;
     }
 
-    async function getCharacterHitTurn(battleId) {
-        const res = await fetch("/api/battle/turn/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: battleId }),
-        });
-
-        const toPlay = await res.json();
-        return toPlay;
-    }
-
-    function canPlayTurn(character) {
-        const stunEffect = character.negativeEffects.find(negate => negate.name === "Stun");
-
-        return !stunEffect.state;
-    }
-
     async function fighting() {
 
         while (playerIsDead === false && enemyIsDead === false) {
             turn++;
 
-            let toPlay = await getCharacterHitTurn(battleId);
+            let toPlay = await fight.getCharacterHitTurn(battleId);
 
             player = await fight.reduceCharactersSpellsCooldown(battleId, player.name);
             enemy = await fight.reduceCharactersSpellsCooldown(battleId, enemy.name);
@@ -99,15 +92,17 @@
 
             if (toPlay) {
                 // tour du joueur
+
                 let negateLog = [];
 
+                // affectations par destructuration de la réponse
                 ({ char: player, log: negateLog } = await fight.checkCharacterNegativeEffectStates(battleId, player.name));
 
                 negateLog.forEach(element => {
                     fight.addLogsLine(element);
                 });
 
-                if (canPlayTurn(player)) {
+                if (fight.canPlayTurn(player)) {
                     player = await fight.refreshCharacterBuff(battleId, player.name);
                     player = await fight.passivePerTurn(battleId, enemy.name, player.name);
 
@@ -121,7 +116,6 @@
                     ({ target: enemy, self: player,  log: spellLog} = await fight.actionToDo(battleId, action, enemy.name, player.name));
 
                     fight.addLogsLine(spellLog);
-                    console.log(player)
                     // enemy.perHit(player, enemy, fight);
                 }
             } else {
@@ -133,7 +127,7 @@
                     fight.addLogsLine(element);
                 });
 
-                if (canPlayTurn(enemy)) {
+                if (fight.canPlayTurn(enemy)) {
                     enemy = await fight.refreshCharacterBuff(battleId, enemy.name);
                     enemy = await fight.passivePerTurn(battleId, player.name, enemy.name);
 
@@ -160,26 +154,7 @@
         }
     }
 
-    function initiatePlayerSpells(player) {
-        playerSpellsList = player.spells.map((element) => {
-            return {
-                name: element.name,
-                image: element.image,
-                description: element.description,
-            };
-        });
-    }
-
-    function initiateCharacterImage(char) {
-        return char.image;
-    }
-
-    // état des personnages
-    let playerIsDead = false;
-    let enemyIsDead = false;
-
-    let turn = $state(0);
-    let playerSpellsList = $state([]);
+    
 </script>
 
 {#if player}
@@ -232,8 +207,8 @@
 </section>
 <section id="main-container">
     <div class="char_zone">
-        <img class="player" src={initiateCharacterImage(player)} alt="" />
-        <img class="enemy" src={initiateCharacterImage(enemy)} alt="" />
+        <img class="player" src={Utilities.initiateCharacterImage(player)} alt="" />
+        <img class="enemy" src={Utilities.initiateCharacterImage(enemy)} alt="" />
     </div>
     <div class="fight-info">
         <p>A VOUS DE JOUER</p>

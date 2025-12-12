@@ -5,10 +5,6 @@ class Fight {
         this.fightName = name;
     }
 
-    initialiseCharacters() {
-        
-    }
-
     calculateCharacterHitChance(speed) {
         return Math.floor(Math.random() * speed);
     }

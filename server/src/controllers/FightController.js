@@ -38,6 +38,7 @@ class FightController {
         res.status(200).json(toPlay);
     }
 
+    // méthode d'instance qui réduit les temps de récupérations des sorts des personnages
     reduceCharacterSpellsCooldown(req, res) {
         const { id: battleId, name: charName } = req.body;
 
@@ -50,6 +51,7 @@ class FightController {
         res.status(200).json(char);
     }
 
+    // méthode d'instance qui vérifie les états négatif des personnages
     checkCharacterNegativeEffectStates(req, res) {
         const { id: battleId, name: charName} = req.body
 
@@ -71,6 +73,7 @@ class FightController {
         });
     }
 
+    // méthode d'instance qui vérifie les buffs d'un personnage
     checkCharacterBuffs(req, res) {
         const { id: battleId, name: charName} = req.body
 
@@ -85,6 +88,7 @@ class FightController {
         res.status(200).json(char);
     }
 
+    // méthode d'instance qui utilise les passifs des personnages
     passivePerTurn(req, res) {
         const { id: battleId, targetName, selfName } = req.body;
 
@@ -98,6 +102,7 @@ class FightController {
         res.status(200).json(self);
     }
 
+    // méthode d'instance qui vérifie les conditions d'utilisation des sorts du joueur
     determinePlayerAction(req, res) {
         const { id: battleId, act: spellName, name: playerName} = req.body;
         let action = undefined;
@@ -114,6 +119,7 @@ class FightController {
         res.status(200).json({ action });
     }
 
+    // méthode d'instance qui vérifie les conditions d'utilisation des sorts de l'adversaire
      determineEnemyAction(req, res) {
         const { id: battleId, selfName, targetName} = req.body;
 
@@ -132,6 +138,7 @@ class FightController {
         res.status(200).json({ action });
     }
 
+    // méthode d'instance qui utilise les sorts d'un personnage
     characterUseSpell(req, res) {
         const { id: battleId, actionName: spellName, targetName, selfName } = req.body;
 

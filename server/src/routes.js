@@ -3,6 +3,7 @@ import FightController from './controllers/FightController.js';
 
 const router = Router();
 
+// routes de combat
 router.get('/api/battle/', FightController.initialiseBattle);
 router.post('/api/battle/turn/', FightController.chooseCharacterHitTurn);
 router.post('/api/battle/reduce-character-spells-cd', FightController.reduceCharacterSpellsCooldown);

@@ -25,14 +25,6 @@ class Fight {
         })
     }
 
-    calculateCharacterCriticalChance(criticalChance) {
-        return Math.random() < criticalChance;
-    }
-
-    calculateCharacterDamage(STR, ARM) {
-        return Math.floor((STR * (100 / (100 + ARM))) + Math.random() * (STR / 10));
-    }
-
     async reduceCharactersSpellsCooldown(battleId, name) {
         let obj = { id: battleId, name}
         const res = await fetch('/api/battle/reduce-character-spells-cd', {
@@ -46,17 +38,20 @@ class Fight {
         return char;
     }
 
-    reduceCharacterNegativeEffectDuration(negate) { 
-        if (!negate) return;
+    canPlayTurn(character) {
+        const stunEffect = character.negativeEffects.find(negate => negate.name === "Stun");
+        return !stunEffect.state;
+    }
 
-        negate.duration -= 1;
+    async getCharacterHitTurn(battleId) {
+        const res = await fetch("/api/battle/turn/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: battleId }),
+        });
 
-        if (negate.duration <= 0) {
-            negate.state = false;
-            negate.stacks = 0;
-            negate.damage = 0;
-            return;
-        }
+        const toPlay = await res.json();
+        return toPlay;
     }
 
     async checkCharacterNegativeEffectStates(battleId, name) {
