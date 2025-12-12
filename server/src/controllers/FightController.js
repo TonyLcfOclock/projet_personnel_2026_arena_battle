@@ -1,7 +1,5 @@
 import BattleStore from '../scripts/BattleStore.js';
-import DeathKnight from '../scripts/characters/DeathKnight.js';
-import Baron from '../scripts/characters/Baron.js';
-import Fight from '../scripts/utils/Fight.js';
+import Utilities from '../scripts/utils/Utilities.js';
 
 class FightController {
 
@@ -110,13 +108,31 @@ class FightController {
         const spell = player.spells.find(spell => spell.name === spellName);
 
         action = spell.canUseSpell(player) ? spell.name : undefined;
-        
+
         console.log(`${spell.name} cliqué`);
 
         res.status(200).json({ action });
     }
 
-    playerUseSpell(req, res) {
+     determineEnemyAction(req, res) {
+        const { id: battleId, selfName, targetName} = req.body;
+
+        const battle = BattleStore.getBattle(battleId);
+
+        const self = Object.values(battle).find(element => element.name === selfName);
+        const target = Object.values(battle).find(element => element.name === targetName);
+
+        const availableSpells = self.spells.filter(spell => {
+            return spell.canUseSpell(self, target);
+        })
+
+        const randomIndex = Utilities.getRandomInt(availableSpells.length);
+        let action = availableSpells[randomIndex].name;
+        
+        res.status(200).json({ action });
+    }
+
+    characterUseSpell(req, res) {
         const { id: battleId, actionName: spellName, targetName, selfName } = req.body;
 
         const battle = BattleStore.getBattle(battleId);

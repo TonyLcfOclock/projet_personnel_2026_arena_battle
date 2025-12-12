@@ -96,7 +96,7 @@ class Fight {
     async actionToDo(battleId, actionName, targetName, selfName) {
         if (!actionName) return;
         
-        const res = await fetch('/api/battle/player-use-spell', {
+        const res = await fetch('/api/battle/character-use-spell', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({id: battleId, actionName, targetName, selfName}),
@@ -107,25 +107,17 @@ class Fight {
         return obj;
     }
 
-    randomAction(user, target) {
-        const availableSpells = user.spells.filter(spell => {
-            
-            if (spell.currentCooldown > 0) return false;
+    async randomAction(battleId, selfName, targetName) {
 
-            if (typeof spell.canUseSpell === "function") {
-                return spell.canUseSpell(user, target);
-            }
-
-            return true;
+         const res = await fetch('/api/battle/determine-enemy-action', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({id: battleId, selfName, targetName}),
         });
 
-        if (availableSpells.length === 0) {
-            return null; 
-        }
+        const action = await res.json();
 
-        const randomIndex = Utilities.getRandomInt(availableSpells.length);
-
-        return availableSpells[randomIndex].name;
+        return action;
     }
 }
 

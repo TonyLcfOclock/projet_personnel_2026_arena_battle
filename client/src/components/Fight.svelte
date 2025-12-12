@@ -99,17 +99,16 @@
 
             if (toPlay) {
                 // tour du joueur
-                let log = [];
+                let negateLog = [];
 
-                ({ char: player, log } = await fight.checkCharacterNegativeEffectStates(battleId, player.name));
+                ({ char: player, log: negateLog } = await fight.checkCharacterNegativeEffectStates(battleId, player.name));
 
-                log.forEach(element => {
+                negateLog.forEach(element => {
                     fight.addLogsLine(element);
                 });
 
                 if (canPlayTurn(player)) {
                     player = await fight.refreshCharacterBuff(battleId, player.name);
-
                     player = await fight.passivePerTurn(battleId, enemy.name, player.name);
 
                     // attente de choix d'une action
@@ -126,29 +125,31 @@
                     // enemy.perHit(player, enemy, fight);
                 }
             } else {
-                let log = [];
+                let negateLog = [];
 
-                ({ char: enemy, log } = await fight.checkCharacterNegativeEffectStates(battleId, enemy.name));
+                ({ char: enemy, log: negateLog } = await fight.checkCharacterNegativeEffectStates(battleId, enemy.name));
                 
-                log.forEach(element => {
+                negateLog.forEach(element => {
                     fight.addLogsLine(element);
                 });
 
                 if (canPlayTurn(enemy)) {
                     enemy = await fight.refreshCharacterBuff(battleId, enemy.name);
-
                     enemy = await fight.passivePerTurn(battleId, player.name, enemy.name);
 
-                    let act = fight.randomAction(enemy, player);
+                    let act;
+                    ({ action: act } = await fight.randomAction(battleId, enemy.name, player.name));
 
-                    fight.actionToDo(act, enemy, player, fight);
+                    let spellLog;
+                    ({ target: player, self: enemy,  log: spellLog} = await fight.actionToDo(battleId, act, player.name, enemy.name));
+                    
+                    fight.addLogsLine(spellLog);
                     // player.perHit(enemy, player, fight);
                 }
             }
 
             action = undefined;
 
-            console.log(player)
             if (player.statistics.HP <= 0) {
                 playerIsDead = true;
                 return;
