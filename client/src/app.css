@@ -185,7 +185,8 @@ main {
 .utilities {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+    gap: 5rem;
 }
 
 .logs {

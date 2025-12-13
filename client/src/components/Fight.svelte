@@ -306,24 +306,6 @@
             </div>
         </section>
         <section class="utilities">
-            <div class="logs">
-                <div class="title">
-                    <p>Journaux de combat</p>
-                </div>
-                <div class="text">
-                    {#each logs as line}
-                        <p>
-                            {#each fight.buildLogsText(line) as word}
-                                {#if word.style}
-                                    <span style={word.style}>{word.text}</span>
-                                {:else}
-                                    {word.text}
-                                {/if}
-                            {/each}
-                        </p>
-                    {/each}
-                </div>
-            </div>
 
             <div class="spells">
                 <div class="title">
@@ -358,6 +340,25 @@
                         </div>
                     </div>
                 {/each}
+            </div>
+
+            <div class="logs">
+                <div class="title">
+                    <p>Journaux de combat</p>
+                </div>
+                <div class="text">
+                    {#each logs as line}
+                        <p>
+                            {#each fight.buildLogsText(line) as word}
+                                {#if word.style}
+                                    <span style={word.style}>{word.text}</span>
+                                {:else}
+                                    {word.text}
+                                {/if}
+                            {/each}
+                        </p>
+                    {/each}
+                </div>
             </div>
         </section>
         <section class="menu">
