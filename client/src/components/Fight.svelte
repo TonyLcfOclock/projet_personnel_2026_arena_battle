@@ -22,6 +22,9 @@
     // initialisation des tours du combat
     let turn = $state(0);
 
+    // initialisation du personnage qui joue un tour
+    let playTurn = $state(undefined);
+
     // initialisation de la liste des sorts du personnage à afficher dans la vue
     let playerSpellsList = $state([]);
 
@@ -98,6 +101,8 @@
             if (toPlay) {
                 // tour du joueur
 
+                playTurn = player.name;
+
                 let negateLog = [];
 
                 // affectations par destructuration de la réponse
@@ -144,6 +149,8 @@
                     // enemy.perHit(player, enemy, fight);
                 }
             } else {
+                playTurn = enemy.name;
+
                 let negateLog = [];
 
                 ({ char: enemy, log: negateLog } =
@@ -192,6 +199,7 @@
             }
 
             action = undefined;
+            playTurn = undefined;
 
             if (player.statistics.HP <= 0) {
                 playerIsDead = true;
@@ -209,7 +217,7 @@
         <section class="characters-hp-stats">
             <div class="player">
                 <div class="player-name-class">
-                    <p>Player</p>
+                    <p>{ player.name }</p>
                     <p>Class</p>
                 </div>
 
@@ -243,12 +251,14 @@
             </div>
 
             <div class="playing-turn">
+                {#if playTurn === player.name}
                 <p>A VOUS DE JOUER</p>
+                {/if}
             </div>
 
             <div class="enemy">
                 <div class="enemy-name-class">
-                    <p>Enemy</p>
+                    <p>{ enemy.name }</p>
                     <p>Class</p>
                 </div>
 
@@ -352,8 +362,15 @@
         </section>
         <section class="menu">
             <div class="info">
-                <p>Au tour de Player</p>
-                <p>Turn 15</p>
+                {#if playTurn === player.name}
+                <p>Au tour de {player.name}</p>
+                {:else if playTurn === enemy.name}
+                <p>Au tour de {enemy.name}</p>
+                {:else}
+                <p>En attente du combat...</p>
+                {/if}
+                
+                <p>Turn {turn}</p>
             </div>
         </section>
     </main>
