@@ -265,8 +265,8 @@
                 <div class="enemy-bars">
                     <div class="health">
                         <div class="health-text">
+                            <p class="hp">HP</p>
                             <p>{`${enemy.statistics.HP <= 0 ? 0 : enemy.statistics.HP} / ${enemy.statistics.maxHP}`}</p>
-                            <p>HP</p>
                         </div>
                         <div class="healthbar">
                             <div style={`width: ${enemy.statistics.HP <= 0 ? 0 : (enemy.statistics.HP * 100) / enemy.statistics.maxHP}%`} class="health-fill"></div>
@@ -314,6 +314,10 @@
                 {#each playerSpellsList as spell}
                     <div
                         class="spell"
+                        class:is-cooldown={Utilities.checkSpellIsOnCooldown(
+                            spell,
+                            player.spells,
+                        )}
                         onclick={() => {
                             determineAction(battleId, spell.name, player.name);
                         }}
