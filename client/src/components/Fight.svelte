@@ -238,8 +238,8 @@
                     <p><span>STR</span> {`${player.statistics.STR}`}</p>
                     <p><span>ARM</span> {`${player.statistics.ARM}`}</p>
                     <p><span>SPEED</span> {`${player.statistics.speed}`}</p>
-                    <p><span>CRIT %</span> {`${player.statistics.CritChance}`}</p>
-                    <p><span>CRIT DMG%</span> {`${player.statistics.CritDamage}`}</p>
+                    <p><span>CRIT %</span> {`${Math.round(player.statistics.CritChance.toFixed(1) * 100)}`}</p>
+                    <p><span>CRIT DMG%</span> {`${Math.round(player.statistics.CritDamage.toFixed(1) * 100)}`}</p>
                 </div>
                 <div class="passives">
                     <p>Passive</p>
@@ -278,8 +278,8 @@
                     <p><span>STR</span> {`${enemy.statistics.STR}`}</p>
                     <p><span>ARM</span> {`${enemy.statistics.ARM}`}</p>
                     <p><span>SPEED</span> {`${enemy.statistics.speed}`}</p>
-                    <p><span>CRIT %</span> {`${enemy.statistics.CritChance}`}</p>
-                    <p><span>CRIT DMG%</span> {`${enemy.statistics.CritDamage}`}</p>
+                    <p><span>CRIT %</span> {`${Math.round(enemy.statistics.CritChance.toFixed(1) * 100)}`}</p>
+                    <p><span>CRIT DMG%</span> {`${Math.round(enemy.statistics.CritDamage.toFixed(1) * 100)}`}</p>
                 </div>
                 <div class="passives">
                     <p>Passive</p>
