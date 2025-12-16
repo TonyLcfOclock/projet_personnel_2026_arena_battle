@@ -5,7 +5,7 @@ import SelectionController from "./controllers/SelectionController.js";
 const router = Router();
 
 //routes de séléction de personnage
-router.get('/api/init', selectionController.initialiseCharacters);
+router.get('/api/init', SelectionController.initialiseCharacters);
 
 // routes de combat
 router.get('/api/battle/', FightController.initialiseBattle);

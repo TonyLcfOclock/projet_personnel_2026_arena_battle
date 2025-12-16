@@ -10,10 +10,11 @@
     let enemyHalfW = $state(undefined);
     let enemyHalfH = $state(undefined);
 
-    const characters = $state([]);
+    let characters = $state(undefined);
 
     onMount(async () => {
-        
+        characters = await Utilities.initiateCharacters();
+        console.log(characters)
     }); 
 </script>
 
@@ -110,7 +111,13 @@
                 <div class="title">
                     <p>Sélection du joueur</p>
                 </div>
-                <div class="list-body player-selection"></div>
+                <div class="list-body player-selection">
+                    {#each characters as character}
+                        <div class="character">
+                            <img style="width: 5rem; height: 5rem;" src="{character.avatar}" alt="">
+                        </div>
+                    {/each}
+                </div>
             </div>
 
             <div class="list-panel">

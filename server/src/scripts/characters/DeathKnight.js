@@ -22,7 +22,7 @@ class DeathKnight extends Characters {
             className: "DeathKnight",
             typeName: "Human",
             image: "./src/assets/art/characters/humans/classes/death_knight/death_knight1.png",
-            avatar: "",
+            avatar: "./src/assets/art/characters/humans/classes/death_knight/avatars/deathknight_avatar.png",
             statistics: {
                 HP: 800,
                 maxHP: 800,
