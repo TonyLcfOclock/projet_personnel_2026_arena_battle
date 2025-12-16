@@ -23,6 +23,7 @@ class DeathKnight extends Characters {
             typeName: "Human",
             image: "./src/assets/art/characters/humans/classes/death_knight/death_knight1.png",
             avatar: "./src/assets/art/characters/humans/classes/death_knight/avatars/deathknight_avatar.png",
+            description: "Deathknight is a powerfull class using stats scaling based on collected souls",
             statistics: {
                 HP: 800,
                 maxHP: 800,

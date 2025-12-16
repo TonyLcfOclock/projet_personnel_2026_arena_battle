@@ -11,11 +11,18 @@
     let enemyHalfH = $state(undefined);
 
     let characters = $state(undefined);
+    let selected = $state(undefined);
+    let player = $state(undefined);
 
     onMount(async () => {
         characters = await Utilities.initiateCharacters();
-        console.log(characters)
     }); 
+
+    function selectPlayerCharacter(character) {
+        selected = (selected === character.className) ? undefined : character.className;
+
+        player = character;
+    }
 </script>
 
 <main class="character-selection">
@@ -50,18 +57,18 @@
                             required
                         />
 
-                        <h2>Class Name</h2>
+                        <h2>{player ? player.className : ""}</h2>
                         <p class="description">
-                            Grosse description du personnage et de sa manière d'être jouée.
+                            {player ? player.description : ""}
                         </p>
 
                         <div class="statistics" aria-label="Statistiques du joueur">
-                            <p><span>HP</span> 999</p>
-                            <p><span>STR</span> 999</p>
-                            <p><span>ARM</span> 999</p>
-                            <p><span>SPEED</span> 999</p>
-                            <p><span>CRIT %</span> 999</p>
-                            <p><span>CRIT DMG%</span> 999</p>
+                            <p><span>HP</span> {player ? player.statistics.HP : "0"}</p>
+                            <p><span>STR</span> {player ? player.statistics.STR : "0"}</p>
+                            <p><span>ARM</span> {player ? player.statistics.ARM : "0"}</p>
+                            <p><span>SPEED</span> {player ? player.statistics.speed : "0"}</p>
+                            <p><span>CRIT %</span> {player ? player.statistics.CritChance : "0"}</p>
+                            <p><span>CRIT DMG%</span> {player ? player.statistics.CritDamage : "0"}</p>
                         </div>
                     </div>
                 </div>
@@ -113,7 +120,7 @@
                 </div>
                 <div class="list-body player-selection">
                     {#each characters as character}
-                        <div class="character">
+                        <div class="character" class:character-active={selected === character.className} id="player-{character.className}" on:click={() => selectPlayerCharacter(character)}>
                             <img style="width: 5rem; height: 5rem;" src="{character.avatar}" alt="">
                         </div>
                     {/each}
@@ -124,7 +131,13 @@
                 <div class="title">
                     <p>Sélection de l'adversaire</p>
                 </div>
-                  <div class="list-body enemy-selection"></div>
+                  <div class="list-body enemy-selection">
+                    {#each characters as character}
+                        <div class="character">
+                            <img style="width: 5rem; height: 5rem;" src="{character.avatar}" alt="">
+                        </div>
+                    {/each}
+                  </div>
           </div>
         </section>
 
@@ -318,13 +331,20 @@
         margin-bottom: 0.75rem;
     }
 
-    .enemy-selection {
-        min-height: 6rem;
-        border-radius: 0.9rem;
-        border: 1px dashed rgba(255, 255, 255, 0.12);
-        background: rgba(255, 255, 255, 0.03);
-        opacity: 0.4;
-        pointer-events: none;
+    .player-selection, .enemy-selection {
+        display: flex;
+        gap: 1rem;
+        overflow: auto;
+    }
+
+    .character {
+        height: 5.1rem;
+        width: 5.1rem;
+        border: 1px solid #a5a8a9;
+    }
+
+    .character-active {
+        border: 1px solid #dd4d4d !important;
     }
 
     .list-panel .title {

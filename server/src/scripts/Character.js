@@ -4,6 +4,7 @@ class Characters {
         this.className = data.className;
         this.typeName = data.typeName; // Résistances à l'avenir ?
         this.image = data.image;
+        this.description = data.description;
         this.avatar = data.avatar;
         this.statistics = data.statistics || {};
         this.selfAttributes = data.selfAttributes || {};
