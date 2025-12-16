@@ -1,6 +1,10 @@
 class Utilities {
     static sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
+    static initiateCharacters() {
+        const res = await fetch('/api/init')
+    }
+
     static initiatePlayerSpells(player) {
         let playerSpellsList = player.spells.map((element) => {
             return {

@@ -1,7 +1,11 @@
 import { Router } from "express";
 import FightController from './controllers/FightController.js';
+import SelectionController from "./controllers/SelectionController.js";
 
 const router = Router();
+
+//routes de séléction de personnage
+router.get('/api/init', selectionController.initialiseCharacters);
 
 // routes de combat
 router.get('/api/battle/', FightController.initialiseBattle);

@@ -1,11 +1,20 @@
 <script>
+    import { onMount } from "svelte";
+    import Utilities from "../assets/scripts/utils/Utilities.svelte.js";
+
     let charImg;
-    let charHalfW;
-    let charHalfH;
+    let charHalfW = $state(undefined);
+    let charHalfH = $state(undefined);
 
     let enemyImg;
-    let enemyHalfW;
-    let enemyHalfH;
+    let enemyHalfW = $state(undefined);
+    let enemyHalfH = $state(undefined);
+
+    const characters = $state([]);
+
+    onMount(async () => {
+        
+    }); 
 </script>
 
 <main class="character-selection">
