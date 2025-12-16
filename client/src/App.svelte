@@ -4,15 +4,16 @@
     import Game from './assets/scripts/utils/Game.svelte';
     import CharacterSelection from './components/CharacterSelection.svelte';
     let gameState = $state(Game.state);
+    let id = $state(undefined);
 </script>
 
 
 {#if gameState === "fight"}
-    <Fight/>
+    <Fight bind:id gameState/>
 {/if}
 
 {#if gameState === "character-selection"}
-    <CharacterSelection/>
+    <CharacterSelection bind:id gameState/>
 {/if}
 
 {#if gameState === "open-world"}

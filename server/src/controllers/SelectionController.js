@@ -9,6 +9,12 @@ class SelectionController {
 
         return res.status(200).json(characters);
     }
+
+    getCharacterSelected(req, res) {
+        const { player, enemy } = req.body;
+
+        
+    }
 }
 
 export default new SelectionController();

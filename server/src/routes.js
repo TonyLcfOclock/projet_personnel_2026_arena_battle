@@ -6,6 +6,7 @@ const router = Router();
 
 //routes de séléction de personnage
 router.get('/api/init', SelectionController.initialiseCharacters);
+router.post('/api/init', SelectionController.getCharacterSelected);
 
 // routes de combat
 router.get('/api/battle/', FightController.initialiseBattle);

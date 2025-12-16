@@ -3,6 +3,8 @@
     import Utilities from "../assets/scripts/utils/Utilities.svelte.js";
     import { onMount } from "svelte";
 
+    let { gameState = $bindable(), id = $bindable() } = $props();
+
     // initialisation du combat et des logs du combat en undefined avant récupération des informations
     let fight = $state(undefined);
     let battleId = $state(undefined);

@@ -2,6 +2,8 @@
     import { onMount } from "svelte";
     import Utilities from "../assets/scripts/utils/Utilities.svelte.js";
 
+    let { gameState = $bindable(), id = $bindable() } = $props();
+    
     let charImg;
     let charHalfW = $state(undefined);
     let charHalfH = $state(undefined);
@@ -33,6 +35,19 @@
 
         enemy = selectedEnemy ? character : undefined;
     }
+
+    async function sendForm(e) {
+        e.preventDefault();
+
+        if (!player || !enemy) return;
+
+        const res = await fetch('/api/battle/reduce-character-spells-cd', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ player, enemy }),
+        });
+
+    }
 </script>
 
 <main class="character-selection">
@@ -44,7 +59,7 @@
         </p>
     </header>
 
-    <form class="selection-form" method="POST">
+    <form class="selection-form" method="POST" on:submit={(e) => {sendForm(e)}}>
         <section class="characters-infos" aria-label="Aperçu des combattants">
             <div class="panel">
                 <div class="panel-header">
@@ -111,12 +126,12 @@
                         </p>
 
                         <div class="statistics" aria-label="Statistiques de l'adversaire">
-                            <p><span>HP</span> {enemy ? enemy.statistics.HP : ""}</p>
-                            <p><span>STR</span> {enemy ? enemy.statistics.STR : ""}</p>
-                            <p><span>ARM</span> {enemy ? enemy.statistics.ARM : ""}</p>
-                            <p><span>SPEED</span> {enemy ? enemy.statistics.speed : ""}</p>
-                            <p><span>CRIT %</span> {enemy ? enemy.statistics.CritChance : ""}</p>
-                            <p><span>CRIT DMG%</span> {enemy ? enemy.statistics.CritDamage : ""}</p>
+                            <p><span>HP</span> {enemy ? enemy.statistics.HP : "0"}</p>
+                            <p><span>STR</span> {enemy ? enemy.statistics.STR : "0"}</p>
+                            <p><span>ARM</span> {enemy ? enemy.statistics.ARM : "0"}</p>
+                            <p><span>SPEED</span> {enemy ? enemy.statistics.speed : "0"}</p>
+                            <p><span>CRIT %</span> {enemy ? enemy.statistics.CritChance : "0"}</p>
+                            <p><span>CRIT DMG%</span> {enemy ? enemy.statistics.CritDamage : "0"}</p>
                         </div>
                     </div>
                 </div>
@@ -348,8 +363,8 @@
     }
 
     .character {
-        height: 5.1rem;
-        width: 5.1rem;
+        height: 5.2rem;
+        width: 5.2rem;
         border: 1px solid #a5a8a9;
     }
 
