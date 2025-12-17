@@ -1,19 +1,47 @@
 import Utilities from '../scripts/utils/Utilities.js';
 import DeathKnight from '../scripts/characters/DeathKnight.js';
 import Baron from '../scripts/characters/Baron.js';
+import BattleStore from '../scripts/BattleStore.js';
 
 class SelectionController {
 
     initialiseCharacters(_req, res) {
-        const characters = [new DeathKnight("Deathknight"), new Baron("Baron")];
+        const characters = [new DeathKnight("DeathKnight"), new Baron("Baron")];
 
         return res.status(200).json(characters);
     }
 
-    getCharacterSelected(req, res) {
-        const { player, enemy } = req.body;
+    // méthode d'instance qui initialise un combat en utilisant BattleStore
+    initialiseBattle(req, res) {
+        const { playerClass, playerName, enemyClass, enemyName } = req.body;
 
-        
+        let playerCharacter;
+        let enemyCharacter;
+
+        switch(playerClass) {
+            case "DeathKnight":
+                playerCharacter = new DeathKnight(playerName);
+                break;
+            case "Baron":
+                playerCharacter = new Baron(playerName);
+                break;
+        }
+
+        switch(enemyClass) {
+            case "DeathKnight":
+                enemyCharacter = new DeathKnight(enemyName);
+                break;
+            case "Baron":
+                enemyCharacter = new Baron(enemyName);
+                break;
+        }
+
+        const battle = BattleStore.createBattle(playerCharacter, enemyCharacter);
+        const { id } = battle;
+
+        res.status(200).json({
+            battleId: id,
+        });
     }
 }
 

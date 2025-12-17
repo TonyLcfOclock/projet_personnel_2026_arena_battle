@@ -9,13 +9,13 @@
 
 
 {#if gameState === "fight"}
-    <Fight bind:id gameState/>
+    <Fight bind:id bind:gameState/>
 {/if}
 
 {#if gameState === "character-selection"}
-    <CharacterSelection bind:id gameState/>
+    <CharacterSelection bind:id bind:gameState/>
 {/if}
 
-{#if gameState === "open-world"}
+<!-- {#if gameState === "open-world"}
     <OpenWorld bind:gameState/>
-{/if}
+{/if} -->

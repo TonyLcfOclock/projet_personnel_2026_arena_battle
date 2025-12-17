@@ -1,16 +1,14 @@
-import DeathKnight from './characters/DeathKnight.js';
-import Baron from './characters/Baron.js';
 import Fight from './utils/Fight.js';
 import crypto from 'crypto';
 
 class BattleStore {
     battles = new Map();
 
-    createBattle() {
+    createBattle(playerCharacter, enemyCharacter) {
         const id = crypto.randomUUID();
 
-        const player = new DeathKnight('Verso');
-        const enemy = new Baron('Baron');
+        const player = playerCharacter;
+        const enemy = enemyCharacter
         const fight = new Fight('Test Fight');
 
         this.battles.set(id, { id, player, enemy, fight});

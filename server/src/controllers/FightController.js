@@ -3,9 +3,11 @@ import Utilities from '../scripts/utils/Utilities.js';
 
 class FightController {
 
-    // méthode d'instance qui initialise un combat en utilisant BattleStore
-    initialiseBattle(_req, res) {
-        const battle = BattleStore.createBattle();
+    // méthode d'instance qui démarre un combat en utilisant BattleStore
+    startBattle(req, res) {
+        const { battleId } = req.body;
+
+        const battle = BattleStore.getBattle(battleId);
         const { id, player, enemy, fight } = battle;
 
         const log = {

@@ -7,7 +7,7 @@
 
     // initialisation du combat et des logs du combat en undefined avant récupération des informations
     let fight = $state(undefined);
-    let battleId = $state(undefined);
+    let battleId = $state(id);
     let logs = $state(undefined);
 
     // initialisation des personnages en undefined avant récupération des informations
@@ -33,7 +33,7 @@
     // exécuté au montage du component
     onMount(async () => {
         // le serveur envoit les informations nécessaire au début du combat
-        const battle = await initialiseBattle();
+        const battle = await startBattle();
 
         // affectation des personnages
         player = battle.player;
@@ -51,9 +51,13 @@
         fighting();
     });
 
-    async function initialiseBattle() {
+    async function startBattle() {
         // demande au serveur les informations du combat
-        const res = await fetch("/api/battle/");
+        const res = await fetch("/api/battle/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ battleId }),
+        });
 
         const battle = await res.json();
 
@@ -297,11 +301,12 @@
             <div class="fight-zone">
                 <div class="characters">
                     <img
-                        src="./src/assets/art/characters/humans/classes/death_knight/death_knight1.png"
+                        src={ player.image }
                         alt=""
                     />
                     <img
-                        src="./src/assets/art/characters/monsters/boss/baron.png"
+                        style="transform: scaleX(-1);"
+                        src={ enemy.image }
                         alt=""
                     />
                 </div>

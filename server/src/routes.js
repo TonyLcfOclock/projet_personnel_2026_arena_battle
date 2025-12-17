@@ -6,10 +6,10 @@ const router = Router();
 
 //routes de séléction de personnage
 router.get('/api/init', SelectionController.initialiseCharacters);
-router.post('/api/init', SelectionController.getCharacterSelected);
+router.post('/api/initialiseBattle', SelectionController.initialiseBattle);
 
 // routes de combat
-router.get('/api/battle/', FightController.initialiseBattle);
+router.post('/api/battle/', FightController.startBattle);
 router.post('/api/battle/turn/', FightController.chooseCharacterHitTurn);
 router.post('/api/battle/reduce-character-spells-cd', FightController.reduceCharacterSpellsCooldown);
 router.post('/api/battle/check-character-negative-effect', FightController.checkCharacterNegativeEffectStates);

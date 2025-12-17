@@ -41,12 +41,30 @@
 
         if (!player || !enemy) return;
 
-        const res = await fetch('/api/battle/reduce-character-spells-cd', {
+        // @ts-ignore
+        const name = document.getElementById('player-name').value;
+
+        player.name = name;
+
+        const res = await fetch('/api/initialiseBattle', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ player, enemy }),
+            body: JSON.stringify({
+                playerClass: player.className,
+                playerName: player.name,
+                enemyClass: enemy.className,
+                enemyName: enemy.name
+            }),
         });
 
+        const { battleId } = await res.json();
+        console.log(battleId)
+        console.log(gameState)
+
+        id = battleId;
+        gameState = "fight";
+
+        console.log(gameState);
     }
 </script>
 
