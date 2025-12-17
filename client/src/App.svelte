@@ -16,6 +16,6 @@
     <CharacterSelection bind:id bind:gameState/>
 {/if}
 
-<!-- {#if gameState === "open-world"}
+{#if gameState === "open-world"}
     <OpenWorld bind:gameState/>
-{/if} -->
+{/if}
