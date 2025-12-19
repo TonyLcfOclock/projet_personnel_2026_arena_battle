@@ -25,7 +25,6 @@
     }); 
 
     function selectPlayerCharacter(character) {
-        console.log(character)
         selectedPlayer = (selectedPlayer === character.className) ? undefined : character.className;
 
         player = selectedPlayer ? JSON.parse(JSON.stringify(character)) : undefined;
@@ -59,13 +58,9 @@
         });
 
         const { battleId } = await res.json();
-        console.log(battleId)
-        console.log(gameState)
-
+        
         id = battleId;
         gameState = "fight";
-
-        console.log(gameState);
     }
 </script>
 

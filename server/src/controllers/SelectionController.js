@@ -1,7 +1,8 @@
-import Utilities from '../scripts/utils/Utilities.js';
+import BattleStore from '../scripts/BattleStore.js';
+
+//import des personnages
 import DeathKnight from '../scripts/characters/DeathKnight.js';
 import Baron from '../scripts/characters/Baron.js';
-import BattleStore from '../scripts/BattleStore.js';
 
 class SelectionController {
 

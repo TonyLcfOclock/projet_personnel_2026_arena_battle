@@ -1,19 +1,27 @@
+import Characters from "../Character.js";
+
+//import des buffs du personnages
 import CounterStrike from "../buffs/CounterStrike.js";
 import HighSpeed from "../buffs/HighSpeed.js";
-import Characters from "../Character.js";
+
+//import des passifs du personnage
+import CounterStrikePassive from "../passives/CounterStrikePassive.js";
+import SoulsScalingPassive from "../passives/SoulsScalingPassive.js";
+
+//import des sorts du personnage
+import Overpower from "../spells/Overpower.js";
+import PhantomBacklash from "../spells/PhantomBacklash.js";
+import PiercingStrike from "../spells/PiercingStrike.js";
+import SoulHarvest from "../spells/SoulHarvest.js";
+import SpectralStrike from "../spells/SpectralStrike.js";
+
+//import des états négatifs du personnage
 import Bleed from "../negativesEffects/Bleed.js";
 import Burn from "../negativesEffects/Burn.js";
 import Freeze from "../negativesEffects/Freeze.js";
 import Poison from "../negativesEffects/Poison.js";
 import Slow from "../negativesEffects/Slow.js";
 import Stun from "../negativesEffects/Stun.js";
-import CounterStrikePassive from "../passives/CounterStrikePassive.js";
-import SoulsScalingPassive from "../passives/SoulsScalingPassive.js";
-import Overpower from "../spells/Overpower.js";
-import PhantomBacklash from "../spells/PhantomBacklash.js";
-import PiercingStrike from "../spells/PiercingStrike.js";
-import SoulHarvest from "../spells/SoulHarvest.js";
-import SpectralStrike from "../spells/SpectralStrike.js";
 
 class DeathKnight extends Characters {
     constructor(name) {
