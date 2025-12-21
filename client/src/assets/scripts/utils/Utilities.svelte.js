@@ -24,7 +24,13 @@ class Utilities {
     static initiatePassives(character) {
         let passives = character.passives.filter(element => element.display === true);
 
-        return passives
+        return passives;
+    }
+
+    static initiateBuffs(character) {
+        let buffs = character.buffs.filter(element => element.state === true);
+
+        return buffs;
     }
 
     static initiateCharacterImage(char) {
