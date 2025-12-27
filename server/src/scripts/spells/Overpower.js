@@ -7,7 +7,7 @@ class Overpower extends Spell {
             image: "/images/characters/humans/classes/death_knight/spells_icons/overpower.png",
             description: "+30% bonus speed and +30% bonus attack damage",
             castChance: 0.4,
-            cooldown: 4,
+            cooldown: 6,
             currentCooldown: 0,
             damageType: 'none',
             type: 'self'
