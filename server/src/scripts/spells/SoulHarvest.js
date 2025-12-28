@@ -43,12 +43,12 @@ class SoulHarvest extends Spell {
 
         if (damageEffect.damage > 0) {
             const spellLog = {
-                text: `${self.name} utilise Soul Harvest, inflige ${damage} points de dégats et se soigne de ${healing} points de vie`,
+                text: `${self.name} utilise Soul Harvest, inflige ${damageEffect.damage} points de dégats et se soigne de ${healing} points de vie`,
                 styles:
                     [
                         { word: `Soul`, color: 'grey' },
                         { word: `Harvest`, color: 'grey' },
-                        { word: `${damage}`, color: 'orange' },
+                        { word: `${damageEffect.damage}`, color: 'orange' },
                         { word: `${healing}`, color: 'green' }
                     ]
             };

@@ -267,7 +267,7 @@
                         {#if passive.display}
                             <div class="passive">
                                 <div class="passive-info">{passive.description}</div>
-                                <p>{passive.name}</p>
+                                <p>{passive.stacks > 0 ? `${passive.name}: ${passive.stacks}` : `${passive.name}`}</p>
                             </div>
                         {/if}
                     {/each}

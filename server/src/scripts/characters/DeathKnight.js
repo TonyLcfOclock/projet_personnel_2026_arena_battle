@@ -41,9 +41,6 @@ class DeathKnight extends Characters {
                 CritChance: 0.2,
                 CritDamage: 1.5
             },
-            selfAttributes: {
-                Souls: 0,
-            },
             passives: [new SoulsScalingPassive(), new CounterStrikePassive()],
             buffs: [new CounterStrike(), new HighSpeed()],
             negativeEffects: [new Bleed(), new Burn(), new Freeze(), new Poison(), new Slow(), new Stun()],

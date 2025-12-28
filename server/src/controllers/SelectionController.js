@@ -3,11 +3,16 @@ import BattleStore from '../scripts/BattleStore.js';
 //import des personnages
 import DeathKnight from '../scripts/characters/DeathKnight.js';
 import Baron from '../scripts/characters/Baron.js';
+import DimensionalDevourer from '../scripts/characters/DimensionalDevourer.js';
 
 class SelectionController {
 
     initialiseCharacters(_req, res) {
-        const characters = [new DeathKnight("DeathKnight"), new Baron("Baron")];
+        const characters = [
+            new DeathKnight("DeathKnight"),
+            new Baron("Baron"),
+            new DimensionalDevourer("Dimensional Devourer")
+        ];
 
         return res.status(200).json(characters);
     }
@@ -26,6 +31,9 @@ class SelectionController {
             case "Baron":
                 playerCharacter = new Baron(playerName);
                 break;
+            case "Dimensional Devourer":
+                playerCharacter = new DimensionalDevourer(playerName);
+                break;
         }
 
         switch(enemyClass) {
@@ -34,6 +42,9 @@ class SelectionController {
                 break;
             case "Baron":
                 enemyCharacter = new Baron(enemyName);
+                break;
+            case "Dimensional Devourer":
+                enemyCharacter = new DimensionalDevourer(enemyName);
                 break;
         }
 

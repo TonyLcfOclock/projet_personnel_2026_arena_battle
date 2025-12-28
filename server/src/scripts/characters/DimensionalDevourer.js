@@ -1,12 +1,11 @@
 import Characters from "../Character.js";
 
-//import des sorts du personnage
-import ProfaneRake from "../spells/ProfaneRake.js";
-import SanguineBite from "../spells/SanguineBite.js";
-import sanguineOffering from "../spells/SanguineOffering.js";
-import Exsanguinate from "../spells/Exsanguinate.js";
+// import des passifs du personnage
+import RiftChargePassive from "../passives/RiftChargePassive.js";
 
-//import des états négatifs du personnage
+// import des sorts du personnage
+
+// import des états négatifs du personnage
 import Bleed from "../negativesEffects/Bleed.js";
 import Burn from "../negativesEffects/Burn.js";
 import Freeze from "../negativesEffects/Freeze.js";
@@ -15,28 +14,29 @@ import Slow from "../negativesEffects/Slow.js";
 import Stun from "../negativesEffects/Stun.js";
 
 
-class Baron extends Characters {
+
+class DimensionalDevourer extends Characters {
     constructor(name) {
         const charData = {
             name: name,
-            className: "Baron",
+            className: "Dimensional Devourer",
             typeName: "Monster",
-            image: "/images/characters/monsters/boss/baron/baron.png",
-            description: "Baron is a strong boss using powerfull strikes and bleedings",
-            avatar: "/images/characters/monsters/boss/baron/avatars/baron_avatar.png",
+            image: "/images/characters/monsters/boss/dimensional_devourer/dimensional_devourer.png",
+            description: "An apex aberration that tears reality, steals tempo, and banishes targets between dimensions. Its powers weaken when Anchored.",
+            avatar: "/images/characters/monsters/boss/dimensional_devourer/avatars/dimensional_devourer.png",
             statistics: {
-                HP: 4500,
-                maxHP: 4500,
-                STR: 240,
-                ARM: 50,
-                speed: 30,
+                HP: 2400,
+                maxHP: 2400,
+                STR: 220,
+                ARM: 85,
+                speed: 62,
                 CritChance: 0.2,
-                CritDamage: 1.5
+                CritDamage: 1.8
             },
-            passives: [],
+            passives: [new RiftChargePassive()],
             buffs: [],
             negativeEffects: [new Bleed(), new Burn(), new Freeze(), new Poison(), new Slow(), new Stun()],
-            spells: [new ProfaneRake(), new SanguineBite(), new sanguineOffering(), new Exsanguinate()],
+            spells: [],
         };
 
         super(charData);
@@ -51,6 +51,12 @@ class Baron extends Characters {
     perHit(target, self, battle, damage) {
         const log = [];
 
+        const rift = this.passives.find(element => element.name === 'Rift Charge');
+
+        if (rift) {
+            damage = damage - ((damage * rift.stacks) / 100)
+        }
+        
         this.statistics.HP -= damage;
 
         this.passives.forEach(passive => {
@@ -65,4 +71,4 @@ class Baron extends Characters {
     }
 }
 
-export default Baron;
+export default DimensionalDevourer;

@@ -34,12 +34,12 @@ class SpectralStrike extends Spell {
         
         if (damageEffect.damage > 0) {
             let spellLog = {
-                text: `${self.name} utilise ${this.name} et inflige ${damage} points de dégats à ${target.name}`,
+                text: `${self.name} utilise ${this.name} et inflige ${damageEffect.damage} points de dégats à ${target.name}`,
                 styles:
                     [
                         { word: `Spectral`, color: 'grey' },
                         { word: `Strike`, color: 'grey' },
-                        { word: `${damage}`, color: 'grey' }
+                        { word: `${damageEffect.damage}`, color: 'grey' }
                 ]
             }
 

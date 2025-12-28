@@ -41,12 +41,12 @@ class ProfaneRake extends Spell {
 
         if (damageEffect.damage > 0) {
             const spellLog = {
-                text: `${self.name} utilise Profane Rake et griffe ${target.name}, inflige ${damage} et applique un saignement! `,
+                text: `${self.name} utilise Profane Rake et griffe ${target.name}, inflige ${damageEffect.damage} et applique un saignement! `,
                 styles:
                     [
                         { word: `Profane`, color: 'red' },
                         { word: `Rake`, color: 'red' },
-                        { word: `${damage}`, color: 'red' },
+                        { word: `${damageEffect.damage}`, color: 'red' },
                         { word: `saignement`, color: 'red' }
                 ]
             };

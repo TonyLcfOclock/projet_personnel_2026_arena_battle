@@ -37,12 +37,12 @@ class PiercingStrike extends Spell {
 
         if (damageEffect.damage > 0) {
             let spellLog = {
-                text: `${self.name} utilise ${this.name} et inflige ${damage} points de dégats à ${target.name}`,
+                text: `${self.name} utilise ${this.name} et inflige ${damageEffect.damage} points de dégats à ${target.name}`,
                 styles:
                     [
                         { word: `Piercing`, color: 'grey' },
                         { word: `Strike`, color: 'grey' },
-                        { word: `${damage}`, color: 'yellow' }
+                        { word: `${damageEffect.damage}`, color: 'yellow' }
                 ]
             }
 
