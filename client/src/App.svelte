@@ -1,4 +1,6 @@
 <script>
+    import Login from './components/Login.svelte';
+    import Register from './components/Register.svelte';
     import Fight from './components/Fight.svelte';
     import OpenWorld from './components/OpenWorld.svelte';
     import Game from './assets/scripts/utils/Game.svelte.js';
@@ -9,8 +11,8 @@
 
 <header>
     <ul>
-        <li>register</li>
-        <li>login</li>
+        <li onclick={() => {gameState = "register"}}>register</li>
+        <li onclick={() => {gameState = "login"}}>login</li>
     </ul>
 </header>
 
@@ -23,11 +25,11 @@
 {/if}
 
 {#if gameState === "register"}
-
+    <Register bind:id bind:gameState/>
 {/if}
 
 {#if gameState === "login"}
-
+    <Login bind:id bind:gameState/>
 {/if}
 
 {#if gameState === "open-world"}
