@@ -188,7 +188,7 @@
 
 <style>
     .character-selection {
-        min-height: 100dvh;
+        min-height: 80dvh;
         padding: 2.5rem 3rem 9rem;
         color: white;
         display: flex;

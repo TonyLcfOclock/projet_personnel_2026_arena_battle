@@ -4,4 +4,4 @@ class Game {
     }
 }
 
-export default new Game('character-selection');
+export default new Game('login');

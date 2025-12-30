@@ -10,7 +10,7 @@
 :root {
     --page-gutter: 1.25rem;
     --zone-gutter: 1.25rem;
-    --menu-height: clamp(4.5rem, 9vh, 6rem);
+    --menu-height: clamp(4rem, 9vh, 4rem);
     --menu-gap: clamp(0.75rem, 2vh, 1.5rem);
 }
 
@@ -25,7 +25,11 @@ body {
       rgba(0,0,0,0.75) 50%
     ),
     #251010;
-    padding-bottom: calc(var(--menu-height) + var(--menu-gap));
+    overflow-x: hidden;
+}
+
+#app {
+    min-height: 100dvh;
 }
 
 main {
@@ -41,7 +45,7 @@ main {
     align-items: center;
     max-width: 86rem;
     width: 100%;
-    margin: clamp(1.25rem, 3vh, 2.5rem) auto 0;
+    margin: clamp(1.25rem, 3vh, 1.5rem) auto 0;
     padding: 0 var(--page-gutter);
 }
 
@@ -443,9 +447,7 @@ main {
     position: fixed;
     display: flex;
     align-items: center;
-    left: 0;
     bottom: 0;
-    right: 0;
     height: var(--menu-height);
     width: 100%;
     background-color: #13130B;
