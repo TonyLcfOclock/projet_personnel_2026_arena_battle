@@ -2,11 +2,15 @@ import { Router } from "express";
 import FightController from './controllers/FightController.js';
 import SelectionController from "./controllers/SelectionController.js";
 import AuthMiddleware from "./middlewares/AuthMiddleware.js";
+import AuthController from "./controllers/AuthController.js";
 
 const router = Router();
 
+//routes d'authentification
+router.post('/api/auth/register', AuthController.register);
+
 //routes de séléction de personnage
-router.get('/api/init', AuthMiddleware.requireAuth, SelectionController.initialiseCharacters);
+router.get('/api/init', SelectionController.initialiseCharacters);
 router.post('/api/initialiseBattle', AuthMiddleware.requireAuth, SelectionController.initialiseBattle);
 
 // routes de combat

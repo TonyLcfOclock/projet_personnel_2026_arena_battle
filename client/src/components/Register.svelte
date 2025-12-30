@@ -1,9 +1,30 @@
 <script>
+    import { registerUser } from "../assets/scripts/services/auth.service.js";
+
     let { gameState = $bindable(), id = $bindable() } = $props();
+
+    async function register(e) {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const username = formData.get("username");
+        const password = formData.get("password");
+        const validatePassword = formData.get("validate-password");
+
+        if (password !== validatePassword) return;
+
+        try {
+            await registerUser({ username, password });
+
+            gameState = "login";
+        } catch (error) {
+            // TODO
+        }
+    }
 </script>
 
 <div class="register">
-    <form action="POST" name="register-form" class="register-form">
+    <form action="POST" name="register-form" class="register-form" on:submit={register}>
         <header class="register-header">
             <h1>Register</h1>
             <p>Créer ton compte.</p>

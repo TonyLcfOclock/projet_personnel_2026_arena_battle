@@ -1,9 +1,9 @@
-export const authUser = $state({ user: null });
+export const authUser = $state({ username: null });
 
 export function setAuth(user) {
-    authUser.user = user;
+    authUser.username = user;
 }
 
 export function clearAuth() {
-    authUser.user = null;
+    authUser.username = null;
 }

@@ -19,3 +19,16 @@ export async function initAuth() {
         setAuth(null);
     }
 };
+
+export async function registerUser(credentials) {
+    const res = await fetch('/api/auth/register', {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials)
+    });
+
+    const data = await res.json();
+
+    return data;
+}

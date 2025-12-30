@@ -1,12 +1,19 @@
 <script>
+    import { onMount } from 'svelte';
     import Login from './components/Login.svelte';
     import Register from './components/Register.svelte';
     import Fight from './components/Fight.svelte';
     import OpenWorld from './components/OpenWorld.svelte';
     import Game from './assets/scripts/utils/Game.svelte.js';
     import CharacterSelection from './components/CharacterSelection.svelte';
+    import { initAuth } from './assets/scripts/services/auth.service';
+
     let gameState = $state(Game.state);
     let id = $state(undefined);
+
+    onMount(() => {
+        initAuth();
+    })
 </script>
 
 <header>
