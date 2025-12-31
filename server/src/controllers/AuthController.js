@@ -53,7 +53,7 @@ class AuthController {
                 maxAger: 1000 * 60 * 60
             });
 
-            res.status(201).json({ username });
+            res.status(201).json({ username, currentBattle: user.dataValues.currentBattle });
         }
     }
 

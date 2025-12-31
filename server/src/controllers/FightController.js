@@ -4,10 +4,12 @@ import Utilities from '../scripts/utils/Utilities.js';
 class FightController {
 
     // méthode d'instance qui démarre un combat en utilisant BattleStore
-    startBattle(req, res) {
+    async startBattle(req, res) {
         const { battleId } = req.body;
 
-        const battle = BattleStore.getBattle(battleId);
+        const battle = await BattleStore.getBattle(battleId);
+
+        console.log(battle)
         const { id, player, enemy, fight } = battle;
 
         const log = {

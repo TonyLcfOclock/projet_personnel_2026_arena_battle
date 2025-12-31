@@ -1,27 +1,24 @@
 import Utilities from "./Utilities.js";
 
 class Fight {
-    constructor(name) {
-        this.fightName = name;
-    }
 
-    calculateCharacterHitChance(speed) {
+    static calculateCharacterHitChance(speed) {
         return Math.floor(Math.random() * speed);
     }
 
-    chooseCharacterHitTurn(playerChance, enemyChance) {
+    static chooseCharacterHitTurn(playerChance, enemyChance) {
         return playerChance > enemyChance; 
     }
 
-    calculateCharacterCriticalChance(criticalChance) {
+    static calculateCharacterCriticalChance(criticalChance) {
         return Math.random() < criticalChance;
     }
 
-    calculateCharacterDamage(STR, ARM) {
+    static calculateCharacterDamage(STR, ARM) {
         return Math.floor((STR * (100 / (100 + ARM))) + Math.random() * (STR / 10));
     }
 
-    reduceCharacterSpellsCooldown(spells) {
+    static reduceCharacterSpellsCooldown(spells) {
         spells.forEach(spell => {
             if (spell.currentCooldown > 0) {
                 spell.currentCooldown--;
@@ -29,7 +26,7 @@ class Fight {
         })
     }
 
-    reduceCharacterNegativeEffectDuration(negate) { 
+    static reduceCharacterNegativeEffectDuration(negate) { 
         if (!negate) return;
 
         negate.duration -= 1;
@@ -42,7 +39,7 @@ class Fight {
         }
     }
 
-    checkCharacterNegativeEffectStates(self, fightInstance) {
+    static checkCharacterNegativeEffectStates(self, fightInstance) {
         let canPlay = true;
 
         const stunNegate = self.negativeEffects.find(element => {
@@ -63,13 +60,13 @@ class Fight {
         return canPlay;
     }
 
-    refreshCharacterBuff(target, self) {
+    static refreshCharacterBuff(target, self) {
         self.buffs.forEach(buff => {
             buff.checkBuff(target, self);
         })
     }
 
-    actionToDo(actionName, selfTarget, target, fightInstance) {
+    static actionToDo(actionName, selfTarget, target, fightInstance) {
         if (!actionName) return;
 
         selfTarget.spells.forEach(spell => {
@@ -79,7 +76,7 @@ class Fight {
         })
     }
 
-    randomAction(user, target) {
+    static randomAction(user, target) {
         const availableSpells = user.spells.filter(spell => {
             
             if (spell.currentCooldown > 0) return false;
