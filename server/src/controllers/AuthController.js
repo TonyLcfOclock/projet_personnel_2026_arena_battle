@@ -57,6 +57,11 @@ class AuthController {
         }
     }
 
+    logout(_req, res) {
+        res.clearCookie("access_token", { path: "/" });
+        res.sendStatus(204);
+    }
+
     async me(req, res) {
         const user = await User.findOne({ where: { username: req.username } });
 

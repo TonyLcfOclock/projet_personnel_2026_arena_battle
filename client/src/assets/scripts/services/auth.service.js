@@ -1,4 +1,4 @@
-import { setAuth } from "../store/auth.svelte.js";
+import { clearAuth, setAuth } from "../store/auth.svelte.js";
 
 export async function initAuth() {
     try {
@@ -44,4 +44,14 @@ export async function loginUser(credentials) {
     const data = await res.json();
 
     return data;
+}
+
+export async function logoutUser() {
+    await fetch('/api/auth/logout', {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+    });
+
+    clearAuth();
 }

@@ -6,7 +6,7 @@
     import OpenWorld from './components/OpenWorld.svelte';
     import Game from './assets/scripts/utils/Game.svelte.js';
     import CharacterSelection from './components/CharacterSelection.svelte';
-    import { initAuth } from './assets/scripts/services/auth.service.js';
+    import { initAuth, logoutUser } from './assets/scripts/services/auth.service.js';
     import { authUser } from './assets/scripts/store/auth.svelte.js';
 
     let gameState = $state(Game.state);
@@ -19,12 +19,19 @@
             gameState = "character-selection"
         }
     })
+
+    async function logout() {
+        await logoutUser();
+
+        gameState = 'login';
+    }
 </script>
 
 <header>
     <ul>
         {#if authUser.username}
-            <li>Hello, {authUser.username}</li>
+            <li>{`Hello, ${authUser.username}`}</li>
+            <li onclick={logout}>logout</li>
         {:else}
             <li onclick={() => {gameState = "register"}}>register</li>
             <li onclick={() => {gameState = "login"}}>login</li>
