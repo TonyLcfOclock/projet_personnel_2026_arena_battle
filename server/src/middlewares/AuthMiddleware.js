@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 
 const COOKIE_NAME = "access_token";
-const JWT_SECRET = process.env.JWT_SECRET;
 
 class AuthMiddleware {
     requireAuth(req, res, next) {
@@ -10,9 +9,9 @@ class AuthMiddleware {
         if (!token) return res.status(401).json({ error: "Not Authenticated" });
 
         try {
-            const payload = jwt.verify(token, JWT_SECRET);
+            const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-            req.user = payload.user;
+            req.username = payload.username;
             next();
         } catch(error) {
             return res.status(401).json({ error: "Invalid token" });

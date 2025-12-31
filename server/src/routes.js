@@ -8,9 +8,10 @@ const router = Router();
 
 //routes d'authentification
 router.post('/api/auth/register', AuthController.register);
+router.post('/api/auth/login', AuthController.login);
 
 //routes de séléction de personnage
-router.get('/api/init', SelectionController.initialiseCharacters);
+router.get('/api/init', AuthMiddleware.requireAuth, SelectionController.initialiseCharacters);
 router.post('/api/initialiseBattle', AuthMiddleware.requireAuth, SelectionController.initialiseBattle);
 
 // routes de combat

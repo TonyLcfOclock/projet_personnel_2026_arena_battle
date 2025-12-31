@@ -1,9 +1,14 @@
 import { User } from '../models/index.js';
 import argon2 from 'argon2';
+import jwt from 'jsonwebtoken';
+
+const COOKIE_NAME = "access_token";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 class AuthController {
     async register(req, res) {
         const { username, password } = req.body;
+
         try {
             const passwordHashed = await argon2.hash(password);
 
@@ -27,7 +32,29 @@ class AuthController {
     }
     
     async login(req, res) {
-        
+        const { username, password } = req.body;
+
+        const user = await User.findOne({ where: { username } });
+
+        if (!user) return res.status(401).json({ error: "Invalid credentials" });
+
+        if (await argon2.verify(user.dataValues.password, password)) {
+            const token = jwt.sign(
+                { username },
+                JWT_SECRET,
+                { expiresIn: "1h" }
+            );
+
+            res.cookie(COOKIE_NAME, token, {
+                httpOnly: true,
+                secure: false,
+                sameSite: "lax",
+                path: "/",
+                maxAger: 1000 * 60 * 60
+            });
+
+            res.status(201).json({ username });
+        }
     }
 }
 

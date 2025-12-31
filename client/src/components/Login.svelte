@@ -9,19 +9,15 @@
         const formData = new FormData(e.target);
         const username = formData.get("username");
         const password = formData.get("password");
-        const validatePassword = formData.get("validate-password");
-
-        if (password !== validatePassword) return;
 
         try {
             await loginUser({ username, password });
 
-            gameState = "login";
+            gameState = "character-selection";
         } catch (error) {
             // TODO
         }
     }
-
 </script>
 
 <div class="login">
