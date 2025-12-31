@@ -6,20 +6,29 @@
     import OpenWorld from './components/OpenWorld.svelte';
     import Game from './assets/scripts/utils/Game.svelte.js';
     import CharacterSelection from './components/CharacterSelection.svelte';
-    import { initAuth } from './assets/scripts/services/auth.service';
+    import { initAuth } from './assets/scripts/services/auth.service.js';
+    import { authUser } from './assets/scripts/store/auth.svelte.js';
 
     let gameState = $state(Game.state);
     let id = $state(undefined);
 
-    onMount(() => {
-        initAuth();
+    onMount( async () => {
+        await initAuth();
+
+        if (authUser.username) {
+            gameState = "character-selection"
+        }
     })
 </script>
 
 <header>
     <ul>
-        <li onclick={() => {gameState = "register"}}>register</li>
-        <li onclick={() => {gameState = "login"}}>login</li>
+        {#if authUser.username}
+            <li>Hello, {authUser.username}</li>
+        {:else}
+            <li onclick={() => {gameState = "register"}}>register</li>
+            <li onclick={() => {gameState = "login"}}>login</li>
+        {/if}
     </ul>
 </header>
 

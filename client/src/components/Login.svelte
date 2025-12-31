@@ -1,5 +1,6 @@
 <script>
     import { loginUser } from "../assets/scripts/services/auth.service.js";
+    import { setAuth } from "../assets/scripts/store/auth.svelte.js";
 
     let { gameState = $bindable(), id = $bindable() } = $props();
 
@@ -11,7 +12,9 @@
         const password = formData.get("password");
 
         try {
-            await loginUser({ username, password });
+            const data = await loginUser({ username, password });
+
+            setAuth(data);
 
             gameState = "character-selection";
         } catch (error) {

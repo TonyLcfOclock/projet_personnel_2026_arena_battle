@@ -56,6 +56,14 @@ class AuthController {
             res.status(201).json({ username });
         }
     }
+
+    async me(req, res) {
+        const user = await User.findOne({ where: { username: req.username } });
+
+        if (!user) return res.status(401).json({ error: "Not authenticated" });
+
+        res.json({ username: req.username });
+    }
 }
 
 export default new AuthController();

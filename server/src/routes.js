@@ -9,6 +9,7 @@ const router = Router();
 //routes d'authentification
 router.post('/api/auth/register', AuthController.register);
 router.post('/api/auth/login', AuthController.login);
+router.get('/api/auth/me', AuthMiddleware.requireAuth, AuthController.me)
 
 //routes de séléction de personnage
 router.get('/api/init', AuthMiddleware.requireAuth, SelectionController.initialiseCharacters);
