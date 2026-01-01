@@ -15,8 +15,8 @@
             const data = await loginUser({ username, password });
 
             setAuth(data);
-
-            gameState = "character-selection";
+            
+            window.location.reload();
         } catch (error) {
             // TODO
         }

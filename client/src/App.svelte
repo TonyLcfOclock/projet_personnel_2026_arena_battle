@@ -12,11 +12,18 @@
     let gameState = $state(Game.state);
     let id = $state(undefined);
 
-    onMount( async () => {
+    onMount(async () => {
         await initAuth();
 
         if (authUser.username) {
-            gameState = "character-selection"
+            console.log(authUser.currentBattle);
+
+            if (authUser.currentBattle) {
+                id = authUser.currentBattle;
+                gameState = "fight";
+            } else {
+                gameState = "character-selection"
+            }
         }
     })
 

@@ -19,7 +19,7 @@ class SelectionController {
 
     // méthode d'instance qui initialise un combat en utilisant BattleStore
     async initialiseBattle(req, res) {
-        const { playerClass, playerName, enemyClass, enemyName } = req.body;
+        const { userId, playerClass, playerName, enemyClass, enemyName } = req.body;
 
         let playerCharacter;
         let enemyCharacter;
@@ -48,7 +48,7 @@ class SelectionController {
                 break;
         }
 
-        const battle = await BattleStore.createBattle(playerCharacter, enemyCharacter);
+        const battle = await BattleStore.createBattle(userId, playerCharacter, enemyCharacter);
         const { id } = battle;
 
         res.status(200).json({

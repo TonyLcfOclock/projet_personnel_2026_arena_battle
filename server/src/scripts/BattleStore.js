@@ -1,8 +1,9 @@
 import { Battle } from '../models/Battle.js';
+import { User } from '../models/User.js';
 import crypto from 'crypto';
 
 class BattleStore {
-    async createBattle(playerCharacter, enemyCharacter) {
+    async createBattle(userId, playerCharacter, enemyCharacter) {
         const id = crypto.randomUUID();
 
         const player = playerCharacter;
@@ -16,6 +17,8 @@ class BattleStore {
             turn: 1,
             data: JSON.stringify(data)
         })
+
+        const user = await User.update({ currentBattle: id }, { where: { id: userId } });
 
         return { id };
     }

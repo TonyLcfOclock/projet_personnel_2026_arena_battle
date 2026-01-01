@@ -1,5 +1,6 @@
 <script>
     import { onMount } from "svelte";
+    import { authUser } from "../assets/scripts/store/auth.svelte.js";
     import Utilities from "../assets/scripts/utils/Utilities.svelte.js";
 
     let { gameState = $bindable(), id = $bindable() } = $props();
@@ -50,6 +51,7 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+                userId: authUser.id,
                 playerClass: player.className,
                 playerName: player.name,
                 enemyClass: enemy.className,

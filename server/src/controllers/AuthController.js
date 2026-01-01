@@ -53,7 +53,9 @@ class AuthController {
                 maxAger: 1000 * 60 * 60
             });
 
-            res.status(201).json({ username, currentBattle: user.dataValues.currentBattle });
+            const { id, currentBattle } = user.dataValues;
+
+            res.status(201).json({ id, username, currentBattle });
         }
     }
 
@@ -67,7 +69,9 @@ class AuthController {
 
         if (!user) return res.status(401).json({ error: "Not authenticated" });
 
-        res.json({ username: req.username });
+        const { id, username, currentBattle } = user.dataValues;
+
+        res.json({ id, username, currentBattle });
     }
 }
 
