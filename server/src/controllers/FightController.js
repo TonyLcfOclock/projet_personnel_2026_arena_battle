@@ -5,12 +5,12 @@ class FightController {
 
     // méthode d'instance qui démarre un combat en utilisant BattleStore
     async startBattle(req, res) {
-        const { battleId } = req.body;
+        const { currentBattle } = req.body;
 
-        const battle = await BattleStore.getBattle(battleId);
+        const battle = await BattleStore.getBattle(currentBattle);
 
-        console.log(battle)
-        const { id, player, enemy, fight } = battle;
+        const { turn, data } = battle;
+        const { player, enemy } = data;
 
         const log = {
             text: `Un combat est engagé entre ${player.name} et ${enemy.name} !`,
@@ -18,11 +18,10 @@ class FightController {
         }
 
         res.status(200).json({
-            battleId: id,
-            fightName: fight.fightName,
             player,
             enemy,
-            log
+            turn,
+            log,
         });
     }
 

@@ -6,8 +6,6 @@
 
     let { gameState = $bindable() } = $props();
 
-    const battleId = authUser.currentBattle;
-
     // initialisation du combat et des logs du combat en undefined avant récupération des informations
     let fight = $state(undefined);
     let logs = $state(undefined);
@@ -48,9 +46,10 @@
         // affectation des personnages
         player = battle.player;
         enemy = battle.enemy;
+        turn = battle.turn;
 
         // attribution des logs
-        fight = new Fight(battle.fightName);
+        fight = new Fight();
         logs = fight.fightingLogs;
 
         // log de démarrage du combat
@@ -65,7 +64,7 @@
         const res = await fetch("/api/battle/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ battleId }),
+            body: JSON.stringify(authUser),
         });
 
         const battle = await res.json();
@@ -87,7 +86,7 @@
 
     async function fighting() {
         while (playerIsDead === false && enemyIsDead === false) {
-            turn++;
+            
 
             let toPlay = await fight.getCharacterHitTurn(battleId);
 
@@ -168,7 +167,8 @@
                     spellLog.forEach((element) => fight.addLogsLine(element));
                 }
             }
-
+            
+            turn++;
             action = undefined;
             playTurn = undefined;
 

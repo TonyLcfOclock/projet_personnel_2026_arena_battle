@@ -1,9 +1,5 @@
 class Fight {
     fightingLogs = $state([]);
-
-    constructor(name) {
-        this.fightName = name;
-    }
     
     addLogsLine(obj) {
         this.fightingLogs.push(obj);
