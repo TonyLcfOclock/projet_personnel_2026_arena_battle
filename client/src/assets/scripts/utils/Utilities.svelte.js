@@ -37,7 +37,7 @@ class Utilities {
         return char.image;
     }
 
-    static checkSpellIsOnCooldown(spells, charSpells) {
+    static checkSpellIsOnCooldown(spells, charSpells) {        
         const spell = charSpells.find(element => {
             return element.name === spells.name
         })

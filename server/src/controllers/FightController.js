@@ -113,15 +113,26 @@ class FightController {
     }
 
     // méthode d'instance qui utilise les passifs des personnages
-    passivePerTurn(req, res) {
-        const { id: battleId, targetName, selfName } = req.body;
+    async passivePerTurn(req, res) {
+       const { currentBattle, targetName, selfName } = req.body;
 
-        const battle = BattleStore.getBattle(battleId);
+        const battle = await BattleStore.getBattle(currentBattle);
 
-        const target = Object.values(battle).find(element => element.name === targetName);
-        const self = Object.values(battle).find(element => element.name === selfName);
+        const targetEntry = Object.entries(battle.data).find(element => element[1].name === targetName);
+        const [ targetKey, targetSavedChar ] = targetEntry;
+
+        const selfEntry = Object.entries(battle.data).find(element => element[1].name === selfName);
+        const [ selfKey, selfSavedChar ] = selfEntry;
+
+        const target = Fight.createCharacter(targetSavedChar);
+        const self = Fight.createCharacter(selfSavedChar);
 
         self.perTurn(target, self);
+
+        battle.data[targetKey] = target;
+        battle.data[selfKey] = self;
+
+        await BattleStore.updateBattle(battle.data, currentBattle);
 
         res.status(200).json(self);
     }
