@@ -26,7 +26,7 @@ class PhantomBacklash extends Spell {
         );
     }
 
-    useSpell(target, self, battle) {
+    useSpell(target, self) {
         const log = [];
 
         let damage = 0;

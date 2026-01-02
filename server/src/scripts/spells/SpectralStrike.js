@@ -1,4 +1,5 @@
 import Spell from "../Spell.js";
+import Fight from "../utils/Fight.js";
 
 class SpectralStrike extends Spell {
     constructor() {
@@ -20,15 +21,15 @@ class SpectralStrike extends Spell {
         return this.currentCooldown === 0;
     }
 
-    useSpell(target, self, battle) {
+    useSpell(target, self) {
         const log = [];
 
         let targetHP = target.statistics.maxHP - target.statistics.HP;
         let percentMissingHealthDamage = Math.round(targetHP * 0.25);
 
-        let damage = Math.round(battle.fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM) / 2 + percentMissingHealthDamage);
+        let damage = Math.round(Fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM) / 2 + percentMissingHealthDamage);
         
-        const damageEffect = target.perHit(target, self, battle, damage);
+        const damageEffect = target.perHit(target, self, damage);
 
         this.currentCooldown = this.cooldown;
         

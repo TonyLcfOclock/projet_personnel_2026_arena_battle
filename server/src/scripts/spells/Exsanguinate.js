@@ -22,7 +22,7 @@ class Exsanguinate extends Spell {
         );
     }
 
-    useSpell(target, self, battle) {
+    useSpell(target, self) {
         const log = [];
 
         let healing = Math.round((self.statistics.maxHP - self.statistics.HP) * 0.1);

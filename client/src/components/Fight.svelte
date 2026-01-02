@@ -149,7 +149,7 @@
 
                 let negateLog = [];
 
-                ({ char: enemy, log: negateLog } = await fight.checkCharacterNegativeEffectStates(authUser, enemy.name));
+                ({ character: enemy, log: negateLog } = await fight.checkCharacterNegativeEffectStates(authUser, enemy.name));
 
                 negateLog.forEach((element) => fight.addLogsLine(element));
 
@@ -160,11 +160,11 @@
 
                     let act;
 
-                    ({ action: act } = await fight.randomAction(battleId, enemy.name, player.name));
+                    ({ action: act } = await fight.randomAction(authUser, enemy.name));
 
                     let spellLog;
 
-                    ({ target: player, self: enemy, log: spellLog } = await fight.actionToDo(battleId, act, player.name, enemy.name));
+                    ({ target: player, self: enemy, log: spellLog } = await fight.actionToDo(authUser, act, player.name, enemy.name));
 
                     spellLog.forEach((element) => fight.addLogsLine(element));
                 }

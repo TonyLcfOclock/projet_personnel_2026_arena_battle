@@ -1,4 +1,5 @@
 import Spell from "../Spell.js";
+import Fight from "../utils/Fight.js";
 
 class PiercingStrike extends Spell {
     constructor() {
@@ -8,7 +9,7 @@ class PiercingStrike extends Spell {
             description: "Piercing Strike on the enemy head, dealing 100 dmg",
             castChance: 0.15,
             cooldown: 2,
-            currentCooldown: 99,
+            currentCooldown: 0,
             damageType: 'physical',
             type: 'enemy',
         };
@@ -20,7 +21,7 @@ class PiercingStrike extends Spell {
         return this.currentCooldown === 0;
     }
 
-    useSpell(target, self, battle) {
+    useSpell(target, self) {
         const log = [];
 
         let soulsPassive = self.passives.find(element => element.name === "Souls");
@@ -29,9 +30,9 @@ class PiercingStrike extends Spell {
             soulsPassive.stacks++;
         }
 
-        let damage = Math.round(battle.fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
+        let damage = Math.round(Fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
         
-        const damageEffect = target.perHit(target, self, battle, damage);
+        const damageEffect = target.perHit(target, self, damage);
 
         this.currentCooldown = this.cooldown;
 

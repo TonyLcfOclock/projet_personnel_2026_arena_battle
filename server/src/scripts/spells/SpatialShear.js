@@ -1,4 +1,5 @@
 import Spell from "../Spell.js";
+import Fight from "../utils/Fight.js";
 
 class SpatialShear extends Spell {
     constructor() {
@@ -20,10 +21,10 @@ class SpatialShear extends Spell {
         return this.currentCooldown === 0;
     }
 
-    useSpell(target, self, battle) {
+    useSpell(target, self) {
         const log = [];
 
-        let damage = battle.fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM * 0.66);
+        let damage = Fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM * 0.66);
 
         let riftPassive = self.passives.find(element => element.name === "Rift Charge");
 
@@ -31,7 +32,7 @@ class SpatialShear extends Spell {
             riftPassive.stacks += 1;
         }
 
-        const damageEffect = target.perHit(target, self, battle, damage);
+        const damageEffect = target.perHit(target, self, damage);
 
         this.currentCooldown = this.cooldown;
 

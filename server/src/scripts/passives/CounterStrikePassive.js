@@ -1,4 +1,5 @@
 import Passive from "../Passive.js";
+import Fight from "../utils/Fight.js";
 
 class CounterStrikePassive extends Passive {
     constructor() {
@@ -14,7 +15,7 @@ class CounterStrikePassive extends Passive {
 
     onTurn(target, self) {} // méthode appelée au début du tour du personnage, gère les passifs du personnage
 
-    onHit(target, self, battle) { // méthode appelée dès que le personnage prends un coups, gère les réactions à ce dernier
+    onHit(target, self) { // méthode appelée dès que le personnage prends un coups, gère les réactions à ce dernier
         const counterStrike = self.buffs.find(element => {
             return element.name === "Counter Strike";
         })
@@ -24,7 +25,7 @@ class CounterStrikePassive extends Passive {
         })
 
         if (counterStrike?.state && !stun.state) {
-            let damage = Math.round(battle.fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM) / 2);
+            let damage = Math.round(Fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM) / 2);
             target.statistics.HP -= damage;
 
             return {

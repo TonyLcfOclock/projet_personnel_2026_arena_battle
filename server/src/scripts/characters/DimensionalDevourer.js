@@ -47,7 +47,7 @@ class DimensionalDevourer extends Characters {
         })
     }
 
-    perHit(target, self, battle, damage) {
+    perHit(target, self, damage) {
         const log = [];
 
         const rift = this.passives.find(element => element.name === 'Rift Charge');
@@ -61,7 +61,7 @@ class DimensionalDevourer extends Characters {
         this.statistics.HP -= damage;
 
         this.passives.forEach(passive => {
-            let p = passive.onHit(target, self, battle);
+            let p = passive.onHit(target, self);
             
             if (p) {
                 log.push(p);

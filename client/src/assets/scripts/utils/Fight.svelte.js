@@ -96,7 +96,7 @@ class Fight {
         const res = await fetch('/api/battle/character-use-spell', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id, username, currentBattle, targetName, selfName }),
+            body: JSON.stringify({ id, username, currentBattle, actionName, targetName, selfName }),
         });
 
         const obj = await res.json();
@@ -104,12 +104,13 @@ class Fight {
         return obj;
     }
 
-    async randomAction(battleId, selfName, targetName) {
+    async randomAction(data, selfName) {
+        const { id, username, currentBattle } = data;
 
          const res = await fetch('/api/battle/determine-enemy-action', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({id: battleId, selfName, targetName}),
+            body: JSON.stringify({ id, username, currentBattle, selfName }),
         });
 
         const action = await res.json();

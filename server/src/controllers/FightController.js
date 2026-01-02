@@ -140,29 +140,31 @@ class FightController {
     // méthode d'instance qui vérifie les conditions d'utilisation des sorts du joueur
     async determinePlayerAction(req, res) {
         const { currentBattle, act, name} = req.body;
-        let action = undefined;
 
         const battle = await BattleStore.getBattle(currentBattle);
 
-        const player = Object.values(battle.data).find(element => element.name === name);
+        const savedChar = Object.values(battle.data).find(element => element.name === name);
+        const player = Fight.createCharacter(savedChar);
+
         const spell = player.spells.find(spell => spell.name === act);
 
-        action = spell.canUseSpell(player) ? spell.name : undefined;
+        const action = spell.canUseSpell(player) ? spell.name : undefined;
 
         res.status(200).json({ action });
     }
 
     // méthode d'instance qui vérifie les conditions d'utilisation des sorts de l'adversaire
-    determineEnemyAction(req, res) {
-        const { id: battleId, selfName, targetName} = req.body;
+    async determineEnemyAction(req, res) {
+        const { currentBattle, selfName, targetName} = req.body;
 
-        const battle = BattleStore.getBattle(battleId);
+        const battle = await BattleStore.getBattle(currentBattle);
 
-        const self = Object.values(battle).find(element => element.name === selfName);
-        const target = Object.values(battle).find(element => element.name === targetName);
+        const savedChar = Object.values(battle.data).find(element => element.name === selfName);
+
+        const self = Fight.createCharacter(savedChar);
 
         const availableSpells = self.spells.filter(spell => {
-            return spell.canUseSpell(self, target);
+            return spell.canUseSpell(self);
         })
 
         const randomIndex = Utilities.getRandomInt(availableSpells.length);
@@ -172,17 +174,28 @@ class FightController {
     }
 
     // méthode d'instance qui utilise les sorts d'un personnage
-    characterUseSpell(req, res) {
-        const { id: battleId, actionName: spellName, targetName, selfName } = req.body;
+    async characterUseSpell(req, res) {
+        const { currentBattle, actionName, targetName, selfName } = req.body;
 
-        const battle = BattleStore.getBattle(battleId);
+        const battle = await BattleStore.getBattle(currentBattle);
 
-        const target = Object.values(battle).find(element => element.name === targetName);
-        const self = Object.values(battle).find(element => element.name === selfName);
+        const targetEntry = Object.entries(battle.data).find(element => element[1].name === targetName);
+        const [ targetKey, targetSavedChar ] = targetEntry;
 
-        const spell = self.spells.find(element => element.name === spellName);
+        const selfEntry = Object.entries(battle.data).find(element => element[1].name === selfName);
+        const [ selfKey, selfSavedChar ] = selfEntry;
+
+        const target = Fight.createCharacter(targetSavedChar);
+        const self = Fight.createCharacter(selfSavedChar);
+
+        const spell = self.spells.find(element => element.name === actionName);
 
         let log = spell.useSpell(target, self, battle);
+
+        battle.data[targetKey] = target;
+        battle.data[selfKey] = self;
+
+        await BattleStore.updateBattle(battle.data, currentBattle);
 
         res.status(200).json({
             target,

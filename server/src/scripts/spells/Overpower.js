@@ -24,7 +24,7 @@ class Overpower extends Spell {
         return this.currentCooldown === 0 && overpower;
     }
 
-    useSpell(target, self, battle) {
+    useSpell(target, self) {
         const log = [];
 
         let damage = 0;

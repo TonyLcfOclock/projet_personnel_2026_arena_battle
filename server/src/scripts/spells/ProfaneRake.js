@@ -1,4 +1,5 @@
 import Spell from "../Spell.js";
+import Fight from "../utils/Fight.js";
 
 class ProfaneRake extends Spell {
     constructor() {
@@ -20,10 +21,10 @@ class ProfaneRake extends Spell {
         return this.currentCooldown === 0;
     }
 
-    useSpell(target, self, battle) {
+    useSpell(target, self) {
         const log = [];
 
-        let damage = Math.round(battle.fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
+        let damage = Math.round(Fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM) * 1.2);
 
         const targetBleedState = target.negativeEffects.find(negate => {
             return negate.name === 'Bleed';
@@ -35,7 +36,7 @@ class ProfaneRake extends Spell {
         targetBleedState.duration = 3;
         targetBleedState.damage += 2;
 
-        const damageEffect = target.perHit(target, self, battle, damage);
+        const damageEffect = target.perHit(target, self, damage);
 
         this.currentCooldown = this.cooldown;
 

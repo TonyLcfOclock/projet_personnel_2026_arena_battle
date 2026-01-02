@@ -1,4 +1,5 @@
 import Spell from "../Spell.js";
+import Fight from "../utils/Fight.js";
 
 class SoulHarvest extends Spell {
     constructor() {
@@ -20,10 +21,10 @@ class SoulHarvest extends Spell {
         return this.currentCooldown === 0;
     }
 
-    useSpell(target, self, battle) {
+    useSpell(target, self) {
         const log = [];
 
-        let damage = battle.fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM);
+        let damage = Fight.calculateCharacterDamage(self.statistics.STR, target.statistics.ARM);
         let healing = Math.floor(damage * 0.10);
         if (self.statistics.HP >= self.statistics.maxHP) {
             healing = 0;
@@ -37,7 +38,7 @@ class SoulHarvest extends Spell {
 
         self.statistics.HP += healing
 
-        const damageEffect = target.perHit(target, self, battle, damage);
+        const damageEffect = target.perHit(target, self, damage);
 
         this.currentCooldown = this.cooldown;
 

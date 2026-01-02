@@ -24,7 +24,7 @@ class sanguineOffering extends Spell {
         );
     }
 
-    useSpell(target, self, battle) {
+    useSpell(target, self) {
         const log = [];
 
         let damage = Math.round(self.statistics.maxHP * 0.05);
