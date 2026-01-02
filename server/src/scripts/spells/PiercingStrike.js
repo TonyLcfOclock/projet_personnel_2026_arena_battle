@@ -8,7 +8,7 @@ class PiercingStrike extends Spell {
             description: "Piercing Strike on the enemy head, dealing 100 dmg",
             castChance: 0.15,
             cooldown: 2,
-            currentCooldown: 0,
+            currentCooldown: 99,
             damageType: 'physical',
             type: 'enemy',
         };

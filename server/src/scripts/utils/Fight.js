@@ -37,17 +37,55 @@ class Fight {
 
         switch(char.className) {
             case "DeathKnight":
-                character = Object.assign(Object.create(DeathKnight.prototype), char);
+                character = new DeathKnight(char.name);
                 break;
             case "Baron":
-                character = Object.assign(Object.create(Baron.prototype), char);
+                character = new Baron(char.name);
                 break;
             case "Dimensional Devourer":
-                character = Object.assign(Object.create(DimensionalDevourer.prototype), char);
+                character = new DimensionalDevourer(char.name);
                 break;
         }
 
-        console.log(character.passives);
+        character.statistics = char.statistics;
+
+        if (character.passives.length) {
+            character.passives.forEach(passive => {
+                const charPassive = char.passives.find(element => element.name === passive.name);
+                passive.display = charPassive.display;
+                passive.stacks = charPassive.stacks;
+            })
+        }
+
+        if (character.buffs.length) {
+            character.buffs.forEach(buff => {
+                const charBuff = char.buffs.find(element => element.name === buff.name);
+                buff.state = charBuff.state;
+                buff.isActive = charBuff.isActive;
+                buff.isPermanent = charBuff.isPermanent;
+                buff.duration = charBuff.duration;
+            })
+        }
+
+        if (character.negativeEffects.length) {
+            character.negativeEffects.forEach(negate => {
+                const charNegate = char.negativeEffects.find(element => element.name === negate.name);
+                negate.state = charNegate.state;
+                negate.stacks = charNegate.stacks;
+                negate.duration = charNegate.duration;
+                negate.damage = charNegate.damage;
+            })
+        }
+
+        if (character.spells.length) {
+            character.spells.forEach(spell => {
+                const charSpell = char.spells.find(element => element.name === spell.name);
+                spell.castChance = charSpell.castChance;
+                spell.cooldown = charSpell.cooldown;
+                spell.currentCooldown = charSpell.currentCooldown;
+            });
+        }
+
         return character;
     }
 
