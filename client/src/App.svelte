@@ -3,7 +3,6 @@
     import Login from './components/Login.svelte';
     import Register from './components/Register.svelte';
     import Fight from './components/Fight.svelte';
-    import OpenWorld from './components/OpenWorld.svelte';
     import Game from './assets/scripts/utils/Game.svelte.js';
     import CharacterSelection from './components/CharacterSelection.svelte';
     import { initAuth, logoutUser } from './assets/scripts/services/auth.service.js';
@@ -15,8 +14,6 @@
         await initAuth();
 
         if (authUser.username) {
-            console.log(authUser.currentBattle);
-
             if (authUser.currentBattle) {
                 gameState = "fight";
             } else {
@@ -58,10 +55,6 @@
 
 {#if gameState === "login"}
     <Login bind:gameState/>
-{/if}
-
-{#if gameState === "open-world"}
-    <OpenWorld bind:gameState/>
 {/if}
 
 <style>

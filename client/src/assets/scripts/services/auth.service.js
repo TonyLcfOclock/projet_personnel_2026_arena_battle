@@ -14,7 +14,6 @@ export async function initAuth() {
 
         const data = await res.json();
 
-        console.log(data)
         setAuth(data);
     } catch (error) {
         setAuth(null);
