@@ -168,7 +168,7 @@ class FightController {
         })
 
         const randomIndex = Utilities.getRandomInt(availableSpells.length);
-        let action = availableSpells[randomIndex].name;
+        let action = availableSpells.length > 1 ? availableSpells[randomIndex].name : availableSpells[0].name;
         
         res.status(200).json({ action });
     }
