@@ -14,12 +14,13 @@ class HighSpeed extends Buff {
         super(buffData);
     }
 
-    applyBuff(self, duration, quantity) {
+    applyBuff(self, duration, quantity, name = this.name) {
         if (this.isPermanent) {
             return;
         }
 
         this.state = true;
+        this.name = name;
         this.duration = duration;
         self.statistics.speed += Math.round(self.statistics.speed * quantity);
     }
@@ -37,6 +38,8 @@ class HighSpeed extends Buff {
             this.state = false;
 
             self.statistics.speed = Math.round(self.statistics.speed / (1 + quantity));
+            this.name = "High Speed";
+            this.quantity = 0;
             return
         }
     }

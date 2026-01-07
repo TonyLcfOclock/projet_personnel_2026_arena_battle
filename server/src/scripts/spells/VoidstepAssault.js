@@ -6,7 +6,7 @@ class VoidstepAssault extends Spell {
         const spellData = {
             name: "Voidstep Assault",
             image: "/images/characters/monsters/boss/dimensional_devourer/spells_icon/voidstep_assaut.png",
-            description: "Gain +10% speed for 3 turn, consume 1 stack of rift passive",
+            description: "Gain +15% speed for 3 turn, consume 1 stack of rift passive",
             castChance: 0.3,
             cooldown: 3,
             currentCooldown: 0,
@@ -24,29 +24,32 @@ class VoidstepAssault extends Spell {
     useSpell(target, self) {
         const log = [];
 
-        const targetSpeed = target.statistics.speed;
-        const selfSpeed = self.statistics.speed;
-
-        let damage = (Fight.calculateCharacterDamage(self.statistics.str, target.statistics.arm) + (selfSpeed - targetSpeed));
+        let damage = 0;
 
         let riftPassive = self.passives.find(element => element.name === "Rift Charge");
 
         if (riftPassive) {
-            riftPassive.stacks += 1;
+            riftPassive.stacks -= 1;
+        }
+
+        let highSpeed = self.buffs.find(element => element.name === "High Speed");
+
+        if (highSpeed) {
+            highSpeed.applyBuff(self, 3, 0.15, 'Voidstep');
         }
 
         const damageEffect = target.perHit(target, self, damage);
 
         this.currentCooldown = this.cooldown;
 
-        if (damageEffect.damage > 0) {
+        if (damageEffect.damage >= 0) {
             const spellLog = {
-                text: `${self.name} utilise Rift Talon et inflige ${damageEffect.damage} points de dégats`,
+                text: `${self.name} utilise Voidstep Assault et augmente sa vitesse de 15%`,
                 styles:
                     [
-                        { word: `Rift`, color: 'purple' },
-                        { word: `Talon`, color: 'purple' },
-                        { word: `${damageEffect.damage}`, color: 'purple' }
+                        { word: `Voidstep`, color: 'purple' },
+                        { word: `Assault`, color: 'purple' },
+                        { word: `15%`, color: 'purple' }
                     ]
             };
 

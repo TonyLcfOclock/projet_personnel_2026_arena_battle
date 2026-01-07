@@ -34,7 +34,7 @@ class Overpower extends Spell {
             return element.name === "High Speed";
         });
 
-        overpower.applyBuff(self);
+        overpower.applyBuff(self, 5, 0.3, 'Overpower');
 
         const spellLog = {
             text: `${self.name} utilise Overpower et s'octroie un bonus de vitesse et de dégats supplémentaire de 30%`,

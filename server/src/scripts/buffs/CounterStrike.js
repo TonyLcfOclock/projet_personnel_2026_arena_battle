@@ -8,18 +8,19 @@ class CounterStrike extends Buff {
             isActive: false,
             isPermanent: false,
             duration: 0,
+            quantity: 0
         }
         
         super(buffData);
     }
 
-    applyBuff(self) {
+    applyBuff(self, name, duration, quantity = 0, name = this.name) {
         if (this.isPermanent) {
             return;
         }
 
         this.state = true;
-        this.duration = 2;
+        this.duration = duration;
     }
 
     checkBuff(self) {

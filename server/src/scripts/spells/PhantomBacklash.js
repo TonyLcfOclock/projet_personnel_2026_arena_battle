@@ -36,7 +36,7 @@ class PhantomBacklash extends Spell {
             return element.name === "Counter Strike";
         });
 
-        counterStrike.applyBuff();
+        counterStrike.applyBuff(self, 3);
 
         let spellLog = {
             text: `${self.name} utilise Phantom Backlash et se prépare à riposter pendant 2 tours`,
