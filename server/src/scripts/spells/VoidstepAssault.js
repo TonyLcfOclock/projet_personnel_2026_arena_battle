@@ -5,7 +5,7 @@ class VoidstepAssault extends Spell {
     constructor() {
         const spellData = {
             name: "Voidstep Assault",
-            image: "/images/characters/monsters/boss/dimensional_devourer/spells_icon/voidstep_assaut.png",
+            image: "/images/characters/monsters/boss/dimensional_devourer/spells_icon/voidstep_assault.png",
             description: "Gain +15% speed for 3 turn, consume 1 stack of rift passive",
             castChance: 0.3,
             cooldown: 4,
