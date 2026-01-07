@@ -66,6 +66,7 @@ class Fight {
                 buff.isActive = charBuff.isActive;
                 buff.isPermanent = charBuff.isPermanent;
                 buff.duration = charBuff.duration;
+                buff.quantity = charBuff.quantity;
             })
         }
 

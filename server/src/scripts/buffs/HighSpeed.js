@@ -22,7 +22,9 @@ class HighSpeed extends Buff {
         this.state = true;
         // this.name = name;
         this.duration = duration;
-        self.statistics.speed += Math.round(self.statistics.speed * quantity);
+        this.quantity = quantity;
+        
+        self.statistics.speed += Math.round(self.statistics.speed * this.quantity);
     }
 
     checkBuff(self) {
@@ -36,10 +38,8 @@ class HighSpeed extends Buff {
 
         if (this.duration === 0) {
             this.state = false;
-
             self.statistics.speed = Math.round(self.statistics.speed / (1 + this.quantity));
             this.name = "High Speed";
-            this.quantity = 0;
             return
         }
     }

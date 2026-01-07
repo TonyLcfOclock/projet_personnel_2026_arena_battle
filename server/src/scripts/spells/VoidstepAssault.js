@@ -35,7 +35,7 @@ class VoidstepAssault extends Spell {
         let highSpeed = self.buffs.find(element => element.name === "High Speed");
 
         if (highSpeed) {
-            highSpeed.applyBuff(self, 3, 0.15, 'Voidstep');
+            highSpeed.applyBuff(self, 2, 0.15, 'Voidstep');
         }
 
         const damageEffect = target.perHit(target, self, damage);
