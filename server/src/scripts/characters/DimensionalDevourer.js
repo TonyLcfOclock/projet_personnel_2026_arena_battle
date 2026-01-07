@@ -3,8 +3,18 @@ import Characters from "../Character.js";
 // import des passifs du personnage
 import RiftChargePassive from "../passives/RiftChargePassive.js";
 
+//import des buffs du personnage
+import HighSpeed from "../buffs/HighSpeed.js";
+
+//import des debuffs du personnage
+import LowArmor from "../debuffs/LowArmor.js";
+import LowSpeed from "../debuffs/LowSpeed.js";
+import LowStrength from "../debuffs/LowStrength.js";
+
 // import des sorts du personnage
 import SpatialShear from "../spells/SpatialShear.js";
+import RiftTalon from "../spells/RiftTalon.js";
+import VoidstepAssault from "../spells/VoidstepAssault.js";
 
 // import des états négatifs du personnage
 import Bleed from "../negativesEffects/Bleed.js";
@@ -40,10 +50,10 @@ class DimensionalDevourer extends Characters {
                 critDamage: 1.8
             },
             passives: [new RiftChargePassive()],
-            buffs: [],
-            debuffs: [],
+            buffs: [new HighSpeed()],
+            debuffs: [new LowArmor(), new LowSpeed(), new LowStrength()],
             negativeEffects: [new Bleed(), new Burn(), new Freeze(), new Poison(), new Slow(), new Stun()],
-            spells: [new SpatialShear()],
+            spells: [new SpatialShear(), new RiftTalon(), new VoidstepAssault()],
         };
 
         super(charData);

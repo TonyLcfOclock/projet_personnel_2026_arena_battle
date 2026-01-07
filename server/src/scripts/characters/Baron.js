@@ -1,5 +1,10 @@
 import Characters from "../Character.js";
 
+//import des debuffs du personnage
+import LowArmor from "../debuffs/LowArmor.js";
+import LowSpeed from "../debuffs/LowSpeed.js";
+import LowStrength from "../debuffs/LowStrength.js";
+
 //import des sorts du personnage
 import ProfaneRake from "../spells/ProfaneRake.js";
 import SanguineBite from "../spells/SanguineBite.js";
@@ -42,7 +47,7 @@ class Baron extends Characters {
             },
             passives: [],
             buffs: [],
-            debuffs: [],
+            debuffs: [new LowArmor(), new LowSpeed(), new LowStrength()],
             negativeEffects: [new Bleed(), new Burn(), new Freeze(), new Poison(), new Slow(), new Stun()],
             spells: [new ProfaneRake(), new SanguineBite(), new sanguineOffering(), new Exsanguinate()],
         };

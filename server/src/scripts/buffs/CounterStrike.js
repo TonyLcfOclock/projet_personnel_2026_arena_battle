@@ -14,7 +14,7 @@ class CounterStrike extends Buff {
         super(buffData);
     }
 
-    applyBuff(self, name, duration, quantity = 0, name = this.name) {
+    applyBuff(self, name, duration, quantity = 0) {
         if (this.isPermanent) {
             return;
         }
