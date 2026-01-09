@@ -1,26 +1,26 @@
 ﻿# Projet personnel 2026 - Arena Battle
 
-Application web de combat tour par tour. Le joueur se connecte, choisit un personnage et lance un duel 1v1 contre un adversaire. Le moteur de combat gere tours, sorts, buffs, debuffs, effets negatifs et journaux de combat.
+Application web de combat tour par tour. Le joueur se connecte, choisit un personnage et lance un duel 1v1 contre un adversaire. Le moteur de combat gère tours, sorts, buffs, debuffs, effets négatifs et journaux de combat.
 
 **Démo :** http://162.19.76.60/  
 **Identifiants (compte de test) :** Demo / password  
 
 ## Fonctionnalités
 - Authentification via JWT en cookie httpOnly (register, login, logout, session)
-- Selection de personnages et demarrage de combat 1v1
-- Moteur de combat cote serveur (cooldowns, passifs, buffs, debuffs, effets negatifs)
-- Journaux de combat cote client
+- Sélection de personnages et démarrage de combat 1v1
+- Moteur de combat côté serveur (cooldowns, passifs, buffs, debuffs, effets négatifs)
+- Journaux de combat côté client
 - Persistance PostgreSQL (utilisateurs et combats)
 
 ## Stack technique
 - Frontend: Svelte 5 + Vite
 - Backend: Node.js + Express
-- Base de donnees: PostgreSQL + Sequelize
+- Base de données: PostgreSQL + Sequelize
 
 ## Architecture et flux
 - Le client Svelte appelle l'API via le proxy Vite (`/api` -> `http://localhost:3000`).
-- Le serveur Express expose les routes d'auth, de selection et de combat.
-- Les combats sont stockes dans PostgreSQL (state, turn, data serialize).
+- Le serveur Express expose les routes d'auth, de sélection et de combat.
+- Les combats sont stockés dans PostgreSQL (state, turn, data serialize).
 
 ## Lancer en local
 ### Prérequis
@@ -28,7 +28,7 @@ Application web de combat tour par tour. Le joueur se connecte, choisit un perso
 - PostgreSQL
 
 ### 1) Configurer les variables d'environnement
-Creer un fichier `.env` ou renommer le fichier `.env.example` dans `server/`:
+Créer un fichier `.env` ou renommer le fichier `.env.example` dans `server/`:
 
 ```env
 PORT=express_port
@@ -54,7 +54,7 @@ npm run dev
 Ouvrir http://localhost:5173
 
 ## Scripts utiles
-- `server`: `npm run db:create` (creer les tables), `npm run dev`
+- `server`: `npm run db:create` (créer les tables), `npm run dev`
 - `client`: `npm run dev`, `npm run build`, `npm run preview`
 
 ## API (extrait)
@@ -64,7 +64,7 @@ Auth:
 - `POST /api/auth/logout`
 - `GET /api/auth/me`
 
-Selection:
+Sélection:
 - `GET /api/init`
 - `POST /api/initialiseBattle`
 
