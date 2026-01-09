@@ -38,6 +38,10 @@
     let playerBuffsList = $state([]);
     let enemyBuffsList = $state([]);
 
+    const playerParameters = $state({
+        logReverse: false
+    })
+
     // exécuté au montage du component
     onMount(async () => {
         // le serveur envoit les informations nécessaire au début du combat
@@ -58,6 +62,10 @@
         // démarrage du combat
         fighting();
     });
+
+    function switchText() {
+        playerParameters.logReverse = !playerParameters.logReverse;
+    }
 
     async function startBattle() {
         // demande au serveur les informations du combat
@@ -361,10 +369,15 @@
             </div>
 
             <div class="logs">
-                <div class="title">
-                    <p>Journaux de combat</p>
+                <div class="logs-header">
+                    <div class="title">
+                        <p>Journaux de combat</p>
+                    </div>
+                    <div class="switch">
+                        <button onclick={() => {switchText()}}>S</button>
+                    </div>
                 </div>
-                <div class="text">
+                <div class="text" class:is-reverse={playerParameters.logReverse}>
                     {#each logs as line}
                         <p>
                             {#each fight.buildLogsText(line) as word}

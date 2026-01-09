@@ -303,14 +303,24 @@ main {
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
 }
 
+.logs-header {
+    background-color: #1C1C17;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .title {
     color: white;
     display: flex;
     align-items: center;
-    background-color: #1C1C17;
     border-radius: 1rem 1rem 0 0;
     padding: 0.95rem 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.switch button {
+    margin-right: 1rem;
 }
 
 .logs .title,
@@ -323,10 +333,14 @@ main {
 .text {
     color: white;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     padding: 0.5rem 1rem;
     font-size: 0.95rem;
     line-height: 1.35;
+}
+
+.text.is-reverse {
+    flex-direction: column-reverse;
 }
 
 .spells {
