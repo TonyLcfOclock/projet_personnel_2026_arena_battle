@@ -1,4 +1,4 @@
-﻿# Projet personnel 2025 - Arena Battle
+﻿# Projet personnel 2026 - Arena Battle
 
 Application web de combat tour par tour. Le joueur se connecte, choisit un personnage et lance un duel 1v1 contre un adversaire. Le moteur de combat gere tours, sorts, buffs, debuffs, effets negatifs et journaux de combat.
 
