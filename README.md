@@ -1,43 +1,97 @@
-# Svelte + Vite
+﻿# Projet personnel 2025 - Arena Battle
 
-This template should help get you started developing with Svelte in Vite.
+Application web de combat tour par tour. Le joueur se connecte, choisit un personnage et lance un duel 1v1 contre un adversaire. Le moteur de combat gere tours, sorts, buffs, debuffs, effets negatifs et journaux de combat.
 
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte-vscode).
-
-## Need an official Svelte framework?
-
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
-
-## Technical considerations
-
-**Why use this over SvelteKit?**
-
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
-
-This template contains as little as possible to get started with Vite + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
-
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
-
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `checkJs` in the JS template?**
-
-It is likely that most cases of changing variable types in runtime are likely to be accidental, rather than deliberate. This provides advanced typechecking out of the box. Should you like to take advantage of the dynamically-typed nature of JavaScript, it is trivial to change the configuration.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/sveltejs/svelte-hmr/tree/master/packages/svelte-hmr#preservation-of-local-state).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```js
-// store.js
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
 ```
+Démo Web: http://162.19.76.60/
+Crédentials: Demo:password
+```
+
+## Fonctionnalites
+- Authentification via JWT en cookie httpOnly (register, login, logout, session)
+- Selection de personnages et demarrage de combat 1v1
+- Moteur de combat cote serveur (cooldowns, passifs, buffs, debuffs, effets negatifs)
+- Journaux de combat cote client
+- Persistance PostgreSQL (utilisateurs et combats)
+
+## Stack technique
+- Frontend: Svelte 5 + Vite
+- Backend: Node.js + Express
+- Base de donnees: PostgreSQL + Sequelize
+
+## Architecture et flux
+- Le client Svelte appelle l'API via le proxy Vite (`/api` -> `http://localhost:3000`).
+- Le serveur Express expose les routes d'auth, de selection et de combat.
+- Les combats sont stockes dans PostgreSQL (state, turn, data serialize).
+
+## Lancer en local
+### Prerequis
+- Node.js + npm
+- PostgreSQL
+
+### 1) Configurer les variables d'environnement
+Creer un fichier `.env` ou renommer le fichier `.env.example` dans `server/`:
+
+```env
+PORT=express_port
+PG_URL=postgres://user:password@server:port/database
+JWT_SECRET=change_me
+```
+
+### 2) Installer et initialiser le serveur
+```bash
+cd server
+npm install
+npm run db:create
+npm run dev
+```
+
+### 3) Installer et lancer le client
+```bash
+cd client
+npm install
+npm run dev
+```
+
+Ouvrir http://localhost:5173
+
+## Scripts utiles
+- `server`: `npm run db:create` (creer les tables), `npm run dev`
+- `client`: `npm run dev`, `npm run build`, `npm run preview`
+
+## API (extrait)
+Auth:
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `GET /api/auth/me`
+
+Selection:
+- `GET /api/init`
+- `POST /api/initialiseBattle`
+
+Combat:
+- `POST /api/battle/`
+- `POST /api/battle/turn/`
+- `POST /api/battle/reduce-character-spells-cd`
+- `POST /api/battle/check-character-negative-effect`
+- `POST /api/battle/check-character-buffs`
+- `POST /api/battle/check-character-debuffs`
+- `POST /api/battle/passive-per-turn`
+- `POST /api/battle/determine-player-action`
+- `POST /api/battle/determine-enemy-action`
+- `POST /api/battle/character-use-spell`
+- `POST /api/battle/check-character-alive`
+
+## Structure du projet
+```text
+.
+├─ client/                 # Svelte + Vite (UI)
+├─ server/                 # Express + moteur de combat
+├─ conception/             # MCD / MLD
+└─ README.md
+```
+
+## Conception
+- `conception/MCD.md`
+- `conception/MLD.md`

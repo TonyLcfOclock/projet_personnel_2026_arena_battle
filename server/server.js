@@ -20,5 +20,5 @@ app.use(express.static('public'));
 app.use(router);
 
 app.listen(port, () => {
-    console.log('Serveur démarré.');
+    console.log(`Serveur démarré sur le port: ${port}`);
 });
