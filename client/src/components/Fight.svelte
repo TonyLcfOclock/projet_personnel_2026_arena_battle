@@ -374,7 +374,7 @@
                         <p>Journaux de combat</p>
                     </div>
                     <div class="switch">
-                        <button onclick={() => {switchText()}}>S</button>
+                        <button class="switch-button" onclick={() => {switchText()}}>Switch</button>
                     </div>
                 </div>
                 <div class="text" class:is-reverse={playerParameters.logReverse}>
