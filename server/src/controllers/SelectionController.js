@@ -47,6 +47,7 @@ class SelectionController {
                 enemyCharacter = new DimensionalDevourer(enemyName);
                 break;
         }
+        
         try {
             const battle = await BattleStore.createBattle(userId, playerCharacter, enemyCharacter);
             const { id } = battle;
