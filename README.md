@@ -3,7 +3,7 @@
 Application web de combat tour par tour. Le joueur se connecte, choisit un personnage et lance un duel 1v1 contre un adversaire. Le moteur de combat gère tours, sorts, buffs, debuffs, effets négatifs et journaux de combat.
 
 **Démo :** http://162.19.76.60/  
-**Identifiants (compte de test) :** Demo / password  
+**Identifiants (compte de test) :** demo / P@ssw0rd  
 
 ## Fonctionnalités
 - Authentification via JWT en cookie httpOnly (register, login, logout, session)
