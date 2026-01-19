@@ -1,4 +1,4 @@
-# MCD
+# MCD - Arena Battle
 
 ```
 USER: code_user, username, password, current_battle

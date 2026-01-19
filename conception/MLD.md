@@ -1,4 +1,4 @@
-# MLD
+# MLD - Arena Battle
 
 ```
 USER(user_id, username, password, current_battle)

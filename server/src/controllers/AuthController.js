@@ -63,7 +63,7 @@ class AuthController {
                     secure: false,
                     sameSite: "lax",
                     path: "/",
-                    maxAger: 1000 * 60 * 60
+                    maxAge: 1000 * 60 * 60
                 });
 
                 const { id, currentBattle } = user.dataValues;
