@@ -49,7 +49,10 @@
 
         const res = await fetch('/api/initialiseBattle', {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+            },
             body: JSON.stringify({
                 userId: authUser.id,
                 playerClass: player.className,

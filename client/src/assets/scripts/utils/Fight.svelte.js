@@ -24,7 +24,10 @@ class Fight {
 
         const res = await fetch('/api/battle/reduce-character-spells-cd', {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+            },
             body: JSON.stringify({ id, username, currentBattle, name}),
         });
 
@@ -40,7 +43,10 @@ class Fight {
     async getCharacterHitTurn(data) {
         const res = await fetch("/api/battle/turn/", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+            },
             body: JSON.stringify(data),
         });
 
@@ -53,7 +59,10 @@ class Fight {
 
         const res = await fetch('/api/battle/check-character-negative-effect', {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+            },
             body: JSON.stringify({ id, username, currentBattle, name }),
         });
 
@@ -66,7 +75,10 @@ class Fight {
 
         const res = await fetch('/api/battle/check-character-buffs', {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+            },
             body: JSON.stringify({ id, username, currentBattle, name }),
         });
         
@@ -80,7 +92,10 @@ class Fight {
 
         const res = await fetch('/api/battle/check-character-debuffs', {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+            },
             body: JSON.stringify({ id, username, currentBattle, name }),
         });
         
@@ -94,7 +109,10 @@ class Fight {
 
         const res = await fetch('/api/battle/passive-per-turn', {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+            },
             body: JSON.stringify({ id, username, currentBattle, targetName, selfName }),
         });
 
@@ -109,7 +127,10 @@ class Fight {
         
         const res = await fetch('/api/battle/character-use-spell', {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+            },
             body: JSON.stringify({ id, username, currentBattle, actionName, targetName, selfName, turn }),
         });
 
@@ -123,7 +144,10 @@ class Fight {
 
         const res = await fetch('/api/battle/determine-enemy-action', {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+            },
             body: JSON.stringify({ id, username, currentBattle, selfName }),
         });
 
@@ -137,7 +161,10 @@ class Fight {
 
         const res = await fetch('/api/battle/check-character-alive', {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+            },
             body: JSON.stringify({ id, username, currentBattle, name }),
         });
 

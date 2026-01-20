@@ -8,6 +8,7 @@
     import Leaderboard from "./components/Leaderboard.svelte";
     import { initAuth, logoutUser } from "./assets/scripts/services/auth.service.js";
     import { authUser } from "./assets/scripts/store/auth.svelte.js";
+    import { storeCsrfToken } from "./assets/scripts/services/csrf.service";
 
     let gameState = $state(localStorage.getItem("gameState") || "home");
     let profileMenuOpen = $state(false);
@@ -15,6 +16,8 @@
 
     onMount(async () => {
         document.addEventListener("click", handleDocumentClick);
+
+        await storeCsrfToken();
 
         await initAuth();
 

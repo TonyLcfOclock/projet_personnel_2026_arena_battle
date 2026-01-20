@@ -24,7 +24,10 @@ export async function registerUser(credentials) {
     const res = await fetch('/api/auth/register', {
         method: "POST",
         credentials: "include",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+        },
         body: JSON.stringify(credentials)
     });
 
@@ -37,7 +40,10 @@ export async function loginUser(credentials) {
     const res = await fetch('/api/auth/login', {
         method: "POST",
         credentials: "include",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+        },
         body: JSON.stringify(credentials)
     });
 
@@ -50,7 +56,10 @@ export async function logoutUser() {
     await fetch('/api/auth/logout', {
         method: "POST",
         credentials: "include",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            'x-csrf-token': localStorage.getItem('csrfToken') || '',    
+        },
     });
 
     clearAuth();
