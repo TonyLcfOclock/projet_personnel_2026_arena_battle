@@ -92,7 +92,7 @@ Combat:
 .
 ├─ client/                 # Svelte + Vite (UI)
 ├─ server/                 # Express + moteur de combat
-├─ conception/             # MCD / MLD
+├─ conception/             # MCD / MLD / user stories
 └─ README.md
 ```
 
