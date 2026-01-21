@@ -19,9 +19,9 @@ Application web de combat tour par tour. Le joueur se connecte, choisit un perso
 - Base de données: PostgreSQL + Sequelize
 
 ## Architecture et flux
-- Le client Svelte appelle l'API via le proxy Vite (`/api` -> `http://localhost:3000`)
-- Le serveur Express expose les routes d'auth, de sélection et de combat
-- Les combats sont stockés dans PostgreSQL (state, turn, data serialize)
+- Le client appelle l'API via le proxy Vite (`/api` -> `http://localhost:3000`)
+- Le serveur expose les routes d'auth, de sélection et de combat
+- Les combats sont stockés dans la base de données (state, turn, data serialize)
 
 ## Lancer en local
 ### Prérequis
@@ -70,20 +70,20 @@ Auth:
 
 Sélection:
 - `GET /api/init`
-- `POST /api/initialiseBattle`
+- `POST /api/create-battle`
 
 Combat:
-- `POST /api/battle/`
-- `POST /api/battle/turn/`
-- `POST /api/battle/reduce-character-spells-cd`
-- `POST /api/battle/check-character-negative-effect`
-- `POST /api/battle/check-character-buffs`
-- `POST /api/battle/check-character-debuffs`
-- `POST /api/battle/passive-per-turn`
-- `POST /api/battle/determine-player-action`
-- `POST /api/battle/determine-enemy-action`
-- `POST /api/battle/character-use-spell`
-- `POST /api/battle/check-character-alive`
+- `GET /api/battle/:id`
+- `GET /api/battle/:id/turn/`
+- `PATCH /api/battle/:id/reduce-character-spells-cd`
+- `PATCH /api/battle/:id/check-character-negative-effect`
+- `PATCH /api/battle/:id/check-character-buffs`
+- `PATCH /api/battle/:id/check-character-debuffs`
+- `PATCH /api/battle/:id/passive-per-turn`
+- `GET /api/battle/:id/determine-player-action`
+- `GET /api/battle/:id/determine-enemy-action`
+- `PATCH /api/battle/:id/character-use-spell`
+- `PATCH /api/battle/:id/check-character-alive`
 
 ## Structure du projet
 ```text
