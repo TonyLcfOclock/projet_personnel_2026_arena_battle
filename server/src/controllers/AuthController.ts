@@ -4,18 +4,35 @@ import jwt from 'jsonwebtoken';
 import type { Request, Response } from 'express';
 import type { RequestAuth } from '../types.ts';
 import { requireEnv } from '../config/env.ts';
+import { z } from 'zod';
 
 const COOKIE_NAME = "access_token";
 
+const AuthSchema = z.object({
+    username: z.string().min(3, "Invalid username format (min. 3 characters)"),
+    password: z
+        .string()
+        .min(8, "Invalid password format (min. 8 characters)")
+        .refine(
+            (v) =>
+            /[a-z]/.test(v) &&
+            /[A-Z]/.test(v) &&
+            /[0-9]/.test(v) &&
+            /[^a-zA-Z0-9]/.test(v),
+        "Invalid password format. Please include uppercase, lowercase, a number, and a special character (min. 8 characters)"
+    ),
+});
+
 class AuthController {
     async register(req: Request, res: Response) {
-        const { username, password } = req.body;
-
-        if (!username || !password) return res.status(500).json({ error: 'Internal Server Error' });
-        if (username.length < 3) return res.status(422).json({ error: 'Invalid username format (min. 3 characters)'});
-        if (password.length < 8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password) || !/[^a-zA-Z0-9]/.test(password)) {
-            return res.status(422).json({ error: 'Invalid password format. Please include uppercase, lowercase, a number, and a special character (min. 8 characters)'});
+        const parsedAuth = AuthSchema.safeParse(req.body);
+        
+        if (!parsedAuth.success) {
+            const errors = z.treeifyError(parsedAuth.error);
+            return res.status(422).json({ errors });
         };
+
+        const { username, password } = parsedAuth.data;
 
         try {
             const userCheck = await User.findOne({ where: { username } });
