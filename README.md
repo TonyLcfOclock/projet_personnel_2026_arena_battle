@@ -7,7 +7,7 @@ Application web de combat tour par tour. Le joueur se connecte, choisit un perso
 
 ## Fonctionnalités
 - Protection CSRF via token dédié (cookie + en-tête sur les requêtes mutatives)
-- Authentification via JWT en cookie httpOnly (register, login, logout, session)
+- Authentification via JWT en cookie httpOnly (register, login, logout, session) + validation des payloads (Zod)
 - Sélection de personnages et démarrage de combat 1v1
 - Moteur de combat côté serveur (cooldowns, passifs, buffs, debuffs, effets négatifs)
 - Journaux de combat côté client
