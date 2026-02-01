@@ -135,7 +135,7 @@ class Fight {
                 "Content-Type": "application/json",
                 'x-csrf-token': localStorage.getItem('csrfToken') || '',    
             },
-            body: JSON.stringify({ name }),
+            body: JSON.stringify({ name, userId: data.id }),
         });
 
         const response = await res.json();
