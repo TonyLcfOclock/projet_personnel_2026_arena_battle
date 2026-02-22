@@ -22,7 +22,7 @@ export default class ErrorHandler {
         if (error instanceof ForbiddenError) return res.status(403).send(error);
         if (error instanceof NotFoundError) return res.status(404).send(error);
         if (error instanceof ConflictError) return res.status(409).send(error);
-        if (error instanceof z.ZodError) {return res.status(422).send({ error: z.prettifyError(error) });}
+        if (error instanceof z.ZodError) return res.status(422).send({ error: z.prettifyError(error) });
 
         return res.status(500).send(error);
     };

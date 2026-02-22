@@ -30,6 +30,10 @@ class AuthController {
         try {
             const parsedAuth = AuthSchema.safeParse(req.body);
 
+            if (!parsedAuth.data) {
+                return ErrorHandler.sendError(res, parsedAuth.error);
+            };
+
             const { username, password } = parsedAuth.data as parsedAuthSchema;
 
             const userCheck = await prisma.user.findUnique({ where: { username } });
@@ -58,8 +62,12 @@ class AuthController {
         try {
             const parsedAuth = AuthSchema.safeParse(req.body);
 
-            const { username, password } = parsedAuth.data as parsedAuthSchema;
+            if (!parsedAuth.data) {
+                return ErrorHandler.sendError(res, parsedAuth.error);
+            };
 
+            const { username, password } = parsedAuth.data as parsedAuthSchema;
+            
             const user = await prisma.user.findUnique({ where: { username } });
 
             if (!user) throw new UnauthorizedError("Invalid credentials");
@@ -98,7 +106,6 @@ class AuthController {
     async me(req: RequestAuth, res: Response) {
         try {
             if (!req.username) throw new UnexpectedServerError("Username needed");
-
 
             const user = await prisma.user.findUnique({ where: { username: req.username } });
 
