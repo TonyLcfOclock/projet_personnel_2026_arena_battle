@@ -2,6 +2,7 @@
     import { registerUser } from "../assets/scripts/services/auth.service.js";
 
     let { gameState = $bindable() } = $props();
+    let registerError = $state("");
 
     async function register(e) {
         e.preventDefault();
@@ -9,18 +10,27 @@
         const formData = new FormData(e.target);
         const username = formData.get("username");
         const password = formData.get("password");
+
         const validatePassword = formData.get("validate-password");
 
-        if (password !== validatePassword) return;
+        if (password !== validatePassword) {
+            return registerError = "Les deux mots de passe doivent être identique.";
+        };
 
-        try {
-            await registerUser({ username, password });
+        const data = await registerUser({ username, password });
 
-            gameState = "login";
-        } catch (error) {
-            // TODO
-        }
-    }
+        e.target.reset();
+
+        if (data.error) {
+            return registerError = "Format de mot de passe invalide. Celui-ci doit inclure au moins une majuscule, une minuscule, un nombre, un caractère spécial et contenir au minimum 8 caractères.";
+        };
+
+        if (data.username) {
+            localStorage.setItem('gameState', 'login');
+            gameState = localStorage.getItem('gameState');
+            return;
+        };
+    };
 </script>
 
 <div class="register">
@@ -46,6 +56,8 @@
         </label>
 
         <button type="submit" class="register-submit">S'enregistrer</button>
+
+        <p class="error-notice">{registerError}</p>
     </form>
 </div>
 
@@ -150,5 +162,11 @@
 
     .register-submit:active {
         transform: translateY(0);
+    }
+
+    .error-notice {
+        margin-top: 0.7rem;
+        color: var(--color-accent-strong);
+        font-size: 0.9rem;
     }
 </style>

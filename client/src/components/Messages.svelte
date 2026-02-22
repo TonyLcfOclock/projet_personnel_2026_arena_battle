@@ -9,6 +9,7 @@
         subject: "",
         body: "",
     });
+    
     let composerNotice = $state("");
 
     let selectedMessage = $derived(inbox.find((message) => message.id === selectedMessageId));

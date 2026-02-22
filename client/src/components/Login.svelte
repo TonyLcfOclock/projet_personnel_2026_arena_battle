@@ -3,6 +3,7 @@
     import { setAuth } from "../assets/scripts/store/auth.svelte.js";
 
     let { gameState = $bindable() } = $props();
+    let loginError = $state("");
 
     async function login(e) {
         e.preventDefault();
@@ -11,19 +12,20 @@
         const username = formData.get("username");
         const password = formData.get("password");
 
-        try {
-            const data = await loginUser({ username, password });
+        const data = await loginUser({ username, password });
 
-            setAuth(data);
+        setAuth(data);
+
+        e.target.reset();
             
+        if (data.username) {
             localStorage.setItem('gameState', 'home');
-
             gameState = localStorage.getItem('gameState');
-            
-        } catch (error) {
-            // TODO
-        }
-    }
+            return;
+        };
+
+        loginError = "Identifiant ou mot de passe incorrect.";
+    };
 </script>
 
 <div class="login">
@@ -44,6 +46,8 @@
         </label>
 
         <button type="submit" class="login-submit">Se connecter</button>
+
+        <p class="error-notice">{loginError}</p>
     </form>
 </div>
 
@@ -148,5 +152,11 @@
 
     .login-submit:active {
         transform: translateY(0);
+    }
+
+    .error-notice {
+        margin-top: 0.7rem;
+        color: var(--color-accent-strong);
+        font-size: 0.9rem;
     }
 </style>

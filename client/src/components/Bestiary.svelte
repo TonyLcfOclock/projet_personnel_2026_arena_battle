@@ -11,7 +11,7 @@
         { id: "items", label: "Objets" },
     ];
 
-    const fallbackCharacters = [
+    const characters = [
         {
             name: "DeathKnight",
             className: "DeathKnight",
@@ -241,27 +241,14 @@
     ];
 
     let selectedCategory = $state("characters");
-    let characters = $state([]);
     let selectedCharacter = $state("");
     let selectedItem = $state(items[0].id);
 
     onMount(async () => {
-        await loadCharacters();
+        loadCharacters();
     });
 
-    async function loadCharacters() {
-        try {
-            const apiCharacters = await Utilities.initiateCharacters();
-
-            if (Array.isArray(apiCharacters) && apiCharacters.length > 0) {
-                characters = apiCharacters;
-            } else {
-                characters = fallbackCharacters;
-            }
-        } catch (_error) {
-            characters = fallbackCharacters;
-        }
-
+    function loadCharacters() {
         if (!selectedCharacter && characters.length > 0) {
             selectedCharacter = characters[0].className;
         }
